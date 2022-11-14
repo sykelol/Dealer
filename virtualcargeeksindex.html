@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    <link rel = "icon" href="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksTitleIcon1.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\virtualcargeeksstyle.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+    <header>
+            <div class="nav-container">
+                <div class="main-logo">
+                    <a href="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\virtualcargeeksindex.html"><img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\Virtual Car Geeks Logo 8.png" alt="Our company logo - Virtual Car Geeks"></a>
+                </div>
+                <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="true" onclick="openClose()">
+                    <span class="sr-only">Menu</span>
+                    <i class="fa-solid fa-bars fa-xl"></i>
+                </button>
+                <nav>
+                    <ul id="primary-navigation" data-visible="true" class="primary-navigation flex">
+                        <li id="first-primary-list" class="active">
+                            <a href="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\virtualcargeeksindex.html">
+                                Home   
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\virtualcargeeksfinancing.html">
+                                Financing    
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#">
+                                About us
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#">
+                                Contact
+                            </a>
+                        </li>
+                        <li id="list-button" class="active">
+                            <a href="#">
+                                <button class="sign-in-button">
+                                   Dealer sign in
+                                </button>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div id="non-list-button" class="but">
+                    <a href="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\Virtualcargeeksdealersignin.html">
+                        <button class="sign-in-button">
+                            Dealer sign in
+                        </button>
+                    </a>
+                </div>
+            </div>
+    </header>
+    <section class="main-body">
+            <div class="image-n-box">
+                <picture>
+                    <source media="(min-width: 1000px)" srcset="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksStock1Small.jpg">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksStock1MediumSize.jpg" alt="A guy and a woman in a car using the middle console.">
+                </picture>
+                <div class="text-over-picture-one">
+                    <h4>Get pre-approved in minutes</h4>
+                        <button class="apply-now-button">
+                            <a href="#">Apply now</a>
+                        </button>
+                </div>
+            </div>
+        <div class="icons-container">
+            <div class="icons-n-descriptions">
+                <div class="vehicle">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksCarIcon4.png" alt="Icon of car.">
+                    <p>1. Decide on which vehcile you would like to purchase.</p>
+                </div>
+                <div class="form">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksFormNew2.png" alt="Icon of a form.">
+                    <p>2. Complete our pre-approval form.</p>
+                </div>
+                <div class="calendar">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksCalendarIcon1.png" alt="Icon of a calendar.">
+                    <p>3. Choose a payment schedule that works for you.</p>
+                </div>
+                <div class="percentage">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksPercentageIcon2.png" alt="Icon of a percentage symbol.">
+                    <p>4. Get locked in at our competitive financing rates.</p>
+                </div>
+                <div class="keys">
+                    <img src="C:\Users\Rhys\Pictures\Virtual Car Geeks Pictures\VirtualCarGeeksKeysIcon.png" alt="Icon of car keys.">
+                    <p>5. Enjoy your ride!</p>
+                </div>
+            </div>
+        </div>
+        <div class="calculator-title">
+            <h2>Auto Lo<span>an Calculator</span></h2>
+        </div>
+        <div class="calculator">
+            <div class="user-input-calc">
+                    <div class="calculator-flex">
+                        <div class="vehicle-cost">
+                            <label>
+                                <h6>Vehicle Cost:</h6>
+                            </label><br>
+                            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+                            <input type="number" id="vehicle-cost-input" placeholder="10,000" min="0" max="150000" onblur="maxMinValue()" onkeyup="monthlyPayments()"><br>
+                        </div>
+                        <div class="down-payment">
+                            <label>
+                                <h6>Down Payment:</h6>
+                            </label><br>
+                            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+                            <input type="number" id="down-payment-input" placeholder="0" min="0" max="100000" onblur="maxMinValue()" onkeyup="monthlyPayments()"><br>
+                        </div>
+                        <div class="trade-in">
+                            <label>
+                                <h6>Trade-in Value:</h6>
+                            </label><br>
+                            <i class="fa-solid fa-dollar-sign fa-xl"></i>
+                            <input type="number" id="trade-in-input" placeholder="0" min="0" max="150000" onblur="maxMinValue()" onkeyup="monthlyPayments()"><br>
+                        </div>
+                        <div class="interest-rate">
+                            <label>
+                                <h6>Interest Rate:</h6>
+                            </label><br>
+                            <i class="fa-solid fa-percent fa-xl"></i>
+                            <input type="number" id="interest-rate-input" placeholder="0.00" min="0" max="100" onblur="maxMinValue()" onkeyup="monthlyPayments()"><br>
+                        </div>
+                        <div class="loan-duration">
+                            <label>
+                                <h6>Loan Duration <span>(months):</span></h6>
+                            </label><br>
+                            <input type="number" id="loan-duration-input" placeholder="96" step="0" min="12" max="96" onblur="maxMinValue()" onkeyup="monthlyPayments()"><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-reporter-calc">
+                    <div class="estimated-payment">
+                        <h4>Your estimated monthly payment</h4>
+                        <p id="finance-amount">$0.00</p>
+                        <a href="#">
+                            <button>
+                                Get financing
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="C:\Users\Rhys\Desktop\Virtual Car Geeks Root Folder\virtualcargeeksindex.js"></script>
+</html>
