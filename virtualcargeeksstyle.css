@@ -518,16 +518,50 @@ input {
 /* Sign-in page 
 */
 
-.sign-in-body {
-    background-color: #F7F7F7;
-}
-
 .log-in {
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .log-in-container {
-    text-align: center;
-    margin: 20em auto;
+    max-width: 80%;
+    text-align: left;
+    margin: 9em 0 0 2em;
+    background-color: white;
+    border-radius: 7px;
+}
+
+.log-in-container h2 {
+    margin-left: 0.5em;
+    font-size: 1.2rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
+.log-in-container form {
+    margin: 2em 0 0 0.5em;
+    font-size: 1.2rem;
+}
+
+.log-in-container form label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding-bottom: 1em;
+    display: inline-block;
+}
+
+.log-in-container form input {
+    text-align: left;
+    padding: 0.5em 0.7em;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 1em;
+    border: 0.0625rem solid #8C9196;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.log-in-container form input:focus {
+    outline: none;
+    border: 2px solid #F76C6C;
 }
