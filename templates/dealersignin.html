@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="dealer-html">
+<head>
+    {% load static %}
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    <link rel = "icon" href="{% static 'images/titleicon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dealer-body">
+    <header class="sign-in-header">
+            <div class="nav-container">
+                <div class="main-logo">
+                    <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+                </div>
+    </header>
+    <section class="log-in">
+        <div class="log-in-container">
+                <form method="POST" action="">
+
+                    {% csrf_token %}    
+
+                    <h2>Sign in</h2>
+                    <label for="username">User Name</label>
+                    <input type="username" name="username" id="username" min="5" max="50" required><br>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" min="5" max="50" required>
+                    <div class="django-flash-message">
+                        {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="remember-me">
+                        <label class="checkboxes" for="remember-me">Remember me</label>
+                        <input class="checkboxes" type="checkbox" id="remember-me" name="remember-me" value="remember-me">
+                    </div>
+                    <p><a class="forgot-password" href="#">Forgot your password?</a></p>
+                    <div class="log-in-button">
+                        <input type="submit" value="Log in">
+                    </div>
+                </form>
+        </div>
+    </section>
+</body>
+</html>

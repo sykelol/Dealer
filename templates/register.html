@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html class="register-html">
+    <head>
+        <meta charset = "utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Virtual Car Geeks</title>
+        <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    </head>
+<body class="register-body">
+    <header>
+        <div class="nav-container">
+            <div class="main-logo">
+                <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="register-container">
+        <div class="register-form">
+            <h2>Register</h2>
+        </div>
+    </section>
+</body>
+</html>
