@@ -1,0 +1,731 @@
+html { 
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    min-width: 375px;
+    max-width: 100%;
+}
+
+body {
+    margin: 0 auto;
+    overflow-x: hidden;
+}
+
+header {
+    background: white;
+    display: block;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+}
+
+header .nav-container .main-logo img {
+    margin-top: 0.6em;
+    margin-left: 1em;
+}
+
+header .nav-container .main-logo img:hover {
+    opacity: 0.8;
+}
+
+nav {
+    margin: 0 auto;
+}
+
+nav .primary-navigation {
+    display: flex;
+    list-style: none;
+    gap: 3em;
+    margin: 0 auto;
+    padding: 0;
+}
+
+nav .primary-navigation li a {
+    text-decoration: none;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+}
+
+nav .primary-navigation li a:hover {
+    color: #F76C6C;
+}
+
+.mobile-nav-toggle {
+    display: none;
+}
+
+.sign-in-button {
+    background: #F76C6C;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+}
+
+.logout-button {
+    background: #F76C6C;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+}
+
+#list-button {
+    display: none;
+}
+
+@media (max-width: 66em) {
+    header .nav-container {
+        justify-content: flex-start;
+    }
+    header .nav-container .main-logo {
+        margin-top: 0;
+    }
+
+    nav .primary-navigation {
+        position: fixed;
+        z-index: 1000;
+        inset: 0 0 0 30%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1em;
+        background-color: white;
+        margin-top: 0;
+        transform: translateX(100%);
+        transition: transform 350ms ease-out;
+    }
+    
+    .primary-navigation[data-visible="true"] {
+        transform: translateX(0%);
+    }
+
+    nav .primary-navigation li a {
+        color: #3a3134;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    #first-primary-list {
+        margin-top: 5em;
+    }
+
+    #list-button {
+        display: block;
+    }
+
+    #non-list-button {
+        display: none;
+    }
+
+    .mobile-nav-toggle {
+        display: block;
+        position: absolute;
+        background: transparent;
+        width: 2rem;
+        aspect-ratio: 1;
+        top: 2rem;
+        right: 2rem;
+        z-index: 9999;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 28.125em) and (max-width: 43.75em) {
+    nav .primary-navigation {
+        position: fixed;
+        z-index: 1000;
+        inset: 0 0 0 50%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1em;
+        background-color: white;
+        margin-top: 0;
+        transform: translateX(100%);
+        transition: transform 350ms ease-out;
+    }
+}
+
+@media (min-width: 43.75em) and (max-width: 66em) {
+    nav .primary-navigation {
+        position: fixed;
+        z-index: 1000;
+        inset: 0 0 0 60%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1em;
+        background-color: white;
+        margin-top: 0;
+        transform: translateX(100%);
+        transition: transform 350ms ease-out;
+    }
+}
+
+.main-body {
+    margin-top: 6em;
+    position: relative;
+}
+
+.main-body .image-n-box {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.main-body .image-n-box picture img {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.main-body .image-n-box .text-over-picture-one {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 1em;
+    border: 2px solid #EBE8E7;
+}
+
+.main-body .image-n-box .text-over-picture-one h4 {
+    text-align: center;
+    padding-top: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: black;
+}
+
+.main-body .image-n-box .text-over-picture-one a{
+    text-decoration: none;
+    color: #F76C6C;
+    color: white;
+}
+
+.main-body .image-n-box .text-over-picture-one .apply-now-button {
+    display: block;
+    margin: 0 auto;
+    background: #F76C6C;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5rem;
+    border: 2px solid #F76C6C;
+    cursor: pointer;
+    padding: 0.5em 1em;
+    border-radius: 15px;
+    font-weight: 600;
+    margin-bottom: 2em;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+@media (min-width: 1000px) {
+    .main-body .image-n-box .text-over-picture-one {
+        position: absolute;
+        top: 75%;
+        left: 92%;
+        transform: translate(-75%, -92%);
+        background: rgba(255, 255, 255);
+        background:rgba(255,255,255, 1);
+        padding: 3em 2em 5em 2em;
+        border-radius: 5px;
+        width: 30%;
+    }
+    .main-body .image-n-box .text-over-picture-one .apply-now-button {
+        margin-bottom: 0;
+    }
+}
+
+.icons-container {
+    background-color: #F7F7F7;
+}
+
+.icons-n-descriptions {
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    justify-content: center;
+    background-color: #F7F7F7;
+}
+
+.icons-n-descriptions * {
+    padding: 0 1.5em;
+}
+
+.icons-n-descriptions img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 2em;
+}
+
+.icons-n-descriptions p {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+@media (min-width: 42.1875em) {
+    .icons-n-descriptions {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 62.5em) {
+    .icons-n-descriptions {
+        margin-top: 2em;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+        justify-content: center;
+        row-gap: 3em;
+        column-gap: 3em;
+    }
+    .icons-n-descriptions * {
+        padding: 0 .7em;
+    }
+}
+
+
+.calculator {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 3em;
+}
+
+.calculator-title {
+    max-width: 1400px;
+    margin: 4em auto;
+}
+
+.calculator-title h2 {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.1rem;
+}
+
+.calculator-title h2 span {
+    border-bottom: 4px solid #F76C6C;
+}
+
+.calculator .user-input-calc {
+    border-bottom: 4px solid gray;
+    width: 90%;
+    padding-bottom: 3em;
+}
+
+.calculator .result-reporter-calc {
+    width: 90%;
+}
+
+@media (min-width: 62.5em) {
+    .calculator .user-input-calc {
+        width: 40%;
+        border-right: 4px solid gray;
+        border-bottom: 0;
+    }
+    .calculator .result-reporter-calc {
+        width: 40%;
+    }
+    .result-reporter-calc {
+        margin-top: 0;
+    }
+}
+
+.calculator h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.calculator label h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.vehicle-cost {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.calculator input {
+    padding: 0.5em;
+    width: 95%;
+}
+
+.calculator input[type="number"] {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: black;
+}
+
+.calculator input[type="number"]:focus {
+    outline: none;
+    border-bottom: 3px solid #F76C6C;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+input {
+    text-align: right;
+}
+
+.calculator .fa-dollar-sign {
+    position: absolute;
+    top: 75px;
+    left: 10px;
+    color: black;
+    opacity: 0.7;
+}
+
+.calculator-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.vehicle-cost {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.down-payment {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.trade-in {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.interest-rate {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.interest-rate input {
+    text-align: left;
+}
+
+.calculator .fa-percent {
+    position: absolute;
+    color: black;
+    right: 7px;
+    top: 75px;
+    opacity: 0.7;
+}
+
+.loan-duration {
+    width: 60%;
+    margin-left: 2em;
+    position: relative;
+}
+
+.calculator .result-reporter-calc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator .result-reporter-calc h4 {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.calculator .result-reporter-calc p {
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #F76C6C;
+    margin-top: 0;
+}
+
+.calculator .result-reporter-calc button {
+    display: block;
+    margin: 0 auto;
+    background: #F76C6C;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5rem;
+    border: 2px solid #F76C6C;
+    cursor: pointer;
+    padding: 0.5em 1em;
+    border-radius: 15px;
+    font-weight: 600;
+    color: white;
+}
+
+.calculator .result-reporter-calc a {
+    text-decoration: none;
+}
+
+.misc {
+    margin-top: 10em;
+}
+
+.main-body-finance {
+    max-width: 1400px;
+}
+
+.calculator-flex input {
+    border: none;
+    border-bottom: 2px solid black;
+}
+
+/* Sign-in page 
+*/
+
+.dealer-html {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+.sign-in-header .main-logo {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.log-in {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.log-in-container {
+    width: 70%;
+    background-color: white;
+    margin: 10em auto 0 auto;
+}
+
+.log-in-container h2 {
+    font-size: 1.6rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    text-align: left;
+    color: black;
+}
+
+.log-in-container form {
+    width: 100%;
+    margin: 1em auto;
+    font-size: 1.2rem;
+}
+
+.log-in-container form label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-bottom: 1em;
+    display: inline;
+}
+
+.log-in-container form input {
+    text-align: left;
+    padding: 0.6em 0.7em;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 1em;
+    border: 0.0625rem solid #8C9196;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.log-in-container form input:focus {
+    outline: none;
+    border: 2px solid #F76C6C;
+}
+
+.log-in-container .remember-me label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.log-in-container .remember-me {
+    position: relative;
+}
+
+.log-in-container .remember-me input {
+    display: inline-block;
+    width: auto;
+}
+
+.log-in-container .remember-me input[type="checkbox"] {
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    background-color: #F76C6C;
+}
+
+.log-in-container form .log-in-button {
+    margin-top: 1.5em;
+    text-align: center;
+}
+
+.log-in-container input[type="submit"] {
+    background: #F76C6C;
+    border-radius: 30px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 0.5em 7em;
+}
+
+.log-in-container input[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+.log-in-container form a {
+    margin-top: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+}
+
+.log-in-container form p {
+    margin-top: 0.7em;
+}
+
+.log-in-container form a:hover {
+    color: #9E0A9A;
+    text-decoration: underline;
+}
+
+.log-in-container form .django-flash-message {
+    width: 100%;
+}
+
+.log-in-container form .django-flash-message .messages {
+    text-align: left;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+}
+
+.log-in-container form .django-flash-message .messages li {
+    list-style: none;
+    font-family: 'Open Sans', sans-serif;
+    color: red;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+@media (min-width: 31.875em) {
+    .log-in-container {
+        margin: 13em auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+    }
+    .log-in-container form {
+        width: 70%;
+        margin: 0;
+    }
+}
+
+@media (min-width: 62.5em) {
+    .log-in-container {
+        margin: 13em auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40%;
+    }
+    .log-in-container form {
+        width: 70%;
+        margin: 0;
+    }
+}
+
+/* Register Style */
+
+.register-html {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+.register-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
