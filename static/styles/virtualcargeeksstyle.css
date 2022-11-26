@@ -726,6 +726,9 @@ input {
 
 .register-container {
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 14em auto;
 }
 
+.register-container input {
+    margin-top: 2em;
+}
