@@ -34,11 +34,11 @@ def signin(request):
     context = {}
     return render(request, "dealersignin.html", context)
 
+
+
 def logoutUser(request):
     logout(request)
     return redirect('home')
 
 def register(request):
     return render(request, "register.html")
-
-@login_required(login_required)
