@@ -6,9 +6,24 @@ from django.http import HttpResponse
 from .models import Dealer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
+from .forms import CreateUserForm
+
+
+
+
+def register(request):
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
 def home(request):
     return render(request, 'index.html')
@@ -39,6 +54,3 @@ def signin(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
-
-def register(request):
-    return render(request, "register.html")
