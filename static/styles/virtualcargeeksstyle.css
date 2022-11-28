@@ -730,6 +730,7 @@ input {
 
 .register-container .register-image {
     display: none;
+    margin-top: 3em;
 }
 
 .register-form {
@@ -856,4 +857,102 @@ input {
     .register-container .register-form form {
         width: 70%
     }
+}
+
+/* User Interface / Dashboard Styling */
+
+.dashboard-html {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-body {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.dashboard-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 240px;
+    background: #3C3744;
+    padding: 0.4em 1em;
+}
+
+.dashboard-sidebar .logo-content .logo .logo-name {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.dashboard-sidebar .logo-content #sidebar-menu-icon {
+    position: absolute;
+    color: #fff;
+    left: 90%;
+    top: 0.3px;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 500;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.dashboard-sidebar input {
+    padding: 1em 0;
+    width: 90%;
+    left: 0;
+    top: 0;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+    background: #1d1b31;
+    padding-left: 2em;
+    color: #fff;
+    text-align: left;
+
+}
+
+.dashboard-sidebar ul {
+    margin-top: 0.8em;
+    display: grid;
+    gap: 2rem;
+    width: 100%;
+    padding: 0;
+}
+
+.dashboard-sidebar ul li {
+    width: 100%;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3rem;
+}
+
+.home-content {
+    position: absolute;
+    height: 100%;
+    width: calc(100% - 240px);
+    left: 272px;
+    margin: 0;
+    padding: 0;
+}
+
+.home-content .home-text{
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    color: red;
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="dashboard-html">
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-sidebar">
+        <div class="logo-content">
+            <div class="logo">
+                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+            </div>
+                <i class='bx bx-menu-alt-left' id="sidebar-menu-icon"></i>
+        </div>
+            <ul class="dashboard-sidebar-list">
+                <li>
+                    <a href="#">
+                        <input type="text" placeholder="Search...">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-dashboard' ></i>
+                        <span class="sidebar-list-names">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-file' ></i>
+                        <span class="sidebar-list-names">My Deals</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-user' ></i>
+                        <span class="sidebar-list-names">User</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-message-dots' ></i>
+                        <span class="sidebar-list-names">Communication</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-calendar' ></i>
+                        <span class="sidebar-list-names">Calendar</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+    <div class="home-content">
+        <div class="home-text">
+        </div>
+    </div>
+</body>
+</html>
