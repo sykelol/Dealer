@@ -16,33 +16,107 @@
     <header>
         <div class="nav-container">
             <div class="main-logo">
-                <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+                <a href="{% url 'home' %}"><img src="{%static 'images/logo.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+            </div>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="true" onclick="openClose()">
+                <span class="sr-only">Menu</span>
+                <i class="fa-solid fa-bars fa-xl"></i>
+            </button>
+            <nav>
+                <ul id="primary-navigation" data-visible="true" class="primary-navigation flex">
+                    <li id="first-primary-list" class="active">
+                        <a href="{% url 'home' %}">
+                            Home   
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="C:\Users\Rhys\projects\Dealer\virtualcargeeksfinancing.html">
+                            Financing    
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#">
+                            About us
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="C:\Users\Rhys\projects\Dealer\virtualcargeekscontact.html">
+                            Contact
+                        </a>
+                    </li>
+                    <li id="list-button" class="active">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'logout' %}"><button class="logout-button">
+                            Logout
+                        </button></a>
+                        {% else %}
+                        <a href="{% url 'sign-in' %}">
+                            <button class="sign-in-button">
+                               Dealer sign in
+                            </button>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+            <div id="non-list-button" class="but">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}"><button class="logout-button">
+                    Logout
+                </button></a>
+                {% else %}
+                <a href="{% url 'sign-in' %}">
+                    <button class="sign-in-button">
+                        Dealer sign in
+                    </button>
+                </a>
+                {% endif %}
             </div>
         </div>
-    </header>
+</header>
 
     <section class="register-container">
+        <div class="register-image">
+            <img src="{% static 'images/virtualcargeeksvector1.jpg' %}" alt="Cartoon image of a man leaning on his car looking happy.">
+        </div>
         <div class="register-form">
-            <h2>Register</h2>
+            <h2>Sign up</h2>
             <form class="register-form" method="POST" action="">
                 {% csrf_token %}
-                {% for field in form %}
-                    {{field.label}}
-                    {{field}}
-                {% endfor %}
-
-
-                <!-- <label for="username">Username</label>
-                <input type="username" name="username" id="username" min="5" max="50" required><br>
-                <label for="email">Email</label>
-                <input name="email" id="email" min="5" max="50" required><br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" min="5" max="50" required><br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" min="5" max="50" required> -->
-                <input type="submit" name="Create User">
+                <div class="register-input-container">
+                    <label for="username" class="labelclass">{{form.username.label}}</label>{{form.username}}
+                    <div class="django-flash-message">
+                        <ul class="messages">
+                            {% for message in messages %}
+                                {% if 'username-error' in message.tags %}
+                            <li>{{ message }}</li>
+                            {% endif %}
+                            </ul>
+                            {% endfor %}
+                    </div>
+                <!-- <input type="username" name="username" id="username" min="5" max="50" required><br> -->
+                </div>
+                <div class="register-input-container">
+                    <label for="dealership" class="labelclass">{{form.first_name.label}}</label>{{form.first_name}}
+                </div>
+                <div class="register-input-container">
+                    <label for="email" class="labelclass">{{form.email.label}}</label>{{form.email}}
+                <!-- <input name="email" id="email" min="5" max="50" required><br> -->
+                </div>
+                <div class="register-input-container">
+                    <label for="password1" class="labelclass">{{form.password1.label}}</label>{{form.password1}}
+                <!-- <input type="password" name="password" id="password" min="5" max="50" required><br> -->
+                </div>
+                <div class="register-input-container">
+                    <label for="password2" class="labelclass">{{form.password2.label}}</label>{{form.password2}}
+                <!-- <input type="password" name="password" id="password" min="5" max="50" required> -->
+                </div>
+                <div class="register-button">
+                <input type="submit" name="Create User" value="Create Account">
+                </div>
             </form>
         </div>
     </section>
 </body>
+<script type="text/javascript" src="{% static 'script/javascript.js' %}"></script>
 </html>

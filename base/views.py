@@ -13,12 +13,22 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import CreateUserForm
 
 
-
-
 def register(request):
     form = CreateUserForm()
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    first_name = request.POST.get('first_name')
+    email = request.POST.get('email')
 
     if request.method == 'POST':
+
+        if User.objects.filter(username=username):
+            messages.error(request, "Username already exists.", extra_tags='username-error')
+        if User.objects.filter(first_name=first_name):
+            messages.error(request, "Dealership name already exists.", extra_tags='dealername-error')
+        if User.objects.filter(email=email):
+            messages.error(request, "Email is already in use.", extra_tags='email-error')
+
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
@@ -48,7 +58,6 @@ def signin(request):
 
     context = {}
     return render(request, "dealersignin.html", context)
-
 
 
 def logoutUser(request):
