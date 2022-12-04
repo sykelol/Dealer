@@ -85,13 +85,13 @@
                 {% csrf_token %}
                 <div class="register-input-container">
                     <label for="username" class="labelclass">{{form.username.label}}</label>{{form.username}}
-                    <div class="django-flash-message">
-                        <ul class="messages">
+                    <div class="register-flash-message">
+                        <ul class="register-messages" id="username-register-error">
                             {% for message in messages %}
                                 {% if 'username-error' in message.tags %}
                             <li>{{ message }}</li>
                             {% endif %}
-                            </ul>
+                        </ul>
                             {% endfor %}
                     </div>
                 <!-- <input type="username" name="username" id="username" min="5" max="50" required><br> -->
@@ -105,14 +105,39 @@
                 </div>
                 <div class="register-input-container">
                     <label for="password1" class="labelclass">{{form.password1.label}}</label>{{form.password1}}
+                    <div class="register-flash-message">
+                        <ul class="register-messages">
+                            {% for message in messages %}
+                                {% if 'password-length-error' in message.tags %}
+                            <li>{{ message }}</li>
+                            {% endif %}
+                        </ul>
+                            {% endfor %}
+                        <ul class="register-messages">
+                            {% for message in messages %}
+                                {% if 'password-numeric-error' in message.tags %}
+                            <li>{{ message }}</li>
+                            {% endif %}
+                        </ul>
+                            {% endfor %}
+                    </div>
+
                 <!-- <input type="password" name="password" id="password" min="5" max="50" required><br> -->
                 </div>
                 <div class="register-input-container">
                     <label for="password2" class="labelclass">{{form.password2.label}}</label>{{form.password2}}
-                <!-- <input type="password" name="password" id="password" min="5" max="50" required> -->
+                    <div class="register-flash-message">
+                        <ul class="register-messages">
+                            {% for message in messages %}
+                                {% if 'password-verification-error' in message.tags %}
+                            <li>{{ message }}</li>
+                            {% endif %}
+                        </ul>
+                            {% endfor %}
+                    </div>
                 </div>
                 <div class="register-button">
-                <input type="submit" name="Create User" value="Create Account">
+                    <input type="submit" name="Create User" value="Create Account">
                 </div>
             </form>
         </div>

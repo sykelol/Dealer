@@ -35,10 +35,17 @@
                 </li>
                 <li>
                     <a href="{% url 'newform' %}">
-                        <i class='bx bx-file' ></i>
+                        <i class='bx bxs-file-plus'></i>
                         <span class="sidebar-list-names">New Form</span>
                     </a>
                     <span class="dashboard-tooltip">New Form</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-file' ></i>
+                        <span class="sidebar-list-names">Pending Deals</span>
+                    </a>
+                    <span class="dashboard-tooltip">Pending Deals</span>
                 </li>
                 <li>
                     <a href="{% url 'mydeals' %}">
@@ -80,7 +87,43 @@
             </div>
     </div>
     <div class="home-content">
-        <div class="home-text">Home Content</div>
+        <div>
+            <div>
+                <table class="mydeals-table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Dealer</th>
+                        <th>Vehicle VIN</th>
+                        <th>Client Name</th>
+                        <th>Manager</th>
+                        <th>Holder</th>
+                        <th>Holder</th>
+                        <th>Edit</th>
+                    </tr>
+                    <tr>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                        <td>holder</td>
+                    </tr>
+                </table>
+
+                <ul>
+                    {% for deal in deals %}
+                    <li> {{ deal.vehiclePrice }} </li>
+                    {% endfor %}
+                </ul>
+                </
+            </div>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>

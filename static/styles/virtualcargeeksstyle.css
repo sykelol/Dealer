@@ -809,25 +809,30 @@ input {
     position: relative;
 }
 
-.register-container form .register-input-container .django-flash-message .messages li {
+.register-container form .register-input-container .register-flash-message .register-messages li {
     text-align: left;
     list-style: none;
     font-family: 'Open Sans', sans-serif;
     color: red;
-    font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin: 0;
     padding: 0;
+    top: 3em;
 }
 
-.register-container form .register-input-container .django-flash-message {
+#username-register-error {
+    margin-left: -2.4em;
+}
+
+.register-container form .register-input-container .register-flash-message {
     padding: 0;
     margin: 0;
     width: 100%;
-    display: block;
     position: absolute;
     top: 3em;
-    left: -1.7em;
+    color: red;
+    list-style: none;
+    font-family: 'Open Sans', sans-serif;
 }
 
 @media (min-width: 37.5em) {
@@ -862,9 +867,7 @@ input {
 /* User Interface / Dashboard Styling */
 
 .dashboard-html {
-    overflow-x: hidden;
     box-sizing: border-box;
-    overflow-y: scroll;
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
@@ -874,7 +877,6 @@ input {
     position: relative;
     min-height: 100vh;
     width: 100%;
-    overflow: hidden;
 }
 
 .dashboard-sidebar {
@@ -882,77 +884,417 @@ input {
     top: 0;
     left: 0;
     height: 100%;
-    width: 240px;
-    background: #3C3744;
+    width: 55px;
+    background: #1d1b31;
     padding: 0.4em 1em;
+    transition: all 0.3s ease;
 }
 
-.dashboard-sidebar .logo-content .logo .logo-name {
+.dashboard-sidebar.active {
+    width: 240px;
+}
+
+.dashboard-sidebar .logo-content .logo {
     display: flex;
     width: 100%;
     align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.dashboard-sidebar.active .logo-content .logo {
+    opacity: 1;
+    pointer-events: none;
 }
 
 .dashboard-sidebar .logo-content #sidebar-menu-icon {
     position: absolute;
     color: #fff;
-    left: 90%;
-    top: 0.3px;
+    left: 53%;
+    top: 8px;
     font-size: 3rem;
     text-align: center;
     font-weight: 500;
     transform: translateX(-50%);
     cursor: pointer;
+    transition: all 0.4s ease;
 }
 
-.dashboard-sidebar input {
-    padding: 1em 0;
-    width: 90%;
+.dashboard-sidebar #sidebar-menu-icon:hover {
+    color: #11101d;
+    background: #fff;
+    transition: all 0.4s ease;
+}
+
+.dashboard-sidebar.active #sidebar-menu-icon {
+    left: 90%;
+}
+
+.dashboard-sidebar.active input {
+    padding: 1.3em 0;
+    width: 75%;
     left: 0;
     top: 0;
     border-radius: 12px;
     outline: none;
     border: none;
-    background: #1d1b31;
-    padding-left: 2em;
+    background: #3c3744;
+    padding-left: 4em;
     color: #fff;
     text-align: left;
+    opacity: 1;
+}
 
+.dashboard-sidebar input {
+    opacity: 0;
+}
+
+.dashboard-sidebar #dashboard-search-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 2px;
+    left: 0px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    height: 50px;
+    border-radius: 12px;
+    min-width: 50px;
+}
+
+.dashboard-sidebar #dashboard-search-icon:hover {
+    color: #11101d;
+    background: #fff;
+    transition: all 0.4s ease;
+}
+
+.dashboard-sidebar.active #dashboard-search-icon:hover {
+    background: transparent;
+}
+
+@media (min-width: 85em) {
+    .dashboard-sidebar #dashboard-search-icon {
+        font-size: 2rem;
+    }
 }
 
 .dashboard-sidebar ul {
-    margin-top: 0.8em;
-    display: grid;
-    gap: 2rem;
-    width: 100%;
+    margin: 0.8em 0 0 0;
+    text-align: left;
     padding: 0;
 }
 
 .dashboard-sidebar ul li {
-    width: 100%;
+    position: relative;
     margin: 0;
+    height: 65px;
+    width: 100%;
+    margin: 0 5px;
+    line-height: 50px;
     list-style: none;
     padding: 0;
+    display: block;
+}
+
+.dashboard-sidebar.active ul li .dashboard-tooltip {
+    display: none;
+}
+
+.dashboard-sidebar ul li .dashboard-tooltip {
+    font-size: 1.1rem;
+    font-weight: 500;
+    position: absolute;
+    height: 35px;
+    width: 152px;
+    top: 35%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    left: 60px;
+    background: #fff;
+    line-height: 35px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+}
+
+.dashboard-sidebar ul li .dashboard-tooltip:hover {
+    transition: all 0.5s ease;
+    opacity: 1;
 }
 
 .dashboard-sidebar ul li a {
     color: #fff;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.dashboard-sidebar.active ul li a:hover {
+    opacity: 1;
+    color: #11101d;
+    background: #fff;
+}
+
+.dashboard-sidebar ul li a i {
+    height: 30px;
+    min-width: 50px;
+    border-radius: 12px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+@media (min-width: 85em) {
+    .dashboard-sidebar ul li a i {
+        height: 50px;
+        line-height: 50px;
+        font-size: 2.5rem;
+    }
+    .dashboard-sidebar ul li a {
+        align-items: flex-end;
+        font-size: 1.3rem;
+    }
+    .dashboard-sidebar ul li {
+        height: 75px;
+    }
+}
+
+.dashboard-sidebar ul li a i:hover {
+    color: #11101d;
+    background: #fff;
+    transition: all 0.4s ease;
+}
+
+.dashboard-sidebar .sidebar-list-names {
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s ease;
+}
+
+.dashboard-sidebar.active .sidebar-list-names {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dashboard-sidebar .profile-content {
+    position: absolute;
+    color: #fff;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    margin-left: 2.3em;
+}
+
+.dashboard-sidebar .profile-content .profile {
+    position: relative;
+    height: 80px;
+    width: 100%;
+}
+
+.dashboard-sidebar .profile .profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    white-space: nowrap;
+    transition: all 0.5s ease;
+}
+
+.dashboard-sidebar .profile .profile-details .profile-name {
+    display: none;
+}
+
+.dashboard-sidebar.active .profile .profile-details .profile-name {
+    display: block;
+}
+
+.dashboard-sidebar.active .profile .profile-details {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dashboard-sidebar .profile .profile-details i {
+    font-weight: 500;
+}
+
+#dashboard-logout {
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#sidebar-logout {
+    padding-bottom: 0.3em;
+}
+
+@media (min-width: 85em) {
+    #dashboard-logout {
+        font-size: 2rem;
+    }
+    .dashboard-sidebar .profile .profile-details {
+        font-size: 1.3rem;
+    }
+    .dashboard-sidebar .profile-content {
+        margin-left: 1.7em;
+    }
+}
+
+.dashboard-sidebar.active #dashboard-logout {
+    margin: 0;
+}
+
+.dashboard-sidebar .profile .profile-details .dashboard-logout-button a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.dashboard-sidebar .profile .profile-details .dashboard-logout-button {
+    margin-top: 0.5em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .home-content {
     position: absolute;
     height: 100%;
-    width: calc(100% - 240px);
-    left: 272px;
+    width: calc(100% - 90px);
+    left: 90px;
     margin: 0;
     padding: 0;
+    background-color: white;
+    transition: all 0.5s ease;
+}
+
+.dashboard-sidebar.active ~ .home-content {
+    width: calc(100% - 272px);
+    left: 272px;
 }
 
 .home-content .home-text{
-    margin: 0;
+    width: 60%;
+    margin: 0 auto;
     padding: 0;
     font-size: 1rem;
-    color: red;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #F76C6C;
+}
+
+/* New Form Styling */
+
+.home-content .newform-progress-bar {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.home-content .newform-body {
+    width: 80%;
+    margin: 5em auto 5em auto;
+    padding: 0;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.home-content .newform-body form .newform-input {
+    text-align: left;
+    border-radius: 8px;
+    padding: 0.7em 0.4em;
+    border-radius: 4px;
+    text-indent: 0.8em;
+    margin-bottom: 1em;
+    border: 0.1rem solid #8C9196;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.home-content .newform-body form .newform-label {
+    font-weight: 500;
+}
+
+.home-content .newform-body form .newform-input-container {
+    position: relative;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+}
+
+.home-content .newform-body form {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 3em;
+    row-gap: 0.3em;
+}
+
+.home-content .newform-body form .newform-input-container i {
+    position: absolute;
+    font-size: 1.2rem;
+    top: 47px;
+    font-weight: 400;
+}
+
+@media (min-width: 750px) {
+    .home-content .newform-body form {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 0.8em;
+    }
+    .home-content .newform-body h2 {
+        margin-bottom: 1.4em;
+        grid-column: 1;
+        text-align: left;
+    }
+    .home-content .newform-body form .newform-button {
+        grid-column: 2;
+        text-align: right;
+    }
+}
+
+@media (min-width: 1000px) {
+    .home-content .newform-body {
+        width: 60%;
+    }
+}
+
+.home-content .newform-body h2 {
+    color: #F76C6C;
+}
+
+.home-content .newform-body form input:focus {
+    outline: none;
+    border: 2px solid #F76C6C;
+}
+
+.home-content .newform-body form input[type="submit"] {
+    background: #F76C6C;
+    border-radius: 30px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 0.7em 3.5em 0.7em 3.5em;
+    margin-bottom: 2em;
 }

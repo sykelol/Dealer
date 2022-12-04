@@ -80,7 +80,70 @@
             </div>
     </div>
     <div class="home-content">
-        <div class="home-text">Home Content</div>
+        <div class="newform-progress-bar">
+            <div class="newform-body">
+                <div class="vehicle-infomration-header">
+                    <h2>Vehicle Information</h2>
+                </div>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="newform-input-container">
+                        <label for="vinNumber" class="newform-label">{{form.vinNumber.label}}</label>
+                        {{form.vinNumber}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="stockNumber" class="newform-label">{{form.stockNumber.label}}</label>
+                        {{form.stockNumber}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="vehiclePrice" class="newform-label">{{form.vehiclePrice.label}}</label>
+                        {{form.vehiclePrice}}
+                        <i class='bx bx-dollar'></i>
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="tradeInPrice" class="newform-label">{{form.tradeInPrice.label}}</label>
+                        {{form.tradeInPrice}}
+                        <i class='bx bx-dollar'></i>
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="downPayment" class="newform-label">{{form.downPayment.label}}</label>
+                        {{form.downPayment}}
+                        <i class='bx bx-dollar'></i>
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="vehicleMileage" class="newform-label">{{form.vehicleMileage.label}}</label>
+                        {{form.vehicleMileage}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="make" class="newform-label">{{form.make.label}}</label>
+                        {{form.make}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="model" class="newform-label">{{form.model.label}}</label>
+                        {{form.model}} 
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="trim" class="newform-label">{{form.trim.label}}</label>
+                        {{form.trim}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="year" class="newform-label">{{form.year.label}}</label>
+                        {{form.year}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="color" class="newform-label">{{form.color.label}}</label>
+                        {{form.color}}
+                    </div>
+                    <div class="newform-input-container">
+                        <label for="fuelType" class="newform-label">{{form.fuelType.label}}</label>
+                        {{form.fuelType}}
+                    </div>
+                    <div class="newform-button">
+                        <input type="submit" value="Next">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>

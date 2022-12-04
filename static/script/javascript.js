@@ -119,3 +119,13 @@ interestRate.addEventListener('onkeyup', monthlyPayments());
 
 loanDuration.addEventListener('onblur', maxMinValue());
 loanDuration.addEventListener('onkeyup', monthlyPayments());
+
+
+const sideButton = document.querySelector("#sidebar-menu-icon");
+const sidebar = document.querySelector(".dashboard-sidebar");
+
+
+
+sideButton.onclick= function() {
+    sidebar.toggle(" active");
+};
