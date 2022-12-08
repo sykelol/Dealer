@@ -39,8 +39,8 @@ class DealerFinanceForm(ModelForm):
     vinNumber = forms.TextInput()
     stockNumber = forms.TextInput()
     vehiclePrice = forms.TextInput()
-    tradeInPrice = forms.TextInput()
     downPayment = forms.TextInput()
+    tradeInPrice = forms.TextInput()
     vehicleMileage = forms.TextInput()
     make = forms.TextInput()
     model = forms.TextInput()
@@ -48,6 +48,45 @@ class DealerFinanceForm(ModelForm):
     year = forms.TextInput()
     color = forms.TextInput()
     fuelType = forms.TextInput()
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["vinNumber"].widget.attrs.update({
+            'placeholder' : 'Enter vin number'
+        })
+        self.fields["stockNumber"].widget.attrs.update({
+            'placeholder' : 'Enter stock number'
+        })
+        self.fields["vehiclePrice"].widget.attrs.update({
+            'placeholder' : 'Enter vehicle price'
+        })
+        self.fields["downPayment"].widget.attrs.update({
+            'placeholder' : 'Down payment'
+        })
+        self.fields["tradeInPrice"].widget.attrs.update({
+            'placeholder' : 'Trade in price'
+        })
+        self.fields["vehicleMileage"].widget.attrs.update({
+            'placeholder' : 'Enter vehicle mileage (KM)'
+        })
+        self.fields["make"].widget.attrs.update({
+            'placeholder' : 'Vehicle make'
+        })
+        self.fields["model"].widget.attrs.update({
+            'placeholder' : 'Vehicle model'
+        })
+        self.fields["trim"].widget.attrs.update({
+            'placeholder' : 'Vehicle trim'
+        })
+        self.fields["year"].widget.attrs.update({
+            'placeholder' : 'Vehicle year'
+        })
+        self.fields["color"].widget.attrs.update({
+            'placeholder' : 'Vehicle color'
+        })
+        self.fields["fuelType"].widget.attrs.update({
+            'placeholder' : 'Vehicle fuel type'
+        })
     class Meta:
         model = VehicleInformation
         widgets = {
@@ -72,10 +111,10 @@ class DealerFinanceForm(ModelForm):
             'tradeInPrice' : ('Trade In Price'),
             'downPayment' : ('Down Payment'),
             'vehicleMileage' : ('Vehicle Kilometers'),
-            'make' : ('Vehicle Make'),
-            'model' : ('Vehicle Model'),
-            'trim' : ('Vehicle Trim'),
-            'year' : ('Vehicle Year'),
-            'color' : ('Vehicle Color'),
+            'make' : ('Make'),
+            'model' : ('Model'),
+            'trim' : ('Trim'),
+            'year' : ('Year'),
+            'color' : ('Color'),
             'fuelType' : ('Fuel Type'),
         }

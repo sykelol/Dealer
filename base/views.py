@@ -78,10 +78,12 @@ def dashboard(request):
 
 
 def newform(request):
-    if request.POST:
+    form = DealerFinanceForm()
+    if request.method == 'POST':
         form = DealerFinanceForm(request.POST)
         if form.is_valid():
-            form.save()    
+            form.save()
+            return redirect('mydeals')
     return render(request, 'newform.html', { 'form' : DealerFinanceForm })
 
 
@@ -92,3 +94,17 @@ def mydeals(request):
         'deals': deals,
     }
     return render(request, 'mydeals.html', context)
+
+def pendingdeals(request):
+    return render(request, 'pendingdeals.html')
+
+def updateform(request, id):
+    update = VehicleInformation.objects.get(id=id)
+    form = DealerFinanceForm(instance=update)
+    if request.method == 'POST':
+        form = DealerFinanceForm(request.POST, instance=update)
+        if form.is_valid():
+            form.save()
+            return redirect('mydeals')
+    context = {'form': form}
+    return render(request, 'newform.html', context)   

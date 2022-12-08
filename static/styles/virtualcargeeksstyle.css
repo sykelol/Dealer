@@ -884,14 +884,18 @@ input {
     top: 0;
     left: 0;
     height: 100%;
-    width: 55px;
+    width: 80px;
     background: #1d1b31;
     padding: 0.4em 1em;
-    transition: all 0.3s ease;
+    font-family: 'Open Sans', sans-serif;
+    transition: all 0.4s ease;
+    z-index: 9999;
 }
 
 .dashboard-sidebar.active {
-    width: 240px;
+    width: 310px;
+    z-index: 9999;
+    transition: all 0.4s ease;
 }
 
 .dashboard-sidebar .logo-content .logo {
@@ -911,7 +915,7 @@ input {
 .dashboard-sidebar .logo-content #sidebar-menu-icon {
     position: absolute;
     color: #fff;
-    left: 53%;
+    left: 58%;
     top: 8px;
     font-size: 3rem;
     text-align: center;
@@ -950,6 +954,11 @@ input {
     opacity: 0;
 }
 
+.dashboard-sidebar .search-input {
+    width: 100%;
+    height: 40px;
+}
+
 .dashboard-sidebar #dashboard-search-icon {
     position: absolute;
     display: flex;
@@ -985,6 +994,7 @@ input {
     margin: 0.8em 0 0 0;
     text-align: left;
     padding: 0;
+    width: 100%;
 }
 
 .dashboard-sidebar ul li {
@@ -1023,7 +1033,6 @@ input {
 }
 
 .dashboard-sidebar ul li .dashboard-tooltip:hover {
-    transition: all 0.5s ease;
     opacity: 1;
 }
 
@@ -1039,6 +1048,18 @@ input {
 }
 
 .dashboard-sidebar.active ul li a:hover {
+    opacity: 1;
+    color: #11101d;
+    background: #fff;
+}
+
+.dashboard-sidebar ul li a:active {
+    opacity: 1;
+    color: #11101d;
+    background: #fff;
+}
+
+.dashboard-sidebar.active ul li a:active {
     opacity: 1;
     color: #11101d;
     background: #fff;
@@ -1166,12 +1187,10 @@ input {
 
 .home-content {
     position: absolute;
-    height: 100%;
     width: calc(100% - 90px);
     left: 90px;
     margin: 0;
     padding: 0;
-    background-color: white;
     transition: all 0.5s ease;
 }
 
@@ -1189,39 +1208,76 @@ input {
     background-color: #F76C6C;
 }
 
+@media (max-width: 600px) {
+    .dashboard-sidebar {
+        display: none;
+    }
+    .dashboard-sidebar.active {
+        display: block;
+    }
+    .home-content {
+        position: absolute;
+        width: calc(100% - 1px);
+        left: 1px;
+        margin: 0;
+        padding: 0;
+        transition: all 0.5s ease;
+    }
+    .dashboard-sidebar.active ~ .home-content .newform-body form .newform-input-container i {
+        position: absolute;
+        font-size: 1.2rem;
+        top: 65px;
+        font-weight: 400;
+    }
+}
+
+#sidebar-menu-icon-first {
+    font-size: 2.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 9999;
+}
+
 /* New Form Styling */
 
-.home-content .newform-progress-bar {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
+.newform-html {
+    box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.newform-main {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background: #F6F6F6;
 }
 
 .home-content .newform-body {
-    width: 80%;
-    margin: 5em auto 5em auto;
-    padding: 0;
+    width: 100%;
+    margin: 0 auto;
     font-size: 1rem;
     font-family: 'Open Sans', sans-serif;
+    background: white;
 }
 
 .home-content .newform-body form .newform-input {
     text-align: left;
-    border-radius: 8px;
-    padding: 0.7em 0.4em;
-    border-radius: 4px;
-    text-indent: 0.8em;
+    padding: 0.3em 0;
+    text-indent: 1rem;
     margin-bottom: 1em;
-    border: 0.1rem solid #8C9196;
+    border: 0.11rem solid #8C9196;
     font-family: 'Open Sans', sans-serif;
-    width: 100%;
+    width: 95%;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .home-content .newform-body form .newform-label {
-    font-weight: 500;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
 }
 
 .home-content .newform-body form .newform-input-container {
@@ -1237,19 +1293,19 @@ input {
     grid-template-columns: 1fr;
     column-gap: 3em;
     row-gap: 0.3em;
+    padding: 0 1.5em;
 }
 
 .home-content .newform-body form .newform-input-container i {
     position: absolute;
     font-size: 1.2rem;
-    top: 47px;
+    top: 44px;
     font-weight: 400;
 }
 
-@media (min-width: 750px) {
+@media (min-width: 1000px) {
     .home-content .newform-body form {
-        grid-template-columns: 1fr 1fr;
-        row-gap: 0.8em;
+        grid-template-columns: 1fr 1fr 1fr;
     }
     .home-content .newform-body h2 {
         margin-bottom: 1.4em;
@@ -1257,7 +1313,7 @@ input {
         text-align: left;
     }
     .home-content .newform-body form .newform-button {
-        grid-column: 2;
+        grid-column: 3;
         text-align: right;
     }
 }
@@ -1266,10 +1322,17 @@ input {
     .home-content .newform-body {
         width: 60%;
     }
+    .home-content .newform-body form .newform-input {
+        width: 100%;
+    }
 }
 
-.home-content .newform-body h2 {
-    color: #F76C6C;
+.home-content h2 { 
+    color: #fff;
+    padding: 0.6em;
+    font-weight: 500;
+    font-size: 2rem;
+    background-color: #212529;
 }
 
 .home-content .newform-body form input:focus {
@@ -1281,7 +1344,7 @@ input {
     background: #F76C6C;
     border-radius: 30px;
     box-shadow: #F76C6C 0 10px 20px -10px;
-    color: #FFFFFF;
+    color: #fff;
     cursor: pointer;
     font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
     font-size: 1rem;
@@ -1297,4 +1360,71 @@ input {
     border: 0;
     padding: 0.7em 3.5em 0.7em 3.5em;
     margin-bottom: 2em;
+}
+
+
+/* Mydeals / PendingDeals Styling */
+
+.mydeals-html {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: scroll;
+}
+
+.mydeals-body {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background: #F6F6F6;
+    overflow-x: scroll;
+}
+
+.pendingdeals-html {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.pendingdeals-body {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background: #F6F6F6;
+    overflow-x: scroll;
+}
+
+.home-content .mydeals-table {
+    margin: 3em auto;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.home-content .mydeals-table tr th {
+    background-color: #F76C6C;
+    color: #fff;
+    text-align: left;
+    padding: 1em 5em 1em 1em;
+}
+
+.home-content .mydeals-table td {
+    text-align: left;
+    padding: 1em 4em 1em 1em;
+    font-weight: 600;
+}
+
+.fixed-icon {
+    position: fixed;
+}
+
+.bootstrap-form {
+    font-family: 'Open Sans', sans-serif;
+    width: 50%;
+    margin: 3em auto;
+}
+
+.bootstrap-form input {
+    text-align: left;
 }
