@@ -4,6 +4,4 @@ from django.contrib import admin
 
 from .models import VehicleInformation
 
-
-
 admin.site.register(VehicleInformation)

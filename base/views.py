@@ -22,7 +22,6 @@ def register(request):
     password2 = request.POST.get('password2')
 
     if request.method == 'POST':
-
         if User.objects.filter(username=username):
             messages.error(request, "Username already exists.", extra_tags='username-error')
         #if User.objects.filter(first_name=first_name):
@@ -51,7 +50,7 @@ def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        
         try:
             user = User.objects.get(username=username)
         
@@ -60,8 +59,12 @@ def signin(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)
-            return redirect('dashboard')
+            if user.is_superuser == True:
+                login(request, user)
+                return redirect('pendingdeals')
+            elif user.is_superuser == False:
+                login(request, user)
+                return redirect('dealerpendingdeals')
         else: messages.error(request, '* Username or password does not exist.')
 
     context = {}
@@ -71,11 +74,6 @@ def signin(request):
 def logoutUser(request):
     logout(request)
     return redirect('home')
-
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
-
 
 def newform(request):
     form = DealerFinanceForm()
@@ -96,7 +94,11 @@ def mydeals(request):
     return render(request, 'mydeals.html', context)
 
 def pendingdeals(request):
-    return render(request, 'pendingdeals.html')
+    deals = VehicleInformation.objects.all()
+    context = {
+        'deals': deals,
+    }
+    return render(request, 'pendingdeals.html', context)
 
 def updateform(request, id):
     update = VehicleInformation.objects.get(id=id)
@@ -107,4 +109,27 @@ def updateform(request, id):
             form.save()
             return redirect('mydeals')
     context = {'form': form}
-    return render(request, 'newform.html', context)   
+    return render(request, 'newform.html', context)
+
+def dealermydeals(request):
+    deals = VehicleInformation.objects.all()
+    context = {
+        'deals': deals,
+    }
+    return render(request, 'dealermydeals.html', context)
+
+def dealerpendingdeals(request):
+    deals = VehicleInformation.objects.all()
+    context = {
+        'deals': deals,
+    }
+    return render(request, 'dealerpendingdeals.html', context)
+
+def dealernewform(request):
+    form = DealerFinanceForm()
+    if request.method == 'POST':
+        form = DealerFinanceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('mydeals')
+    return render(request, 'dealernewform.html', { 'form' : DealerFinanceForm })

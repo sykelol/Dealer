@@ -48,6 +48,7 @@ class DealerFinanceForm(ModelForm):
     year = forms.TextInput()
     color = forms.TextInput()
     fuelType = forms.TextInput()
+    status = forms.TextInput()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

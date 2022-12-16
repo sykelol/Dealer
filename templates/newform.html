@@ -25,29 +25,18 @@
         </div>
             <ul class="dashboard-sidebar-list">
                 <li>
-                        <input class="search-input" type="text" placeholder="Search...">
-                        <i class='bx bx-search-alt-2' id="dashboard-search-icon"></i>
-                </li>
-                <li>
-                    <a href="{% url 'dashboard' %}" class="dashboard-link">
-                        <i class='bx bxs-dashboard' ></i>
-                        <span class="sidebar-list-names">Dashboard</span>
-                    </a>
-                    <span class="dashboard-tooltip">Dashboard</span>
-                </li>
-                <li>
-                    <a href="{% url 'newform' %}" class="dashboard-link">
-                        <i class='bx bxs-file-plus'></i>
-                        <span class="sidebar-list-names">New Form</span>
-                    </a>
-                    <span class="dashboard-tooltip">New Form</span>
-                </li>
-                <li>
                     <a href="{% url 'pendingdeals' %}" class="dashboard-link">
                         <i class='bx bx-file' ></i>
                         <span class="sidebar-list-names">Pending Deals</span>
                     </a>
                     <span class="dashboard-tooltip">Pending Deals</span>
+                </li>
+                <li>
+                    <a href="{% url 'newform' %}" class="active-list-link" class="dashboard-link">
+                        <i class='bx bxs-file-plus'></i>
+                        <span class="sidebar-list-names">New Form</span>
+                    </a>
+                    <span class="dashboard-tooltip">New Form</span>
                 </li>
                 <li>
                     <a href="{% url 'mydeals' %}" class="dashboard-link">
@@ -79,11 +68,11 @@
                             
                         </div>
                         <div class="dashboard-logout-button">
-                            <a href="#">
-                                <i class='bx bx-log-out' id="dashboard-logout"></i>
-                                <span class="sidebar-list-names" id="sidebar-logout">Logout</span>
-                            </a>
-                        </div>
+                            <span id="sidebar-logout">
+                                <a class="dashboard-logout" href="{% url 'logout' %}"><i class='bx bx-log-out' id="dashboard-logout"></i>
+                                Logout</a>
+                            </span>
+                    </div>
                     </div>
                 </div>
             </div>

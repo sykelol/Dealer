@@ -16,6 +16,7 @@ class VehicleInformation(models.Model):
     year = models.IntegerField()
     color = models.CharField(max_length = 100)
     fuelType = models.CharField(max_length = 100)
+    status = models.CharField(max_length=100, default='Pending', editable='true')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

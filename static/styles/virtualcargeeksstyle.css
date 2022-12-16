@@ -1182,7 +1182,6 @@ input {
     margin-top: 0.5em;
     display: flex;
     align-items: center;
-    cursor: pointer;
 }
 
 .home-content {
@@ -1195,8 +1194,8 @@ input {
 }
 
 .dashboard-sidebar.active ~ .home-content {
-    width: calc(100% - 272px);
-    left: 272px;
+    width: calc(100% - 310px);
+    left: 310px;
 }
 
 .home-content .home-text{
@@ -1396,35 +1395,39 @@ input {
     overflow-x: scroll;
 }
 
-.home-content .mydeals-table {
-    margin: 3em auto;
-    border-collapse: collapse;
-    font-size: 0.9em;
-}
-
-.home-content .mydeals-table tr th {
-    background-color: #F76C6C;
-    color: #fff;
-    text-align: left;
-    padding: 1em 5em 1em 1em;
-}
-
-.home-content .mydeals-table td {
-    text-align: left;
-    padding: 1em 4em 1em 1em;
-    font-weight: 600;
-}
-
 .fixed-icon {
     position: fixed;
 }
 
-.bootstrap-form {
-    font-family: 'Open Sans', sans-serif;
-    width: 50%;
-    margin: 3em auto;
+.table-content {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 1.5rem;
 }
 
-.bootstrap-form input {
-    text-align: left;
+.table-header {
+    color: #fff;
+    background-color: #212529;
+}
+
+.table-content #table-status {
+    background-color: #fffc3a;
+    font-weight: 600;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.active-list-link {
+    background-color: #3c3744;
+}
+
+.table-edit-button {
+    text-decoration: none;
+    text-align: center;
+}
+
+.bx-edit {
+    font-size: 2rem;
+    text-decoration: none;
+    color: black;
 }
