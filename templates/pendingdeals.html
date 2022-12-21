@@ -38,11 +38,13 @@
                     <span class="dashboard-tooltip">Pending Deals</span>
                 </li>
                 <li>
+                {% if user.is_authenticated and not user.is_broker%}
                     <a href="{% url 'newform' %}" class="dashboard-link">
                         <i class='bx bxs-file-plus'></i>
                         <span class="sidebar-list-names">New Form</span>
                     </a>
                     <span class="dashboard-tooltip">New Form</span>
+                {% endif %}
                 </li>
                 <li>
                     <a href="{% url 'mydeals' %}" class="dashboard-link">
@@ -106,7 +108,7 @@
                 <tbody>
                     {% for deal in deals %}
                     <tr>
-                        <td>{{ deal.id }}</td>
+                        <td>{{ deal.make}}</td>
                         <td>{{ deal.created }}</td>
                         <td>{{ deal.vinNumber }}</td>
                         <td>{{ deal.downPayment}}</td>
