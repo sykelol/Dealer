@@ -11,6 +11,7 @@ urlpatterns = [
     path('mydeals/', views.mydeals, name="mydeals"),
     path('pendingdeals/', views.pendingdeals, name="pendingdeals"),
     path('updateform/<int:id>/', views.updateform, name="updateform"),
+    path('updatestatus/<int:id>/', views.updatestatus, name="updatestatus"),
     #path('dealerpendingdeals/', views.dealerpendingdeals, name="dealerpendingdeals"),
     #path('dealermydeals/', views.dealermydeals, name="dealermydeals"),
     path('dealernewform/', views.dealernewform, name="dealernewform"),

@@ -6,11 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .forms import DealerFinanceForm, CreateUserForm
 from .models import VehicleInformation
+from django.db.models import Q
 
 
 def broker_required(view_func):
     def check_user_is_broker(user):
-        return user.is_authenticated and user.is_broker
+        return user.is_authenticated and user.is_staff
     return user_passes_test(check_user_is_broker)(view_func)
 
 
@@ -84,14 +85,17 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
-
-#@broker_required
+@login_required
 def newform(request):
     if request.method == 'POST':
         form = DealerFinanceForm(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
-            form.dealership = request.user.dealership
+            if hasattr(request.user, 'dealership'):
+                form.dealership = request.user.dealership
+            else:
+                # Set a default value for the dealership
+                form.dealership = 'Unknown'
             form.save()
             return redirect('mydeals')
     else:
@@ -105,10 +109,10 @@ def mydeals(request):
         # User is a dealership
         dealership = request.user.dealership
         deals = VehicleInformation.objects.filter(
-            dealership=dealership, status='Completed')
+            Q(dealership=dealership, status='approved') | Q(status='declined'))
     else:
         # User is a broker
-        deals = VehicleInformation.objects.filter(status='completed')
+        deals = VehicleInformation.objects.filter(Q(status='approved') | Q(status='declined'))
         # deals = VehicleInformation.objects.all()
     return render(request, 'mydeals.html', {'deals': deals})
 
@@ -119,10 +123,10 @@ def pendingdeals(request):
         # User is a dealership
         dealership = request.user.dealership
         deals = VehicleInformation.objects.filter(
-            dealership=dealership, status='Pending')
+            dealership=dealership, status='pending')
     else:
         # User is a broker
-        deals = VehicleInformation.objects.filter(status='Pending')
+        deals = VehicleInformation.objects.filter(status='pending')
     return render(request, 'pendingdeals.html', {'deals': deals})
 
 
@@ -148,6 +152,18 @@ def dealernewform(request):
             form.save()
             return redirect('mydeals')
     return render(request, 'dealernewform.html', {'form': form})
+
+@broker_required
+def updatestatus(request, id):
+    update = VehicleInformation.objects.get(id=id)
+    form = DealerFinanceForm(instance=update)
+    if request.method == 'POST':
+        form = DealerFinanceForm(request.POST, instance=update)
+        if form.is_valid():
+            form.save()
+            return redirect('mydeals')
+    context = {'form': form}
+    return render(request, 'updatestatus.html', context)
 
 # def dealermydeals(request):
     # deals = VehicleInformation.objects.all()

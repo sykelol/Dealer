@@ -108,11 +108,14 @@
                 <tbody>
                     {% for deal in deals %}
                     <tr>
-                        <td>{{ deal.make}}</td>
+                        <td>{{ deal.id}}</td>
                         <td>{{ deal.created }}</td>
                         <td>{{ deal.vinNumber }}</td>
                         <td>{{ deal.downPayment}}</td>
-                        <td id="table-status">{{ deal.status }}</td>
+                        <td id="table-status">
+                            <p id="deal-status">{{ deal.status }}<p>
+                            <a href="{% url 'updatestatus' deal.id %}"> Change Status</a>
+                        </td>
                         <td class="table-edit-button"><a href="{% url 'updateform' deal.id %}"><i class='bx bx-edit'></i></a></td>
                     </tr>
                     {% endfor %}

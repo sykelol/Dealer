@@ -1410,13 +1410,6 @@ input {
     background-color: #212529;
 }
 
-.table-content #table-status {
-    background-color: #fffc3a;
-    font-weight: 600;
-    pointer-events: auto;
-    cursor: pointer;
-}
-
 .active-list-link {
     background-color: #3c3744;
 }
@@ -1430,4 +1423,17 @@ input {
     font-size: 2rem;
     text-decoration: none;
     color: black;
+}
+
+#table-status {
+    text-align: center;
+    font-weight: 600;
+}
+
+#table-status a {
+    text-decoration: none;
+}
+
+#table-status a:hover {
+    text-decoration: underline;
 }
