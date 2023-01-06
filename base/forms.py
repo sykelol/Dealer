@@ -7,7 +7,9 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django import forms
 from .models import VehicleInformation
-
+from .models import CustomerInformation
+from django.forms import DateInput
+from phonenumber_field.formfields import PhoneNumberField
 
 class CreateUserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
@@ -99,9 +101,9 @@ class DealerFinanceForm(ModelForm):
         widgets = {
             'vinNumber': forms.TextInput(attrs={'class': 'newform-input'}),
             'stockNumber': forms.TextInput(attrs={'class': 'newform-input'}),
-            'vehiclePrice': forms.TextInput(attrs={'class': 'newform-input'}),
-            'tradeInPrice': forms.TextInput(attrs={'class': 'newform-input'}),
-            'downPayment': forms.TextInput(attrs={'class': 'newform-input'}),
+            'vehiclePrice': forms.TextInput(attrs={'class': 'newform-input dollar'}),
+            'tradeInPrice': forms.TextInput(attrs={'class': 'newform-input dollar'}),
+            'downPayment': forms.TextInput(attrs={'class': 'newform-input dollar'}),
             'vehicleMileage': forms.TextInput(attrs={'class': 'newform-input'}),
             'make': forms.TextInput(attrs={'class': 'newform-input'}),
             'model': forms.TextInput(attrs={'class': 'newform-input'}),
@@ -126,6 +128,142 @@ class DealerFinanceForm(ModelForm):
             'color' : ('Color'),
             'fuelType' : ('Fuel Type'),
             'status' : ('Status'),
+        }
+
+EMPLOYMENT = (
+    ('employed', 'Employed'),
+    ('self-employed', 'Self-employed'),
+    ('unemployed', 'Unemployed'),
+)
+
+class EmploymentInformationForm(ModelForm):
+    employment_status = forms.ChoiceField(
+        choices=[
+            ('full-time', 'Full-time'),
+            ('part-time', 'Part-time'),
+            ('temporary', 'Temporary'),
+            ('contract', 'Contract'),
+            ('self-employed', 'Self-employed'),
+            ('retired', 'Retired'),
+            ('unemployed', 'Unemployed'),
+        ]
+    )
+    employment_status = forms.ChoiceField(
+        choices=EMPLOYMENT,
+        widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+    )
+    company_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    job_title = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    employment_length = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    salary = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    monthly_income = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    other_income = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    paystub_file = forms.FileField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'class': 'employment-form-file'})
+    )
+    tax_return = forms.FileField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'class': 'employment-form-file'})
+    )
+    
+    class Meta:
+        model = CustomerInformation
+        fields = ['employment_status', 'company_name', 'job_title', 'employment_length', 'salary', 'monthly_income', 'other_income', 'paystub_file', 'tax_return']
+        labels = {
+            'employment_status': 'Employment Status',
+            'company_name': 'Company Name',
+            'job_title': 'Job Title',
+            'employment_length': 'Employment Length',
+            'salary': 'Salary',
+            'monthly_income': 'Monthly Income',
+            'other_income': 'Other Income',
+            'paystub_file': 'Pay stub',
+            'tax_return': 'Tax Return',
+        }
+
+PROVINCES = (
+    ('AB', 'Alberta'),
+    ('BC', 'British Columbia'),
+    ('MB', 'Manitoba'),
+    ('NB', 'New Brunswick'),
+    ('NL', 'Newfoundland and Labrador'),
+    ('NS', 'Nova Scotia'),
+    ('NT', 'Northwest Territories'),
+    ('NU', 'Nunavut'),
+    ('ON', 'Ontario'),
+    ('PE', 'Prince Edward Island'),
+    ('QC', 'Quebec'),
+    ('SK', 'Saskatchewan'),
+    ('YT', 'Yukon'),
+)
+
+class PersonalInformationForm(ModelForm):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    date_of_birth = forms.DateField(
+        widget=DateInput(attrs={'class': 'customer-form-field-widget', 'id': 'date-of-birth', 'type': 'date'})
+    )
+    phone_number = PhoneNumberField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'type': 'tel'})
+    )
+    email = forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'customer-form-field'})
+    )
+    address = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    address_line_2 = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    province = forms.ChoiceField(
+        choices=PROVINCES,
+        widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+    )
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    postal_code = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+    social_insurance_number = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+    )
+
+    class Meta:
+        model = CustomerInformation
+        widgets = {
+
+        }
+        fields = ['first_name', 'last_name', 'date_of_birth', 'phone_number', 'email', 'address', 'province', 'city', 'postal_code', 'social_insurance_number']
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'date_of_birth': 'Date of Birth',
+            'phone_number': 'Phone Number',
+            'email': 'Email',
+            'address': 'Address',
+            'address_line_2': 'Address Line 2',
+            'province': 'Province',
+            'city': 'City',
+            'postal_code': 'Postal Code',
+            'social_insurance_number': 'Social Insurance Number (SIN)',
         }
 
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="landing-page-body">
+    <div class="landing-page-content">
+        <h1>Welcome to <span>Virtual Car Geeks</span></h1>
+        <p>Thank you for choosing to finance your vehicle with us. Please take a moment to read through the following information before proceeding:</p>
+        <ul>
+          <li>The form should only take a few minutes to complete.</li>
+          <li>All of the information you provide will be kept secure and confidential.</li>
+          <li>Please make sure to have your personal and financial information on hand before starting the form.</li>
+        </ul>
+        <p>When you're ready, click the "Proceed to Form" button below to begin.</p>
+        <div class="proceed-button"> 
+          <a href="{% url 'personal_information' %}"><button>Proceed to Form</button></a>
+        </div>
+      </div>
+</body>
+</html>

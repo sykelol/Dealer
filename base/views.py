@@ -2,12 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import DealerFinanceForm, CreateUserForm
-from .models import VehicleInformation
+from django.core.files.storage import default_storage
+from .forms import DealerFinanceForm, CreateUserForm, EmploymentInformationForm, PersonalInformationForm
+from .models import VehicleInformation, CustomerInformation
 from django.db.models import Q
-
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormMixin
+from formtools.wizard.views import SessionWizardView
 
 def broker_required(view_func):
     def check_user_is_broker(user):
@@ -52,6 +56,8 @@ def register(request):
 def home(request):
     return render(request, 'index.html')
 
+def financingform(request):
+    return render(request, 'landingpage.html')
 
 def signin(request):
     if request.method == 'POST':
@@ -164,6 +170,36 @@ def updatestatus(request, id):
             return redirect('mydeals')
     context = {'form': form}
     return render(request, 'updatestatus.html', context)
+
+def personal_information(request):
+    if request.method == 'POST':
+        form = PersonalInformationForm(request.POST)
+        if form.is_valid():
+            # Process the form data and redirect to the next step
+            customer = form.save(commit=False)  # Save the form data to a CustomerInformation object, but don't commit it to the database yet
+            customer.save()  # Now commit the object to the database
+            request.session['customer_pk'] = customer.pk  # Save the customer's primary key to the session
+            return redirect('employment_information')
+    else:
+        form = PersonalInformationForm()
+    return render(request, 'form_personal_information.html', {'form': form})
+
+def employment_information(request):
+    if request.method == 'POST':
+        form = EmploymentInformationForm(request.POST)
+        if form.is_valid():
+            # Process the form data and redirect to the next step
+            employment = form.save(commit=False)  # Save the form data to an EmploymentInformation object, but don't commit it to the database yet
+            customer_pk = request.session.get('customer_pk')  # Retrieve the customer's primary key from the session
+            employment.customer = CustomerInformation.objects.get(pk=customer_pk)  # Get the CustomerInformation object with the specified primary key
+            employment.save()  # Now commit the object to the database
+            return redirect('successmessage')
+    else:
+        form = EmploymentInformationForm()
+    return render(request, 'form_employment_information.html', {'form': form})
+
+def successmessage(request):
+    return render(request, 'successmessage.html')
 
 # def dealermydeals(request):
     # deals = VehicleInformation.objects.all()

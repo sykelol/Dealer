@@ -1239,13 +1239,6 @@ input {
 
 /* New Form Styling */
 
-.newform-html {
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 .newform-main {
     position: relative;
     min-height: 100vh;
@@ -1255,13 +1248,26 @@ input {
 
 .home-content .newform-body {
     width: 100%;
-    margin: 0 auto;
+    margin: 5em auto 0 auto;
     font-size: 1rem;
     font-family: 'Open Sans', sans-serif;
     background: white;
+    overflow-x: hidden;
 }
 
 .home-content .newform-body form .newform-input {
+    text-align: left;
+    padding: 0.3em 0;
+    text-indent: 0.5rem;
+    margin-bottom: 1em;
+    border: 0.11rem solid #8C9196;
+    font-family: 'Open Sans', sans-serif;
+    width: 95%;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.home-content .newform-body form .dollar {
     text-align: left;
     padding: 0.3em 0;
     text-indent: 1rem;
@@ -1336,7 +1342,7 @@ input {
 
 .home-content .newform-body form input:focus {
     outline: none;
-    border: 2px solid #F76C6C;
+    border: 2px solid #1d1b31;
 }
 
 .home-content .newform-body form input[type="submit"] {
@@ -1436,4 +1442,340 @@ input {
 
 #table-status a:hover {
     text-decoration: underline;
+}
+
+.landing-page-body {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    padding: 1.5em;
+}
+
+.landing-page-body .landing-page-content h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #F76C6C;
+}
+
+.landing-page-body .landing-page-content p {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.landing-page-body .landing-page-content ul {
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    font-size: 1rem;
+    margin: 2em 0;
+}
+
+.landing-page-body .landing-page-content .proceed-button {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.landing-page-body .landing-page-content button {
+    background: #F76C6C;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    text-align: center;
+}
+
+.client-form-body {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    padding: 1.5em;
+    text-align: center;
+}
+
+.client-form-body .personal-information-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.client-form-body label {
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4em;
+}
+
+.client-form-body .client-form-submit-button {
+    background: #F76C6C;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 2.5em;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    text-align: center;
+}
+
+.client-form-body .personal-information-next {
+    margin-top: 1.6em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-form-field {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    text-align: left;
+    padding: 0.6em 0.2em;
+    text-indent: 0.4rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.customer-form-field-widget {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    text-align: left;
+    padding: 0.6em 0.2em;
+    border: 1px solid #11101d;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.customer-form-field-widget:hover {
+    border: 1px solid #6495ED;
+}
+
+.customer-form-field-widget:focus {
+    border: 1px solid #6495ED;
+    outline: none;
+}
+
+.customer-form-field:hover {
+    border: 1px solid #6495ED;
+}
+
+.customer-form-field:focus {
+    border: 1px solid #6495ED;
+    outline: none;
+}
+
+#date-of-birth {
+    text-indent: 0.1rem;
+}
+
+#first-name {
+    display: inline-flex;
+    width: 48%;
+    margin-right: 0.5em;
+}
+
+#last-name {
+    display: inline-flex;
+    width: 48%;
+}
+
+#birthday {
+    display: inline-flex;
+    width: 100%;
+}
+
+@media (min-width: 750px) {
+
+    #first-name {
+        display: inline-flex;
+        width: 32%;
+        margin-right: 0.5em;
+    }
+    
+    #last-name {
+        display: inline-flex;
+        width: 32%;
+        margin-right: 0.5em;
+    }
+    
+    #birthday {
+        display: inline-flex;
+        width: 32%;
+    }
+}
+
+@media (min-width: 750px) {
+
+    #personal-info-email {
+        display: inline-flex;
+        width: 49%;
+        margin-right: 0.5em;
+    }
+
+    #personal-phone-number {
+        display: inline-flex;
+        width: 49%;
+    }
+}
+
+#personal-info-city {
+    display: inline-flex;
+    width: 48%;
+}
+
+#personal-info-province {
+    display: inline-flex;
+    width: 48%;
+    margin-right: 0.5em;
+}
+
+@media (min-width: 750px) {
+    #personal-info-city {
+        display: inline-flex;
+        width: 32%;
+        margin-right: 0.5em;
+    }
+    
+    #personal-info-province {
+        display: inline-flex;
+        width: 32%;
+        margin-right: 0.5em;
+    }
+
+    #personal-info-postal-code {
+        display: inline-flex;
+        width: 32%;
+    }
+}
+
+.steps {
+    width: 95%;
+    margin: 3em auto;
+}
+
+input[type="file"] {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.personal-information-next-first {
+    text-align: right;
+}
+
+#employment-status-form {
+    display: inline-flex;
+    width: 48%;
+    margin-right: 0.5em;
+}
+
+#company-name-form {
+    display: inline-flex;
+    width: 48%;
+}
+
+@media (min-width: 750px) {
+
+    #employment-status-form {
+        display: inline-flex;
+        width: 49%;
+        margin-right: 0.5em;
+    }
+    
+    #company-name-form {
+        display: inline-flex;
+        width: 49%;
+    }
+}
+
+#job-title-form {
+    display: inline-flex;
+    width: 48%;
+    margin-right: 0.5em;
+}
+
+#employment-length-form {
+    display: inline-flex;
+    width: 48%;
+}
+
+@media (min-width: 750px) {
+
+    #job-title-form {
+        display: inline-flex;
+        width: 49%;
+        margin-right: 0.5em;
+    }
+    
+    #employment-length-form {
+        display: inline-flex;
+        width: 49%;
+    }
+}
+
+#salary-form {
+    display: inline-flex;
+    width: 48%;
+    margin-right: 0.5em;
+}
+
+#monthly-income-form {
+    display: inline-flex;
+    width: 48%;
+}
+
+@media (min-width: 750px) {
+
+    #salary-form {
+        display: inline-flex;
+        width: 49%;
+        margin-right: 0.5em;
+    }
+    
+    #monthly-income-form {
+        display: inline-flex;
+        width: 49%;
+    }
+}
+
+.success-body {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    padding: 1.5em;
+}
+
+.success-body .success-message h5 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.success-body .success-message p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1em;
 }
