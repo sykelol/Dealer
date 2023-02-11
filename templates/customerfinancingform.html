@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<body class="client-form-body">
+    <div class="client-container">
+            {% load i18n %}
+
+            {% block head %}
+            {{ wizard.form.media }}
+            {% endblock %}
+            
+            {% block content %}
+            <div class="steps">
+                {% if wizard.steps.current == '0' %}
+                    <h4>Personal Information</h4>
+                    <h5>Step 1 of 2</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 1%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+                {% if wizard.steps.current == '1' %}
+                    <h4>Employment Information</h4>
+                    <h5>Step 2 of 2</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 50%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+            </div>
+            <form class="client-form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ wizard.management_form }}
+                {{ wizard.form.management_form }}        
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.first_name.label }}</label> {{ form.first_name }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.last_name.label }}</label> {{ form.last_name }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.date_of_birth.label }}</label> {{ form.date_of_birth }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.phone_number.label }}</label> {{ form.phone_number }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.email.label }}</label> {{ form.email }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.address.label }}</label> {{ form.address }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.address_line_2.label }}</label> {{ form.address_line_2 }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.province.label }}</label> {{ form.province }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.city.label }}</label> {{ form.city }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.postal_code.label }}</label> {{ form.postal_code }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.social_insurance_number.label }}</label> {{ form.social_insurance_number }}
+                </div>
+                <div class="client-form-group">
+                    <label for="company_name" class="client-label">{{ form.drivers_license.label }}</label> {{ form.drivers_license }}
+                    {% if form.drivers_license.value %}
+                        <a href="{{ form.drivers_license.value.url }}">{{ form.drivers_license.value.name }}</a></p>
+                    {% endif %}
+                </div>
+            {% if wizard.steps.prev %}
+            {% if wizard.steps.current == '1' %}
+            <div class="wizard-buttons-container">
+                <div class="wizard-prev-button">
+                    <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                </div>
+                <div class="wizard-submit-button">
+                    <input style="padding: 15px 25px" class="submit-but" type="submit" value="{% trans "Submit" %}"/>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if wizard.steps.next %}
+            {% if wizard.steps.current == '0' %}
+            <div class="wizard-next-button">
+                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+            </div>
+            {% endif %}
+            {% endif %}
+            </form>
+            {% endblock %}
+            {% if form.is_valid %}
+    <p>form is valid</p>
+{% else %}
+    <p>form is not valid</p>
+{% endif %}
+    </div>
+
+</body>
+<script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>
+</html>

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.core.cache',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,14 +41,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'base.apps.BaseConfig',
-    "babel",
-    "formtools",
-    "bootstrap4",
-    "crispy_forms",
-    "phonenumber_field",
+    'babel',
+    'formtools',
+    'bootstrap4',
+    'crispy_forms',
+    'phonenumber_field',
+    'storages',
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -55,6 +60,13 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'file_cache',
+    }
+}
 
 ROOT_URLCONF = "virtualcargeeks.urls"
 
@@ -77,7 +89,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "virtualcargeeks.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -126,14 +137,30 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = 'images/'
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    os.path.join(BASE_DIR, "static"),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#AMAZON S3 BUCKETS CONFIG
+
+#AWS_ACCESS_KEY_ID = 'AKIAZWPAFF7RD2ZNXO3O'
+#AWS_SECRET_ACCESS_KEY = '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'
+#AWS_STORAGE_BUCKET_NAME = 'virtualcargeeks-bucket'
+#AWS_QUERYSTRING_AUTH = False
+
+#AWS_S3_FILE_OVERWRITE = False
+#AWS_DEFAULT_ACL = None
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'

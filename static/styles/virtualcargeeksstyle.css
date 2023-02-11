@@ -1071,7 +1071,7 @@ input {
     border-radius: 12px;
     line-height: 30px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 2rem;
 }
 
 @media (min-width: 85em) {
@@ -1151,10 +1151,17 @@ input {
 #dashboard-logout {
     cursor: pointer;
     font-size: 1rem;
+    visibility: visible;
 }
 
 #sidebar-logout {
     padding-bottom: 0.3em;
+    visibility: hidden;
+    font-size: 1.5rem;
+}
+
+.dashboard-sidebar.active #sidebar-logout {
+    visibility: visible;
 }
 
 @media (min-width: 85em) {
@@ -1171,14 +1178,24 @@ input {
 
 .dashboard-sidebar.active #dashboard-logout {
     margin: 0;
+    font-size: 2rem;
+}
+
+.dashboard-sidebar #dashboard-logout {
+    font-size: 2rem
 }
 
 .dashboard-sidebar .profile .profile-details .dashboard-logout-button a {
     text-decoration: none;
     color: #fff;
+    text-align: left;
+    margin: 0;
 }
 
 .dashboard-sidebar .profile .profile-details .dashboard-logout-button {
+    position: absolute;
+    top: 30px;
+    left: -5px;
     margin-top: 0.5em;
     display: flex;
     align-items: center;
@@ -1255,118 +1272,16 @@ input {
     overflow-x: hidden;
 }
 
-.home-content .newform-body form .newform-input {
-    text-align: left;
-    padding: 0.3em 0;
-    text-indent: 0.5rem;
-    margin-bottom: 1em;
-    border: 0.11rem solid #8C9196;
-    font-family: 'Open Sans', sans-serif;
-    width: 95%;
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.home-content .newform-body form .dollar {
-    text-align: left;
-    padding: 0.3em 0;
-    text-indent: 1rem;
-    margin-bottom: 1em;
-    border: 0.11rem solid #8C9196;
-    font-family: 'Open Sans', sans-serif;
-    width: 95%;
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.home-content .newform-body form .newform-label {
-    font-weight: 600;
-    padding: 0;
-    margin: 0;
-}
-
-.home-content .newform-body form .newform-input-container {
-    position: relative;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7em;
-}
-
-.home-content .newform-body form {
-    display: grid;
-    grid-template-columns: 1fr;
-    column-gap: 3em;
-    row-gap: 0.3em;
-    padding: 0 1.5em;
-}
-
-.home-content .newform-body form .newform-input-container i {
-    position: absolute;
-    font-size: 1.2rem;
-    top: 44px;
-    font-weight: 400;
-}
-
-@media (min-width: 1000px) {
-    .home-content .newform-body form {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    .home-content .newform-body h2 {
-        margin-bottom: 1.4em;
-        grid-column: 1;
-        text-align: left;
-    }
-    .home-content .newform-body form .newform-button {
-        grid-column: 3;
-        text-align: right;
-    }
-}
-
 @media (min-width: 1000px) {
     .home-content .newform-body {
-        width: 60%;
+        width: 95%;
+        margin: 5em auto 0 auto;
+        font-size: 1rem;
+        font-family: 'Open Sans', sans-serif;
+        background: white;
+        overflow-x: hidden;
     }
-    .home-content .newform-body form .newform-input {
-        width: 100%;
-    }
 }
-
-.home-content h2 { 
-    color: #fff;
-    padding: 0.6em;
-    font-weight: 500;
-    font-size: 2rem;
-    background-color: #212529;
-}
-
-.home-content .newform-body form input:focus {
-    outline: none;
-    border: 2px solid #1d1b31;
-}
-
-.home-content .newform-body form input[type="submit"] {
-    background: #F76C6C;
-    border-radius: 30px;
-    box-shadow: #F76C6C 0 10px 20px -10px;
-    color: #fff;
-    cursor: pointer;
-    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 24px;
-    opacity: 1;
-    outline: 0 solid transparent;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    width: fit-content;
-    word-break: break-word;
-    border: 0;
-    padding: 0.7em 3.5em 0.7em 3.5em;
-    margin-bottom: 2em;
-}
-
 
 /* Mydeals / PendingDeals Styling */
 
@@ -1498,6 +1413,8 @@ input {
     text-align: center;
 }
 
+/* Client Form Page */
+
 .client-form-body {
     max-width: 700px;
     margin: 0 auto;
@@ -1506,21 +1423,56 @@ input {
     text-align: center;
 }
 
-.client-form-body .personal-information-input-container {
+.client-form-body .client-container .client-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+.client-form-body .client-container .client-form label {
+    font-weight: 600;
+    text-align: left;
+}
+
+.client-form-body .client-container .client-form input {
+    text-align: left;
+    padding: 0.3em;
+}
+
+.client-form-body .client-container .client-form .client-form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1em;
+    width: 90%;
 }
 
-.client-form-body label {
-    text-align: left;
-    font-size: 0.85rem;
+.client-form-body .client-container .client-form .customer-form-field-widget {
+    padding: 0.4em 0.3em;
+}
+
+.steps {
+    margin-bottom: 3em;
+}
+
+.steps h4 {
     font-weight: 600;
-    margin-bottom: 0.4em;
+    letter-spacing: 0.05rem;
 }
 
-.client-form-body .client-form-submit-button {
+.steps h5 {
+    font-weight: 600;
+    letter-spacing: 0.05rem;
+}
+
+.wizard-next-button {
+    width: 100%;
+    text-align: right;
+}
+
+.wizard-next-button .next-but {
     background: #F76C6C;
+    box-sizing: border-box;
     border-radius: 999px;
     box-shadow: #F76C6C 0 10px 20px -10px;
     color: #FFFFFF;
@@ -1531,7 +1483,59 @@ input {
     line-height: 24px;
     opacity: 1;
     outline: 0 solid transparent;
-    padding: 8px 2.5em;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.wizard-buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.wizard-buttons-container .submit-but {
+    background: #F76C6C;
+    box-sizing: border-box;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.wizard-buttons-container .prev-but {
+    background: #F76C6C;
+    box-sizing: border-box;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -1541,223 +1545,26 @@ input {
     text-align: center;
 }
 
-.client-form-body .personal-information-next {
-    margin-top: 1.6em;
-    display: flex;
-    justify-content: space-between;
-}
-
-.customer-form-field {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9rem;
-    text-align: left;
-    padding: 0.6em 0.2em;
-    text-indent: 0.4rem;
-    border: 1px solid black;
-    border-radius: 4px;
-    font-weight: 500;
-}
-
-.customer-form-field-widget {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9rem;
-    text-align: left;
-    padding: 0.6em 0.2em;
-    border: 1px solid #11101d;
-    border-radius: 4px;
-    font-weight: 500;
-}
-
-.customer-form-field-widget:hover {
-    border: 1px solid #6495ED;
-}
-
-.customer-form-field-widget:focus {
-    border: 1px solid #6495ED;
-    outline: none;
-}
-
-.customer-form-field:hover {
-    border: 1px solid #6495ED;
-}
-
-.customer-form-field:focus {
-    border: 1px solid #6495ED;
-    outline: none;
-}
-
-#date-of-birth {
-    text-indent: 0.1rem;
-}
-
-#first-name {
-    display: inline-flex;
-    width: 48%;
-    margin-right: 0.5em;
-}
-
-#last-name {
-    display: inline-flex;
-    width: 48%;
-}
-
-#birthday {
-    display: inline-flex;
-    width: 100%;
-}
-
 @media (min-width: 750px) {
-
-    #first-name {
-        display: inline-flex;
-        width: 32%;
-        margin-right: 0.5em;
+    .client-form-body .client-container .client-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 1em;
     }
     
-    #last-name {
-        display: inline-flex;
-        width: 32%;
-        margin-right: 0.5em;
+    .client-form-body .client-container .client-form .client-form-group {
+        display: flex;
+        flex-direction: column;
+        width: 47%;
     }
-    
-    #birthday {
-        display: inline-flex;
-        width: 32%;
+    .tax-return {
+        justify-self: flex-start;
     }
 }
 
-@media (min-width: 750px) {
-
-    #personal-info-email {
-        display: inline-flex;
-        width: 49%;
-        margin-right: 0.5em;
-    }
-
-    #personal-phone-number {
-        display: inline-flex;
-        width: 49%;
-    }
-}
-
-#personal-info-city {
-    display: inline-flex;
-    width: 48%;
-}
-
-#personal-info-province {
-    display: inline-flex;
-    width: 48%;
-    margin-right: 0.5em;
-}
-
-@media (min-width: 750px) {
-    #personal-info-city {
-        display: inline-flex;
-        width: 32%;
-        margin-right: 0.5em;
-    }
-    
-    #personal-info-province {
-        display: inline-flex;
-        width: 32%;
-        margin-right: 0.5em;
-    }
-
-    #personal-info-postal-code {
-        display: inline-flex;
-        width: 32%;
-    }
-}
-
-.steps {
-    width: 95%;
-    margin: 3em auto;
-}
-
-input[type="file"] {
-    display: inline-block;
-    cursor: pointer;
-}
-
-.personal-information-next-first {
-    text-align: right;
-}
-
-#employment-status-form {
-    display: inline-flex;
-    width: 48%;
-    margin-right: 0.5em;
-}
-
-#company-name-form {
-    display: inline-flex;
-    width: 48%;
-}
-
-@media (min-width: 750px) {
-
-    #employment-status-form {
-        display: inline-flex;
-        width: 49%;
-        margin-right: 0.5em;
-    }
-    
-    #company-name-form {
-        display: inline-flex;
-        width: 49%;
-    }
-}
-
-#job-title-form {
-    display: inline-flex;
-    width: 48%;
-    margin-right: 0.5em;
-}
-
-#employment-length-form {
-    display: inline-flex;
-    width: 48%;
-}
-
-@media (min-width: 750px) {
-
-    #job-title-form {
-        display: inline-flex;
-        width: 49%;
-        margin-right: 0.5em;
-    }
-    
-    #employment-length-form {
-        display: inline-flex;
-        width: 49%;
-    }
-}
-
-#salary-form {
-    display: inline-flex;
-    width: 48%;
-    margin-right: 0.5em;
-}
-
-#monthly-income-form {
-    display: inline-flex;
-    width: 48%;
-}
-
-@media (min-width: 750px) {
-
-    #salary-form {
-        display: inline-flex;
-        width: 49%;
-        margin-right: 0.5em;
-    }
-    
-    #monthly-income-form {
-        display: inline-flex;
-        width: 49%;
-    }
-}
+/* Success Page Styling */
 
 .success-body {
     max-width: 700px;
@@ -1779,3 +1586,78 @@ input[type="file"] {
     font-weight: 500;
     margin-bottom: 1em;
 }
+
+.personal-information-label p {
+    display: inline;
+    font-weight: 500;
+}
+
+.wizard-step-active {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1em;
+    list-style: none;
+}
+
+.wizard-step-active h5 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.wizard-step-active .wizard-list-item-active {
+    color: #F76C6C;
+}
+
+.newform-wizard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5em 0;
+}
+
+.newform-wizard .newform-form {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1em;
+    width: 90%;
+}
+
+.newform-wizard .steps {
+    text-align: center;
+    width: 60%;
+}
+
+.newform-wizard .customer-form-field-widget {
+    padding: 0.45em;
+}
+
+.newform-wizard .newform-form label {
+    font-weight: 600;
+}
+
+.newform-wizard .newform-form input {
+    text-align: left;
+    padding: 0.4em;
+}
+
+.newform-wizard .newform-form .client-form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+@media (min-width: 1000px) {
+    .newform-wizard .newform-form{
+        width: 65%;
+    }
+    .newform-wizard .newform-form .client-form-group {
+        display: flex;
+        flex-direction: column;
+        width: 32%;
+    }
+}
+

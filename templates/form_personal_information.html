@@ -16,13 +16,14 @@
 </head>
 <body class="client-form-body">
     <div class="steps">
+        <h4>Personal Information</h4>
         <h5>Step 1 of 2</h5>
         <div class="progress">
             <div class="progress-bar" role="progressbar" style="width: 2%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
     <div class="main-form-body">
-        <form id="form-personal-information" action="{% url 'employment_information' %}" method="post">
+        <form id="form-personal-information" action="{% url 'employment_information' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="personal-information-input-container" id="first-name">
                 <label for="first_name" class="personal-information-label">{{ form.first_name.label }}</label>
@@ -67,6 +68,10 @@
             <div class="personal-information-input-container" id="personal-info-sin-number">
                 <label for="social_insurance_number" class="personal-information-label">{{ form.social_insurance_number.label }}</label>
                 {{ form.social_insurance_number }}
+            </div>
+            <div class="personal-information-input-container" id="drivers-license">
+                <label for="drivers_license" class="personal-information-label">{{ form.drivers_license.label }}: <p>please provide a picture or file that contains your drivers license.</p></label>
+                {{ form.drivers_license }}
             </div>
             <div class="personal-information-next-first">
                 <input class="client-form-submit-button" type="submit" value="Next">
