@@ -18,7 +18,6 @@ urlpatterns = [
     path('pendingdeals/', views.pendingdeals, name="pendingdeals"),
     path('updateform/<int:id>/', UpdateFormWizard.as_view(), name="updateform"), 
     path('updatestatus/<int:id>/', views.updatestatus, name="updatestatus"),
-    path('dealernewform/', views.dealernewform, name="dealernewform"),
 ]
 
 if settings.DEBUG:

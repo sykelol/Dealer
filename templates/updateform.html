@@ -438,5 +438,28 @@
         </div>
     </div>
 </body>
+<script>
+    function enableFields() {
+        var checkbox = document.getElementById("id_enable_form");
+        var fields = document.getElementsByClassName("form-control");
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].disabled = !checkbox.checked;
+        }
+    }
+    
+    // Disable form fields on page load
+    window.onload = function() {
+        enableFields();
+    };
+    
+    // Enable/disable form fields when checkbox is clicked
+    document.getElementById("id_enable_form").onchange = function() {
+        enableFields();
+    };
+</script>
+<script>function reloadOnSubmit() {
+    location.reload();
+    }
+</script>
 <script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>
 </html>
