@@ -1465,8 +1465,18 @@ input {
     letter-spacing: 0.05rem;
 }
 
-.wizard-next-button {
+.wizard-buttons-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
+}
+
+.wizard-buttons-container .hidden-form-button {
+    visibility: hidden;
+}
+
+.wizard-next-button {
     text-align: right;
 }
 
@@ -1491,13 +1501,6 @@ input {
     border: 0;
     padding: 20px;
     text-align: center;
-}
-
-.wizard-buttons-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
 }
 
 .wizard-buttons-container .submit-but {
@@ -1650,6 +1653,20 @@ input {
     width: 100%;
 }
 
+.newform-wizard .newform-form .newform-label {
+    text-align: left;
+}
+
+.newform-wizard .newform-form #id_enable_form {
+    width: 25px;
+    height: 25px;
+}
+
+.newform-wizard .newform-form .enable-form-label {
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
 @media (min-width: 1000px) {
     .newform-wizard .newform-form{
         width: 65%;
@@ -1658,6 +1675,16 @@ input {
         display: flex;
         flex-direction: column;
         width: 32%;
+        align-items: flex-start;
+    }
+    .newform-wizard .newform-form .client-form-group input {
+        width: 100%;
+    }
+    .newform-wizard .newform-form .client-form-group select {
+        width: 100%;
+    }
+    .newform-wizard .newform-form .client-form-group input[type="file"] {
+        width: 100%;
     }
 }
 

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import default_storage
 from .forms import VehicleInformationForm, CreateUserForm, EmploymentInformationForm, PersonalInformationForm, TradeInInformationForm, DocumentationForm
-from .models import VehicleInformation, CustomerInformation
+from .models import VehicleInformation
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormMixin
@@ -25,6 +25,7 @@ from django.views.decorators.cache import cache_page
 import boto3
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.shortcuts import get_object_or_404
 
 def broker_required(view_func):
     def check_user_is_broker(user):
@@ -185,18 +186,16 @@ def updatestatus(request, id):
     return render(request, 'updatestatus.html', context)
 
 
-class NewFormWizard(SessionWizardView):
-    template_name = "newform.html"
-    form_list = [PersonalInformationForm, EmploymentInformationForm, VehicleInformationForm, TradeInInformationForm, DocumentationForm]
-    file_storage = default_storage
+class CustomerFinancingWizard(SessionWizardView):
+    template_name = "customerfinancingform.html"
+    form_list = [PersonalInformationForm, EmploymentInformationForm]
+    file_storage = DefaultStorage()
 
-    def done(self, form_list, **kwargs):
+    def done(self, form_list, form_dict, **kwargs):
         form_data = [form.cleaned_data for form in form_list]
         personal_data = form_data[0]
         employment_data = form_data[1]
-        vehicle_data = form_data[2]
-        tradein_data = form_data[3]
-        documentation_data = form_data[4]
+
         vehicle_info_data = {
             'first_name': personal_data['first_name'],
             'last_name': personal_data['last_name'],
@@ -209,6 +208,52 @@ class NewFormWizard(SessionWizardView):
             'city': personal_data['city'],
             'postal_code': personal_data['postal_code'],
             'social_insurance_number': personal_data['social_insurance_number'],
+            'employment_status': employment_data['employment_status'],
+            'company_name': employment_data['company_name'],
+            'job_title': employment_data['job_title'],
+            'employment_length': employment_data['employment_length'],
+            'salary': employment_data['salary'],
+            'monthly_income': employment_data['monthly_income'],
+            'other_income': employment_data['other_income'],
+            'paystub_file': employment_data['paystub_file'],
+            'tax_return': employment_data['tax_return'],
+        }
+
+        # Save vehicle information
+        vehicle_info = VehicleInformation(**vehicle_info_data)
+        vehicle_info.save()
+
+        return redirect('successmessage')
+    
+    def render(self, form=None, **kwargs):
+        return super().render(form, **kwargs)
+
+class NewFormWizard(SessionWizardView):
+    template_name = "newform.html"
+    form_list = [PersonalInformationForm, EmploymentInformationForm, VehicleInformationForm, TradeInInformationForm, DocumentationForm]
+    file_storage = DefaultStorage()
+
+    def done(self, form_list, form_dict, **kwargs):
+        form_data = [form.cleaned_data for form in form_list]
+        personal_data = form_data[0]
+        employment_data = form_data[1]
+        vehicle_data = form_data[2]
+        tradein_data = form_data[3]
+        documentation_data = form_data[4]
+
+        vehicle_info_data = {
+            'first_name': personal_data['first_name'],
+            'last_name': personal_data['last_name'],
+            'date_of_birth': personal_data['date_of_birth'],
+            'phone_number': personal_data['phone_number'],
+            'email': personal_data['email'],
+            'address': personal_data['address'],
+            'address_line_2': personal_data['address_line_2'],
+            'province': personal_data['province'],
+            'city': personal_data['city'],
+            'postal_code': personal_data['postal_code'],
+            'social_insurance_number': personal_data['social_insurance_number'],
+            'drivers_license': personal_data['drivers_license'],
             'employment_status': employment_data['employment_status'],
             'company_name': employment_data['company_name'],
             'job_title': employment_data['job_title'],
@@ -236,18 +281,282 @@ class NewFormWizard(SessionWizardView):
             'tradeInTrim': tradein_data['tradeInTrim'],
             'tradeInYear': tradein_data['tradeInYear'],
             'tradeInColor': tradein_data['tradeInColor'],
-            'vehicle_front': documentation_data['vehicle_front'],
-            'vehicle_side': documentation_data['vehicle_side'],
-            'vehicle_back': documentation_data['vehicle_back'],
-            'vehicle_odometer': documentation_data['vehicle_odometer'],
-            'vehicle_interior': documentation_data['vehicle_interior'],
-            'example_document1': documentation_data['example_document1'],
-            'example_document2': documentation_data['example_document2'],
+            'vehicleFront': documentation_data['vehicleFront'],
+            'vehicleSide': documentation_data['vehicleSide'],
+            'vehicleBack': documentation_data['vehicleBack'],
+            'vehicleOdometer': documentation_data['vehicleOdometer'],
+            'vehicleInterior': documentation_data['vehicleInterior'],
+            'exampleDocument1': documentation_data['exampleDocument1'],
+            'exampleDocument2': documentation_data['exampleDocument2'],
         }
-        form = VehicleInformation(**vehicle_info_data)
-        form.save()
-        return render(self.request, 'pendingdeals.html')
 
+        # Save vehicle information
+        vehicle_info = VehicleInformation(**vehicle_info_data)
+        vehicle_info.save()
+
+        return redirect('pendingdeals')
+    
+    def render(self, form=None, **kwargs):
+        return super().render(form, **kwargs)
+
+class UpdateFormWizard(SessionWizardView):
+    template_name = "updateform.html"
+    file_storage = DefaultStorage()
+    form_list = [PersonalInformationForm, EmploymentInformationForm, VehicleInformationForm, TradeInInformationForm, DocumentationForm]
+
+    def get_form_initial(self, step):
+        vehicle_info = get_object_or_404(VehicleInformation, pk=self.kwargs['id'])
+        initial = {}
+        if step == '0':
+            initial.update({
+                'first_name': vehicle_info.first_name,
+                'last_name': vehicle_info.last_name,
+                'date_of_birth': vehicle_info.date_of_birth,
+                'phone_number': vehicle_info.phone_number,
+                'email': vehicle_info.email,
+                'address': vehicle_info.address,
+                'address_line_2': vehicle_info.address_line_2,
+                'province': vehicle_info.province,
+                'city': vehicle_info.city,
+                'postal_code': vehicle_info.postal_code,
+                'social_insurance_number': vehicle_info.social_insurance_number,
+                'drivers_license': vehicle_info.drivers_license,
+            })
+        elif step == '1':
+            initial.update({
+                'employment_status': vehicle_info.employment_status,
+                'company_name': vehicle_info.company_name,
+                'job_title': vehicle_info.job_title,
+                'employment_length': vehicle_info.employment_length,
+                'salary': vehicle_info.salary,
+                'monthly_income': vehicle_info.monthly_income,
+                'other_income': vehicle_info.other_income,
+                'paystub_file': vehicle_info.paystub_file,
+                'tax_return': vehicle_info.tax_return,
+            })
+        elif step == '2':
+            initial.update({
+                'vinNumber': vehicle_info.vinNumber,
+                'stockNumber': vehicle_info.stockNumber,
+                'vehiclePrice': vehicle_info.vehiclePrice,
+                'downPayment': vehicle_info.downPayment,
+                'vehicleMileage': vehicle_info.vehicleMileage,
+                'make': vehicle_info.make,
+                'model': vehicle_info.model,
+                'trim': vehicle_info.trim,
+                'year': vehicle_info.year,
+                'color': vehicle_info.color,
+            })
+        elif step == '3':
+            initial.update({
+                'tradeInVin': vehicle_info.tradeInVin,
+                'tradeInPrice': vehicle_info.tradeInPrice,
+                'tradeInMileage': vehicle_info.tradeInMileage,
+                'tradeInMake': vehicle_info.tradeInMake,
+                'tradeInModel': vehicle_info.tradeInModel,
+                'tradeInTrim': vehicle_info.tradeInTrim,
+                'tradeInYear': vehicle_info.tradeInYear,
+                'tradeInColor': vehicle_info.tradeInColor,
+            })
+        elif step == '4':
+            initial.update({
+                'vehicleFront': vehicle_info.vehicleFront,
+                'vehicleSide': vehicle_info.vehicleSide,
+                'vehicleBack': vehicle_info.vehicleBack,
+                'vehicleOdometer': vehicle_info.vehicleOdometer,
+                'vehicleInterior': vehicle_info.vehicleInterior,
+                'exampleDocument1': vehicle_info.exampleDocument1,
+                'exampleDocument2': vehicle_info.exampleDocument2,
+            })
+        return initial
+
+    def done(self, form_list, **kwargs):
+        form_data = [form.cleaned_data for form in form_list]
+        personal_data = form_data[0]
+        employment_data = form_data[1]
+        vehicle_data = form_data[2]
+        tradein_data = form_data[3]
+        documentation_data = form_data[4]
+
+        vehicle_info_data = {
+            'first_name': personal_data['first_name'],
+            'last_name': personal_data['last_name'],
+            'date_of_birth': personal_data['date_of_birth'],
+            'phone_number': personal_data['phone_number'],
+            'email': personal_data['email'],
+            'address': personal_data['address'],
+            'address_line_2': personal_data['address_line_2'],
+            'province': personal_data['province'],
+            'city': personal_data['city'],
+            'postal_code': personal_data['postal_code'],
+            'social_insurance_number': personal_data['social_insurance_number'],
+            'drivers_license': personal_data['drivers_license'],
+            'employment_status': employment_data['employment_status'],
+            'company_name': employment_data['company_name'],
+            'job_title': employment_data['job_title'],
+            'employment_length': employment_data['employment_length'],
+            'salary': employment_data['salary'],
+            'monthly_income': employment_data['monthly_income'],
+            'other_income': employment_data['other_income'],
+            'paystub_file': employment_data['paystub_file'],
+            'tax_return': employment_data['tax_return'],
+            'vinNumber': vehicle_data['vinNumber'],
+            'stockNumber': vehicle_data['stockNumber'],
+            'vehiclePrice': vehicle_data['vehiclePrice'],
+            'downPayment': vehicle_data['downPayment'],
+            'vehicleMileage': vehicle_data['vehicleMileage'],
+            'make': vehicle_data['make'],
+            'model': vehicle_data['model'],
+            'trim': vehicle_data['trim'],
+            'year': vehicle_data['year'],
+            'color': vehicle_data['color'],
+            'tradeInVin': tradein_data['tradeInVin'],
+            'tradeInPrice': tradein_data['tradeInPrice'],
+            'tradeInMileage': tradein_data['tradeInMileage'],
+            'tradeInMake': tradein_data['tradeInMake'],
+            'tradeInModel': tradein_data['tradeInModel'],
+            'tradeInTrim': tradein_data['tradeInTrim'],
+            'tradeInYear': tradein_data['tradeInYear'],
+            'tradeInColor': tradein_data['tradeInColor'],
+            'vehicleFront': documentation_data['vehicleFront'],
+            'vehicleSide': documentation_data['vehicleSide'],
+            'vehicleBack': documentation_data['vehicleBack'],
+            'vehicleOdometer': documentation_data['vehicleOdometer'],
+            'vehicleInterior': documentation_data['vehicleInterior'],
+            'exampleDocument1': documentation_data['exampleDocument1'],
+            'exampleDocument2': documentation_data['exampleDocument2'],
+        }
+
+        # Retrieve the VehicleInformation object using the primary key
+        vehicle_info = get_object_or_404(VehicleInformation, pk=self.kwargs['id'])
+
+        # Update the VehicleInformation object with the new data
+        for key, value in vehicle_info_data.items():
+            setattr(vehicle_info, key, value)
+        vehicle_info.save()
+
+        # Redirect to the success page
+        return redirect('pendingdeals')
+
+"""
+class UpdateFormWizard(SessionWizardView):
+    template_name = "updateform.html"
+    form_list = [PersonalInformationForm, EmploymentInformationForm, VehicleInformationForm, TradeInInformationForm, DocumentationForm]
+    file_storage = DefaultStorage()
+
+    def get_form_initial(self, step):
+        initial = self.initial_dict.get(step, {})
+        if step == 'vehicle_information':
+            vehicle_info = VehicleInformation.objects.get(id=self.kwargs['id'])
+            initial.update({
+                'first_name': vehicle_info.first_name,
+                'last_name': vehicle_info.last_name,
+                'date_of_birth': vehicle_info.date_of_birth,
+                'phone_number': vehicle_info.phone_number,
+                'email': vehicle_info.email,
+                'address': vehicle_info.address,
+                'address_line_2': vehicle_info.address_line_2,
+                'province': vehicle_info.province,
+                'city': vehicle_info.city,
+                'postal_code': vehicle_info.postal_code,
+                'social_insurance_number': vehicle_info.social_insurance_number,
+                'employment_status': vehicle_info.employment_status,
+                'company_name': vehicle_info.company_name,
+                'job_title': vehicle_info.job_title,
+                'employment_length': vehicle_info.employment_length,
+                'salary': vehicle_info.salary,
+                'monthly_income': vehicle_info.monthly_income,
+                'other_income': vehicle_info.other_income,
+                'paystub_file': vehicle_info.paystub_file,
+                'tax_return': vehicle_info.tax_return,
+                'vinNumber': vehicle_info.vinNumber,
+                'stockNumber': vehicle_info.stockNumber,
+                'vehiclePrice': vehicle_info.vehiclePrice,
+                'downPayment': vehicle_info.downPayment,
+                'vehicleMileage': vehicle_info.vehicleMileage,
+                'make': vehicle_info.make,
+                'model': vehicle_info.model,
+                'trim': vehicle_info.trim,
+                'year': vehicle_info.year,
+                'color': vehicle_info.color,
+                'tradeInVin': vehicle_info.tradeInVin,
+                'tradeInPrice': vehicle_info.tradeInPrice,
+                'tradeInMileage': vehicle_info.tradeInMileage,
+                'tradeInMake': vehicle_info.tradeInMake,
+                'tradeInModel': vehicle_info.tradeInModel,
+                'tradeInTrim': vehicle_info.tradeInTrim,
+                'tradeInYear': vehicle_info.tradeInYear,
+                'tradeInColor': vehicle_info.tradeInColor,
+                'vehicleFront': vehicle_info.vehicleFront,
+                'vehicleSide': vehicle_info.vehicleSide,
+                'vehicleBack': vehicle_info.vehicleBack,
+                'vehicleOdometer': vehicle_info.vehicleOdometer,
+                'vehicleInterior': vehicle_info.vehicleInterior,
+                'exampleDocument1': vehicle_info.exampleDocument1,
+                'exampleDocument2': vehicle_info.exampleDocument2,
+            })
+        return initial
+
+    def done(self, form_list, **kwargs):
+        form_data = [form.cleaned_data for form in form_list]
+        personal_data = form_data[0]
+        employment_data = form_data[1]
+        vehicle_data = form_data[2]
+        tradein_data = form_data[3]
+        documentation_data = form_data[4]
+
+        vehicle_info = VehicleInformation.objects.get(id=self.kwargs['id'])
+        # update vehicle_info with form data
+        vehicle_info.first_name = personal_data['first_name']
+        vehicle_info.last_name = personal_data['last_name']
+        vehicle_info.date_of_birth = personal_data['date_of_birth']
+        vehicle_info.phone_number = personal_data['phone_number']
+        vehicle_info.email = personal_data['email']
+        vehicle_info.address = personal_data['address']
+        vehicle_info.address_line_2 = personal_data['address_line_2']
+        vehicle_info.province = personal_data['province']
+        vehicle_info.city = personal_data['city']
+        vehicle_info.postal_code = personal_data['postal_code']
+        vehicle_info.social_insurance_number = personal_data['social_insurance_number']
+        vehicle_info.employment_status = employment_data['employment_status']
+        vehicle_info.company_name = employment_data['company_name']
+        vehicle_info.job_title = employment_data['job_title']
+        vehicle_info.employment_length = employment_data['employment_length']
+        vehicle_info.salary = employment_data['salary']
+        vehicle_info.monthly_income = employment_data['monthly_income']
+        vehicle_info.other_income = employment_data['other_income']
+        vehicle_info.paystub_file = employment_data['paystub_file']
+        vehicle_info.tax_return = employment_data['tax_return']
+        vehicle_info.vinNumber = vehicle_data['vinNumber']
+        vehicle_info.stockNumber = vehicle_data['stockNumber']
+        vehicle_info.vehiclePrice = vehicle_data['vehiclePrice']
+        vehicle_info.downPayment = vehicle_data['downPayment']
+        vehicle_info.vehicleMileage = vehicle_data['vehicleMileage']
+        vehicle_info.make = vehicle_data['make']
+        vehicle_info.model = vehicle_data['model']
+        vehicle_info.trim = vehicle_data['trim']
+        vehicle_info.year = vehicle_data['year']
+        vehicle_info.color = vehicle_data['color']
+        vehicle_info.tradeInVin = tradein_data['tradeInVin']
+        vehicle_info.tradeInPrice = tradein_data['tradeInPrice']
+        vehicle_info.tradeInMileage = tradein_data['tradeInMileage']
+        vehicle_info.tradeInMake = tradein_data['tradeInMake']
+        vehicle_info.tradeInModel = tradein_data['tradeInModel']
+        vehicle_info.tradeInTrim = tradein_data['tradeInTrim']
+        vehicle_info.tradeInYear = tradein_data['tradeInYear']
+        vehicle_info.tradeInColor = tradein_data['tradeInColor']
+        vehicle_info.vehicleFront = documentation_data['vehicleFront']
+        vehicle_info.vehicleSide = documentation_data['vehicleSide']
+        vehicle_info.vehicleBack = documentation_data['vehicleBack']
+        vehicle_info.vehicleOdometer = documentation_data['vehicleOdometer']
+        vehicle_info.vehicleInterior = documentation_data['vehicleInterior']
+        vehicle_info.exampleDocument1 = documentation_data['exampleDocument1']
+        vehicle_info.exampleDocument2 = documentation_data['exampleDocument2']
+        vehicle_info.save()
+
+        return redirect('pendingdeals')
+
+"""
 """
 def PersonalInformationView(request):
     if request.method == 'POST':
@@ -268,7 +577,7 @@ def PersonalInformationView(request):
 
 """
 
-
+"""
 class CustomerFinancingWizard(SessionWizardView):
     template_name = "customerfinancingform.html"
     form_list = [PersonalInformationForm, EmploymentInformationForm]
@@ -331,6 +640,7 @@ class CustomerFinancingWizard(SessionWizardView):
         customer = CustomerInformation.objects.create(**customer_info_data)
         return render(self.request, 'successmessage.html', {'form_data': form_data, 'customer': customer})
 
+"""
 '''
 def personalInformationView(request):
     if request.method == 'POST':
@@ -375,6 +685,7 @@ def employmentInformationView(request, instance_id):
     return render(request, 'employmentinformationform.html', {'form': form})
 '''
 
+"""
 def updateform(request, id):
     update = VehicleInformation.objects.get(id=id)
     form = VehicleInformationForm(instance=update)
@@ -385,20 +696,7 @@ def updateform(request, id):
             return redirect('mydeals')
     context = {'form': form}
     return render(request, 'newform.html', context)
-
-class CustomerFinancingWizard(SessionWizardView):
-    template_name = "customerfinancingform.html"
-    form_list = [PersonalInformationForm, EmploymentInformationForm]
-    file_storage = DefaultStorage()
-
-    def form_valid(self, form):
-        if self.step == '0':
-            # Step 0 is the PersonalInformationForm
-            driver_license = self.request.FILES.get('drivers_license', None)
-            if driver_license:
-                driver_license_path = self.file_storage.save(driver_license.name, driver_license)
-                self.request.session['drivers_license'] = driver_license_path
-        return super().form_valid(form)
+"""
 
 
 '''

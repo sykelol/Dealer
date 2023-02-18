@@ -99,9 +99,11 @@
                     <tr class="table-header">
                         <th data-field="id" data-sortable="true">Item ID</th>
                         <th>Date</th>
-                        <th>Vin Number</th>
-                        <th>Down Payment</th>
                         <th>Status</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Vin Number</th>
+                        <th>Vehicle Price</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
@@ -110,12 +112,14 @@
                     <tr>
                         <td>{{ deal.id}}</td>
                         <td>{{ deal.created }}</td>
-                        <td>{{ deal.vinNumber }}</td>
-                        <td>{{ deal.downPayment}}</td>
                         <td id="table-status">
                             <p id="deal-status">{{ deal.status }}<p>
                             <a href="{% url 'updatestatus' deal.id %}"> Change Status</a>
                         </td>
+                        <td>{{ deal.first_name }}</td>
+                        <td>{{ deal.last_name}}</td>
+                        <td> {{ deal.vinNumber }} </td>
+                        <td>{{ deal.vehiclePrice }}</td>
                         <td class="table-edit-button"><a href="{% url 'updateform' deal.id %}"><i class='bx bx-edit'></i></a></td>
                     </tr>
                     {% endfor %}

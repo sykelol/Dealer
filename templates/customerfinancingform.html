@@ -40,48 +40,15 @@
                 {% endif %}
             </div>
             <form class="client-form" action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ wizard.management_form }}
-                {{ wizard.form.management_form }}        
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.first_name.label }}</label> {{ form.first_name }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.last_name.label }}</label> {{ form.last_name }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.date_of_birth.label }}</label> {{ form.date_of_birth }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.phone_number.label }}</label> {{ form.phone_number }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.email.label }}</label> {{ form.email }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.address.label }}</label> {{ form.address }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.address_line_2.label }}</label> {{ form.address_line_2 }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.province.label }}</label> {{ form.province }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.city.label }}</label> {{ form.city }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.postal_code.label }}</label> {{ form.postal_code }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.social_insurance_number.label }}</label> {{ form.social_insurance_number }}
-                </div>
-                <div class="client-form-group">
-                    <label for="company_name" class="client-label">{{ form.drivers_license.label }}</label> {{ form.drivers_license }}
-                    {% if form.drivers_license.value %}
-                        <a href="{{ form.drivers_license.value.url }}">{{ form.drivers_license.value.name }}</a></p>
-                    {% endif %}
-                </div>
+                {% csrf_token %}
+                    {{ wizard.management_form }}
+                    {{ wizard.form.management_form }}        
+                    {% for field in wizard.form %}
+                        <div class="client-form-group">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
             {% if wizard.steps.prev %}
             {% if wizard.steps.current == '1' %}
             <div class="wizard-buttons-container">
@@ -96,18 +63,18 @@
             {% endif %}
             {% if wizard.steps.next %}
             {% if wizard.steps.current == '0' %}
-            <div class="wizard-next-button">
-                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+            <div class="wizard-buttons-container">
+                <div class="hidden-form-button">
+                    <button>Hidden</button>
+                </div>
+                <div class="wizard-next-button">
+                    <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                </div>
             </div>
             {% endif %}
             {% endif %}
             </form>
             {% endblock %}
-            {% if form.is_valid %}
-    <p>form is valid</p>
-{% else %}
-    <p>form is not valid</p>
-{% endif %}
     </div>
 
 </body>
