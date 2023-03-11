@@ -49,6 +49,13 @@ INSTALLED_APPS = [
     'file_resubmit',
 ]
 
+AUTH_USER_MODEL = 'base.User' #This changes from the built-in Django User creation model to our custom model.
+
+LOGIN_REDIRECT_URL = {
+    'customer': '/myfinancing/',
+    'dealer': '/pendingdeals/',
+}
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
@@ -104,6 +111,7 @@ DATABASES = {
     }
 }
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="newform-html">
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body class="newform-main">
+        <i class='bx bx-menu' id="sidebar-menu-icon-first"></i>
+    <div class="dashboard-sidebar active" id="broker-update-form">
+        <div class="logo-content">
+            <div class="logo">
+                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+            </div>
+                <i class='bx bx-menu' id="sidebar-menu-icon"></i>
+        </div>
+            <ul class="dashboard-sidebar-list">
+                <li>
+                    <a href="{% url 'brokerpendingdeals' %}" class="dashboard-link">
+                        <i class='bx bx-file' ></i>
+                        <span class="sidebar-list-names">Pending Deals</span>
+                    </a>
+                    <span class="dashboard-tooltip">Pending Deals</span>
+                </li>
+                <li>
+                    <a href="{% url 'brokernewform' %}" class="dashboard-link">
+                        <i class='bx bxs-file-plus'></i>
+                        <span class="sidebar-list-names">New Form</span>
+                    </a>
+                    <span class="dashboard-tooltip">New Form</span>
+                </li>
+                <li>
+                    <a href="{% url 'brokermydeals' %}" class="dashboard-link">
+                        <i class='bx bx-folder'></i>
+                        <span class="sidebar-list-names">My Deals</span>
+                    </a>
+                    <span class="dashboard-tooltip">My Deals</span>
+                </li>
+                <li>
+                    <a href="#" class="dashboard-link">
+                        <i class='bx bx-message-dots' ></i>
+                        <span class="sidebar-list-names">Communication</span>
+                    </a>
+                    <span class="dashboard-tooltip">Communication</span>
+                </li>
+                <li>
+                    <a href="#" class="dashboard-link">
+                        <i class='bx bx-user' ></i>
+                        <span class="sidebar-list-names">User</span>
+                    </a>
+                    <span class="dashboard-tooltip">User</span>
+                </li> 
+            </ul>
+            <div class="profile-content">
+                <div class="profile">
+                    <div class="profile-details">
+                        <div class="profile-name">
+                            Welcome, {{ request.user.first_name }}
+                            
+                        </div>
+                        <div class="dashboard-logout-button">
+                            <a class="dashboard-logout" href="{% url 'logout' %}"><i class='bx bx-log-out' id="dashboard-logout"></i>
+                                Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="home-content">
+        <div class="newform-body">
+           <!-- <ul class="wizard-step-active">
+                <li class="wizard-list-item">
+                    <h5>Personal Information</h5>
+                </li>
+                <li class="wizard-list-item">
+                    <h5>Employment Information</h5>
+                </li>
+                <li class="wizard-list-item">
+                    <h5>Vehicle Information</h5>
+                </li>
+                <li class="wizard-list-item">
+                    <h5>Trade-in Information</h5>
+                </li>
+                <li class="wizard-list-item">
+                    <h5>Documemts</h5>
+                </li>
+            </ul>
+            -->
+            <!--
+            <div class="wizard-step-active">
+                <div class="wizard-newform-personal">
+                    <h5>Personal Information</h5>
+                </div>
+                <div class="wizard-newform-employment">
+                    <h5>Employment Information</h5>
+                </div>
+                <div class="wizard-vehicle-information">
+                    <h5>Vehicle Information</h5>
+                </div>
+                <div class="wizard-tradein-information">
+                    <h5>Trade-in Information</h5>
+                </div>
+                <div class="wizard-documents">
+                    <h5>Documents</h5>
+                </div>
+            </div>
+            -->
+            <div class="newform-wizard">
+                {% load i18n %}
+
+                {% block head %}
+                {{ wizard.form.media }}
+                {% endblock %}
+                
+                {% block content %}
+                <div class="steps">
+                    {% if wizard.steps.current == '0' %}
+                        <h4>Personal Information</h4>
+                        <h5>Step 1 of 5</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 1%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
+                    {% endif %}
+                    {% if wizard.steps.current == '1' %}
+                        <h4>Employment Information</h4>
+                        <h5>Step 2 of 5</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 20%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '2' %}
+                        <h4>Vehicle Information</h4>
+                        <h5>Step 3 of 5</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 40%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '3' %}
+                        <h4>Trade-in Information</h4>
+                        <h5>Step 4 of 5</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 60%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '4' %}
+                        <h4>Documents</h4>
+                        <h5>Step 5 of 5</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 80%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    {% endif %}
+                </div>
+                <form class="newform-form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ wizard.management_form }}
+                        {{ wizard.form.management_form }}
+                        {% if wizard.steps.current == '0' %}
+                        <div class="client-form-group">
+                            <label for="first_name" class="newform-label">{{ form.first_name.label }}</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="last_name" class="newform-label">{{ form.last_name.label }}</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="date_of_birth" class="newform-label">{{ form.date_of_birth.label }}</label>
+                            {{ form.date_of_birth }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="phone_number" class="newform-label">{{ form.phone_number.label }}</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="email" class="newform-label">{{ form.email.label }}</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="address" class="newform-label">{{ form.address.label }}</label>
+                            {{ form.address }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="address_line_2" class="newform-label">{{ form.address_line_2.label }}</label>
+                            {{ form.address_line_2 }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="province" class="newform-label">{{ form.province.label }}</label>
+                            {{ form.province }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="city" class="newform-label">{{ form.city.label }}</label>
+                            {{ form.city }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="postal_code" class="newform-label">{{ form.postal_code.label }}</label>
+                            {{ form.postal_code }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="drivers_license" class="newform-label">{{ form.drivers_license.label }}</label>
+                            {{ form.drivers_license }}
+                        </div>
+                        {% endif %}
+                        {% if wizard.steps.current == '1' %}
+                        <div class="client-form-group">
+                            <label for="employment_status" class="newform-label">{{ form.employment_status.label }}</label>
+                            {{ form.employment_status }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="company_name" class="newform-label">{{ form.company_name.label }}</label>
+                            {{ form.company_name }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="job_title" class="newform-label">{{ form.job_title.label }}</label>
+                            {{ form.job_title }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="employment_length" class="newform-label">{{ form.employment_length.label }}</label>
+                            {{ form.employment_length }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="salary" class="newform-label">{{ form.salary.label }}</label>
+                            {{ form.salary }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="monthly_income" class="newform-label">{{ form.monthly_income.label }}</label>
+                            {{ form.monthly_income }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="other_income" class="newform-label">{{ form.other_income.label }}</label>
+                            {{ form.other_income }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if wizard.steps.current == '2' %}
+                        <div class="client-form-group">
+                            <label for="vinNumber" class="newform-label">{{ form.vinNumber.label }}</label>
+                            {{ form.vinNumber }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="stockNumber" class="newform-label">{{ form.stockNumber.label }}</label>
+                            {{ form.stockNumber }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehiclePrice" class="newform-label">{{ form.vehiclePrice.label }}</label>
+                            {{ form.vehiclePrice }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="downPayment" class="newform-label">{{ form.downPayment.label }}</label>
+                            {{ form.downPayment }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehicleMileage" class="newform-label">{{ form.vehicleMileage.label }}</label>
+                            {{ form.vehicleMileage }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="make" class="newform-label">{{ form.make.label }}</label>
+                            {{ form.make }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="model" class="newform-label">{{ form.model.label }}</label>
+                            {{ form.model }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="trim" class="newform-label">{{ form.trim.label }}</label>
+                            {{ form.trim }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="year" class="newform-label">{{ form.year.label }}</label>
+                            {{ form.year }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="color" class="newform-label">{{ form.color.label }}</label>
+                            {{ form.color }}
+                        </div>
+                        {% endif %}
+
+                        {% if wizard.steps.current == '3' %}
+                        <div class="client-form-group">
+                            <div class="enable-div">
+                                <label for="enable_form" class="enable-form-label">{{ form.enable_form.label }}</label>
+                                {{ form.enable_form }}
+                            </div>
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInVin" class="newform-label">{{ form.tradeInVin.label }}</label>
+                            {{ form.tradeInVin }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInPrice" class="newform-label">{{ form.tradeInPrice.label }}</label>
+                            {{ form.tradeInPrice }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInMileage" class="newform-label">{{ form.tradeInMileage.label }}</label>
+                            {{ form.tradeInMileage }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInMake" class="newform-label">{{ form.tradeInMake.label }}</label>
+                            {{ form.tradeInMake }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInModel" class="newform-label">{{ form.tradeInModel.label }}</label>
+                            {{ form.tradeInModel }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInTrim" class="newform-label">{{ form.tradeInTrim.label }}</label>
+                            {{ form.tradeInTrim }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInYear" class="newform-label">{{ form.tradeInYear.label }}</label>
+                            {{ form.tradeInYear }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="tradeInColor" class="newform-label">{{ form.tradeInColor.label }}</label>
+                            {{ form.tradeInColor }}
+                        </div>
+                        {% endif %}
+                        {% if wizard.steps.current == '4' %}
+                        <div class="client-form-group">
+                            <label for="vehicle_front" class="newform-label">{{ form.vehicleFront.label }}</label>
+                            {{ form.vehicleFront }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehicle_side" class="newform-label">{{ form.vehicleSide.label }}</label>
+                            {{ form.vehicleSide }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehicle_back" class="newform-label">{{ form.vehicleBack.label }}</label>
+                            {{ form.vehicleBack }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehicle_odometer" class="newform-label">{{ form.vehicleOdometer.label }}</label>
+                            {{ form.vehicleOdometer }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="vehicle_interior" class="newform-label">{{ form.vehicleInterior.label }}</label>
+                            {{ form.vehicleInterior }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="example_document1" class="newform-label">{{ form.exampleDocument1.label }}</label>
+                            {{ form.exampleDocument1 }}
+                        </div>
+                        <div class="client-form-group">
+                            <label for="example_document2" class="newform-label">{{ form.exampleDocument2.label }}</label>
+                            {{ form.exampleDocument2 }}
+                        </div>
+                        {% endif %}
+
+                        <!--
+                        {% for field in wizard.form %}
+                            <div class="client-form-group">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        -->
+
+                        {% if wizard.steps.prev %}
+                        {% if wizard.steps.current == '1' %}
+                        <div class="wizard-buttons-container">
+                            <div class="wizard-prev-button">
+                                <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                            </div>
+                            <div class="wizard-next-button">
+                                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if wizard.steps.current == '2' %}
+                        <div class="wizard-buttons-container">
+                            <div class="wizard-prev-button">
+                                <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                            </div>
+                            <div class="wizard-next-button">
+                                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if wizard.steps.current == '3' %}
+                        <div class="wizard-buttons-container">
+                            <div class="wizard-prev-button">
+                                <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                            </div>
+                            <div class="wizard-next-button">
+                                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if wizard.steps.current == '4' %}
+                        <div class="wizard-buttons-container">
+                            <div class="wizard-prev-button">
+                                <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                            </div>
+                            <div class="wizard-next-button">
+                                <input style="padding: 15px 25px" type="submit" class="submit-but" value="{% trans "Submit" %}"/>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% if wizard.steps.next %}
+                        {% if wizard.steps.current == '0' %}
+                        <div class="wizard-buttons-container">
+                            <div class="hidden-form-button">
+                                <button>Hidden</button>
+                            </div>
+                            <div class="wizard-next-button">
+                                <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        </form>
+                        {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function enableFields() {
+        var checkbox = document.getElementById("id_enable_form");
+        var fields = document.getElementsByClassName("form-control");
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].disabled = !checkbox.checked;
+        }
+    }
+    
+    // Disable form fields on page load
+    window.onload = function() {
+        enableFields();
+    };
+    
+    // Enable/disable form fields when checkbox is clicked
+    document.getElementById("id_enable_form").onchange = function() {
+        enableFields();
+    };
+</script>
+<script>function reloadOnSubmit() {
+    location.reload();
+    }
+</script>
+<script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>
+</html>

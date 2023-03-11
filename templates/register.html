@@ -84,57 +84,48 @@
             <form class="register-form" method="POST" action="">
                 {% csrf_token %}
                 <div class="register-input-container">
-                    <label for="username" class="labelclass">{{form.username.label}}</label>{{form.username}}
-                    <div class="register-flash-message">
-                        <ul class="register-messages" id="username-register-error">
-                            {% for message in messages %}
-                                {% if 'username-error' in message.tags %}
-                            <li>{{ message }}</li>
-                            {% endif %}
-                        </ul>
-                            {% endfor %}
-                    </div>
-                <!-- <input type="username" name="username" id="username" min="5" max="50" required><br> -->
+                    <label for="email" class="labelclass">{{ form.email.label }}</label>
+                    {{ form.email }}
                 </div>
                 <div class="register-input-container">
-                    <label for="dealership" class="labelclass">{{form.first_name.label}}</label>{{form.first_name}}
+                    <label for="dealer_name" class="labelclass">{{ form.dealer_name.label }}</label>
+                    {{ form.dealer_name }}
                 </div>
                 <div class="register-input-container">
-                    <label for="email" class="labelclass">{{form.email.label}}</label>{{form.email}}
-                <!-- <input name="email" id="email" min="5" max="50" required><br> -->
+                    <label for="password1" class="labelclass">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
                 </div>
                 <div class="register-input-container">
-                    <label for="password1" class="labelclass">{{form.password1.label}}</label>{{form.password1}}
-                    <div class="register-flash-message">
-                        <ul class="register-messages">
-                            {% for message in messages %}
-                                {% if 'password-length-error' in message.tags %}
-                            <li>{{ message }}</li>
-                            {% endif %}
-                        </ul>
-                            {% endfor %}
-                        <ul class="register-messages">
-                            {% for message in messages %}
-                                {% if 'password-numeric-error' in message.tags %}
-                            <li>{{ message }}</li>
-                            {% endif %}
-                        </ul>
-                            {% endfor %}
-                    </div>
-
-                <!-- <input type="password" name="password" id="password" min="5" max="50" required><br> -->
+                    <label for="password2" class="labelclass">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
                 </div>
                 <div class="register-input-container">
-                    <label for="password2" class="labelclass">{{form.password2.label}}</label>{{form.password2}}
-                    <div class="register-flash-message">
-                        <ul class="register-messages">
-                            {% for message in messages %}
-                                {% if 'password-verification-error' in message.tags %}
-                            <li>{{ message }}</li>
-                            {% endif %}
-                        </ul>
-                            {% endfor %}
-                    </div>
+                    <label for="phone_number" class="labelclass">{{ form.phone_number.label }}</label>
+                    {{ form.phone_number }}
+                </div>
+                <div class="register-input-container">
+                    <label for="address" class="labelclass">{{ form.address.label }}</label>
+                    {{ form.address }}
+                </div>
+                <div class="register-input-container">
+                    <label for="address_line_2" class="labelclass">{{ form.address_line_2.label }}</label>
+                    {{ form.address_line_2 }}
+                </div>
+                <div class="register-input-container">
+                    <label for="province" class="labelclass">{{ form.province.label }}</label>
+                    {{ form.province }}
+                </div>
+                <div class="register-input-container">
+                    <label for="city" class="labelclass">{{ form.city.label }}</label>
+                    {{ form.city }}
+                </div>
+                <div class="register-input-container">
+                    <label for="postal_code" class="labelclass">{{ form.postal_code.label }}</label>
+                    {{ form.postal_code }}
+                </div>
+                <div class="register-input-container">
+                    <label for="is_dealer" id="is-dealer-hidden">{{ form.is_dealer.label }}</label>
+                    {{ form.is_dealer }}
                 </div>
                 <div class="register-button">
                     <input type="submit" name="Create User" value="Create Account">

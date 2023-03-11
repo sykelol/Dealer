@@ -1,7 +1,7 @@
-from .models import VehicleInformation
+from .models import VehicleInformation, User, CustomerVehicle
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
@@ -12,9 +12,302 @@ from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from formtools.wizard.views import SessionWizardView
 from django.core.cache import cache
 from file_resubmit.admin import AdminResubmitImageWidget, AdminResubmitFileWidget
-from django.forms.widgets import ClearableFileInput
+from django.forms.widgets import ClearableFileInput, PasswordInput
 from file_resubmit.admin import ResubmitFileWidget
+from django.contrib.auth.forms import UserCreationForm
 
+
+PROVINCES = (
+    ('ON', 'Ontario'),
+    ('AB', 'Alberta'),
+    ('BC', 'British Columbia'),
+    ('MB', 'Manitoba'),
+    ('NB', 'New Brunswick'),
+    ('NL', 'Newfoundland and Labrador'),
+    ('NS', 'Nova Scotia'),
+    ('NT', 'Northwest Territories'),
+    ('NU', 'Nunavut'),
+    ('PE', 'Prince Edward Island'),
+    ('QC', 'Quebec'),
+    ('SK', 'Saskatchewan'),
+    ('YT', 'Yukon'),
+)
+
+class CustomerCreationFormOne(UserCreationForm):
+    email = forms.EmailField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'example@example.com'})
+        )
+    is_customer = forms.BooleanField(
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={'id': 'user-type'}),
+        label='Is Customer',
+        )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_customer'].disabled = True
+
+    class Meta:
+        model = User
+        fields=['email', 'password1', 'password2', 'is_customer']
+
+
+class CustomerCreationFormTwo(ModelForm):
+    first_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'First Name'})
+        )
+    last_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Last Name'})
+        )
+    date_of_birth = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={
+            'class': 'customer-form-field',
+            'type': 'date'
+        }))
+    phone_number = PhoneNumberField(
+        required=False,
+        label= 'Phone number: (123)-456-7890',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': '(xxx)-xxx-xxxx'})
+        )
+    address = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Address'})
+        )
+    address_line_2 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Apt, suite, etc, (optional)'})
+        )
+    province = forms.ChoiceField(
+        required=False,
+        choices=PROVINCES,
+        widget=forms.Select(attrs={
+            'class': 'customer-form-field-widget',})
+        )
+    city = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'City'})
+        )
+    postal_code = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Postal Code'})
+        )
+    drivers_license = forms.FileField(
+        required=False,
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'drivers_license'})
+        )
+    
+    class Meta:
+        model = User
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'last_name': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'phone_number': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'email': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'address': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'address_line_2': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'province': forms.Select(attrs={'class': 'customer-form-field-widget', 'required': 'False'}),
+            'city': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+            'postal_code': forms.TextInput(attrs={'class': 'customer-form-field', 'required': 'False'}),
+        }
+        fields = ['first_name', 'last_name', 'date_of_birth', 'phone_number', 'address', 'address_line_2', 'province', 'city', 'postal_code', 'drivers_license', 'is_customer']
+        
+        labels = {
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'date_of_birth': ('Date of Birth'),
+            'phone_number': ('Phone Number (xxx)-xxx-xxxx'),
+            'email': ('Email'),
+            'address': ('Address'),
+            'address_line_2': ('Address Line 2'),
+            'city': ('City'),
+            'postal_code': ('Postal Code'),
+            'drivers_license': ('Drivers License'),
+        }
+
+EMPLOYMENT = (
+    ('employed', 'Employed'),
+    ('self-employed', 'Self-employed'),
+    ('unemployed', 'Unemployed'),
+)
+
+class CustomerCreationFormThree(ModelForm):
+    employment_status = forms.ChoiceField(
+        required=False,
+        label= 'Employment status',
+        choices=EMPLOYMENT,
+        widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+    )
+    company_name = forms.CharField(
+        required=False,
+        label= 'Company name',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Company Name'})
+    )
+    job_title = forms.CharField(
+        required=False,
+        label= 'Job title',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Job Title'})
+    )
+    employment_length = forms.CharField(
+        required=False,
+        label= 'Employment length',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Employment Length'})
+    )
+    salary = forms.CharField(
+        required=False,
+        label = 'Salary',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Salary'})
+    )
+    monthly_income = forms.CharField(
+        required=False,
+        label= 'Monthly income',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Monthly Income'})
+    )
+    other_income = forms.CharField(
+        required=False,
+        label= 'Other income',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Other Income'})
+    )
+    
+    class Meta:
+        model = User
+        exclude = ['password1']
+        fields = ['employment_status', 'company_name', 'job_title', 'employment_length', 'salary', 'monthly_income', 'other_income']
+        labels = {
+            'employment_status': 'Employment Status',
+            'company_name': 'Company Name',
+            'job_title': 'Job Title',
+            'employment_length': 'Employment Length',
+            'salary': 'Salary',
+            'monthly_income': 'Monthly Income',
+            'other_income': 'Other Income',
+        }
+
+STATUSCHOICES = [
+    ('pending', 'Pending'),
+    ('approved', 'Approved'),
+    ('declined', 'Declined'),
+]
+
+class CustomerVehicleInfo(ModelForm):
+        vinNumber = forms.CharField(
+            required=False, label='VIN Number',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        stockNumber = forms.CharField(
+            required=False, label='Stock Number',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        vehiclePrice = forms.CharField(
+            required=False, label='Vehicle Price',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})    
+        )
+        down_payment = forms.CharField(
+            required=False, label='Down Payment',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        vehicleMileage = forms.CharField(
+            required=False, label='Vehicle Mileage',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        make = forms.CharField(
+            required=False, label='Make',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        model = forms.CharField(
+            required=False, label='Model',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        trim = forms.CharField(
+            required=False, label='Trim',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        year = forms.CharField(
+            required=False, label='Year',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        color = forms.CharField(
+            required=False, label='Color',
+            widget=forms.TextInput(attrs={'class': 'customer-form-field'})
+        )
+        status = forms.ChoiceField(
+            choices=STATUSCHOICES,
+            required=False,
+            label='Status',
+            widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+        )
+    
+        class Meta:
+            model = CustomerVehicle
+            fields = ['vinNumber', 'stockNumber', 'vehiclePrice', 'down_payment', 'vehicleMileage', 'make', 'model', 'trim', 'year', 'color', 'status']
+
+class UpdateStatusForm(forms.ModelForm):
+    status = forms.ChoiceField(
+            choices=STATUSCHOICES,
+            required=False,
+            label='Status',
+            widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+        )
+    class Meta:
+        model = CustomerVehicle
+        fields = ['status']
+
+
+class DealerRegistrationForm(UserCreationForm):
+    email = forms.EmailField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'example@example.com'})
+        )
+    dealer_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Dealer name'})
+        )
+    phone_number = PhoneNumberField(
+        required=False,
+        label= 'Phone number: (123)-456-7890',
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': '(xxx)-xxx-xxxx'})
+        )
+    address = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Address'})
+        )
+    address_line_2 = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Apt, suite, etc, (optional)'})
+        )
+    province = forms.ChoiceField(
+        required=False,
+        choices=PROVINCES,
+        widget=forms.Select(attrs={
+            'class': 'select-input'})
+        )
+    city = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'City'})
+        )
+    postal_code = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Postal Code'})
+        )
+    is_dealer = forms.BooleanField(
+        initial=True,
+        required=False,
+        widget=forms.CheckboxInput(attrs={'id': 'user-type'}),
+        label='Is Dealer',
+        )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_dealer'].disabled = True
+
+    class Meta:
+        model = User
+        fields = ['email', 'dealer_name', 'password1', 'password2', 'phone_number', 'address', 'address_line_2', 'province', 'city', 'postal_code', 'is_dealer']
+
+"""
 class CreateUserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -40,12 +333,95 @@ class CreateUserForm(UserCreationForm):
         labels = {
             'first_name': ('Dealership'),
         }
+"""
 
-STATUSCHOICES = [
-    ('pending', 'Pending'),
-    ('approved', 'Approved'),
-    ('declined', 'Declined'),
-]
+class CustomerVehicleInfoTwo(ModelForm):
+    enable_form = forms.BooleanField(
+        required=False,
+        label='Vehicle Trade-in?',
+        initial=False,
+        widget=forms.CheckboxInput(attrs={'onchange': 'enableFields()', 'id': 'id_enable_form'})
+    )
+    tradeInVin = forms.CharField(
+        required=False, label='Trade-in Vin', 
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        )
+    tradeInPrice = forms.CharField(
+        required=False, label='Trade-in Price',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInMileage = forms.CharField(
+        required=False, label='Trade-in Mileage',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInMake = forms.CharField(
+        required=False, label='Trade-in Make',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInModel = forms.CharField(
+        required=False, label='Trade-in Model',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInTrim = forms.CharField(
+        required=False, label='Trade-in Trim',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInYear = forms.CharField(
+        required=False, label='Trade-in Year',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    tradeInColor = forms.CharField(
+        required=False, label='Trade-in Color',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+        )
+    
+    class Meta:
+        model = CustomerVehicle
+        fields = ['enable_form', 'tradeInVin', 'tradeInPrice', 'tradeInMileage', 'tradeInMake', 'tradeInModel', 'tradeInTrim', 'tradeInYear', 'tradeInColor']
+
+class CustomerVehicleInfoThree(ModelForm):
+    vehicleFront = forms.FileField(
+        required=False,
+        label= "Vehicle Front",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'vehicle_front'})
+    )
+    vehicleSide = forms.FileField(
+        required=False,
+        label= "Vehicle Side",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'vehicle_side'})
+    )
+    vehicleBack = forms.FileField(
+        required=False,
+        label= "Vehicle Back",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'vehicle_back'})
+    )
+    vehicleOdometer = forms.FileField(
+        required=False,
+        label= "Vehicle Odometer",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'vehicle_odometer'})
+    )
+    vehicleInterior = forms.FileField(
+        required=False,
+        label= "Vehicle Interior",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'vehicle_interior'})
+    )
+    exampleDocument1 = forms.FileField(
+        required=False,
+        label= "Example Document 1",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'example_document1'})
+    )
+    exampleDocument2 = forms.FileField(
+        required=False,
+        label= "Example Document 3",
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'example_document2'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
+    class Meta:
+        model = CustomerVehicle
+        fields = ['vehicleFront', 'vehicleSide', 'vehicleBack', 'vehicleOdometer', 'vehicleInterior', 'exampleDocument1', 'exampleDocument2']
 
 class VehicleInformationForm(ModelForm):
     vinNumber = forms.CharField(required=False, label='VIN Number')
@@ -209,12 +585,6 @@ class TradeInInformationForm(ModelForm):
             'tradeInColor' : ('Trade-in Color'),
         }
 
-EMPLOYMENT = (
-    ('employed', 'Employed'),
-    ('self-employed', 'Self-employed'),
-    ('unemployed', 'Unemployed'),
-)
-
 class EmploymentInformationForm(ModelForm):
     employment_status = forms.ChoiceField(
         required=False,
@@ -278,21 +648,6 @@ class EmploymentInformationForm(ModelForm):
             'tax_return': 'Tax Return',
         }
 
-PROVINCES = (
-    ('ON', 'Ontario'),
-    ('AB', 'Alberta'),
-    ('BC', 'British Columbia'),
-    ('MB', 'Manitoba'),
-    ('NB', 'New Brunswick'),
-    ('NL', 'Newfoundland and Labrador'),
-    ('NS', 'Nova Scotia'),
-    ('NT', 'Northwest Territories'),
-    ('NU', 'Nunavut'),
-    ('PE', 'Prince Edward Island'),
-    ('QC', 'Quebec'),
-    ('SK', 'Saskatchewan'),
-    ('YT', 'Yukon'),
-)
 
 class PersonalInformationForm(ModelForm):
     first_name = forms.CharField(
