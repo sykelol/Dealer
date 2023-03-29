@@ -14,25 +14,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
+{% load humanize %}
 <body class="myfinancing-body">
     <i class='bx bx-menu fixed-icon' id="sidebar-menu-icon-first"></i>
     <div class="dashboard-sidebar active">
         <div class="logo-content">
             <div class="logo">
-                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+                <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
             </div>
                 <i class='bx bx-menu' id="sidebar-menu-icon"></i>
         </div>
             <ul class="dashboard-sidebar-list">
                 <li>
-                    <a href="#" class="active-list-link" class="dashboard-link">
+                    <a href="{% url 'myfinancing' %}" class="active-list-link" class="dashboard-link">
                         <i class='bx bx-file' ></i>
-                        <span class="sidebar-list-names">Pending Deals</span>
+                        <span class="sidebar-list-names">My Deals</span>
                     </a>
-                    <span class="dashboard-tooltip">Pending Deals</span>
+                    <span class="dashboard-tooltip">My Deals</span>
                 </li>
                 <li>
-                    <a href="#" class="dashboard-link">
+                    <a href="{% url 'myfinancingnewform' %}" class="dashboard-link">
                         <i class='bx bxs-file-plus'></i>
                         <span class="sidebar-list-names">New Form</span>
                     </a>
@@ -58,12 +59,25 @@
         </div>
     </div>
     <div class="myfinancing-home">
-        <h2>Welcome to your dashboard, {{ request.user.first_name }}</h2>
+        <h2 class="myfinancing-header">Your application is being reviewed and will be processed shortly.</h2>
         <div class="my-applications">
-            <h4>Your Current Applications:</h4>
-            <div class="application">
-
-            </div>
+            {% for deal in deals %}
+                {% if deal.user == request.user %}
+                <div class="card bg-light mb-3" style="max-width: 29rem;">
+                <div class="card-header"><h3>{{ deal.year }} {{ deal.make }} {{ deal.model }}</h3></div>
+                <div class="card-body">
+                    <p class="card-text">Vehicle Price: {{ deal.vehiclePrice|floatformat:2|intcomma|default:"Pending" }}</p>
+                    <p class="card-text">Down Payment: {{ deal.down_payment|intcomma|default:"Pending" }}</p>
+                    <p class="card-text">Vehicle Mileage: {{ deal.vehicleMileage|default:"Pending" }}</p>
+                    <a href="{% url 'applicationdetails' deal.id %}">
+                        <button class="btn {% if deal.status == 'pending' %}btn-warning{% elif deal.status == 'approved' %}btn-success{% else %}btn-danger{% endif %}" id="cust-status">
+                            {{ deal.status|title }}
+                        </button>
+                    </a>
+                </div>
+              </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 </body>

@@ -26,6 +26,10 @@ urlpatterns = [
     path('brokermydeals/', views.brokermydeals, name="brokermydeals"),
     path('brokerupdateform/<int:id>/', BrokerUpdateFormWizard.as_view(), name="brokerupdateform"),
     path('brokerupdatecustomerform/<int:id>/', BrokerUpdateCustomerForm.as_view(), name="brokerupdatecustomerform"),
+    path('applicationdetails/<int:id>/', views.applicationdetials, name="applicationdetails"),
+    path('myfinancingnewform/', views.myfinancingnewform, name="myfinancingnewform"),
+    path('brokercommunication/', views.brokercommunication, name="brokercommunication"),
+    path('teams_auth/', views.teams_auth, name="teams_auth"),
 ]
 
 if settings.DEBUG:

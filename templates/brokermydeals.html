@@ -25,7 +25,7 @@
     <div class="dashboard-sidebar active" id="broker-my-deals">
       <div class="logo-content">
         <div class="logo">
-          <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+          <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
         </div>
         <i class='bx bx-menu' id="sidebar-menu-icon"></i>
       </div>
@@ -52,7 +52,7 @@
           <span class="dashboard-tooltip">My Deals</span>
         </li>
         <li>
-          <a href="#" class="dashboard-link">
+          <a href="{% url 'brokercommunication' %}" class="dashboard-link">
             <i class='bx bx-message-dots' ></i>
             <span class="sidebar-list-names">Communication</span>
           </a>
@@ -70,7 +70,7 @@
         <div class="profile">
           <div class="profile-details">
             <div class="profile-name">
-              Welcome, {{ request.user.first_name }}
+              Welcome, {{ user.dealer_name }}
             </div>
             <div class="dashboard-logout-button">
               <span id="sidebar-logout">

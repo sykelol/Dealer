@@ -19,7 +19,7 @@
     <div class="dashboard-sidebar active" id="broker-customer">
         <div class="logo-content">
             <div class="logo">
-                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+                <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
             </div>
                 <i class='bx bx-menu' id="sidebar-menu-icon"></i>
         </div>
@@ -46,7 +46,7 @@
                     <span class="dashboard-tooltip">My Deals</span>
                 </li>
                 <li>
-                    <a href="#" class="dashboard-link">
+                    <a href="{% url 'brokercommunication' %}" class="dashboard-link">
                         <i class='bx bx-message-dots' ></i>
                         <span class="sidebar-list-names">Communication</span>
                     </a>
@@ -64,7 +64,7 @@
                 <div class="profile">
                     <div class="profile-details">
                         <div class="profile-name">
-                            Welcome, {{ request.user.first_name }}
+                            Welcome, {{ user.dealer_name }}
                             
                         </div>
                         <div class="dashboard-logout-button">
@@ -153,42 +153,92 @@
                         <div class="client-form-group">
                             <label for="vinNumber" class="newform-label">{{ form.vinNumber.label }}</label>
                             {{ form.vinNumber }}
+                            {% if form.vinNumber.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vinNumber.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="stockNumber" class="newform-label">{{ form.stockNumber.label }}</label>
                             {{ form.stockNumber }}
+                            {% if form.stockNumber.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.stockNumber.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehiclePrice" class="newform-label">{{ form.vehiclePrice.label }}</label>
                             {{ form.vehiclePrice }}
+                            {% if form.vehiclePrice.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehiclePrice.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
-                            <label for="downPayment" class="newform-label">{{ form.down_payment.label }}</label>
-                            {{ form.down_payment }}
+                            <label for="downPayment" class="newform-label">{{ form.downPayment.label }}</label>
+                            {{ form.downPayment }}
+                            {% if form.downPayment.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.downPayment.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicleMileage" class="newform-label">{{ form.vehicleMileage.label }}</label>
                             {{ form.vehicleMileage }}
+                            {% if form.vehicleMileage.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleMileage.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="make" class="newform-label">{{ form.make.label }}</label>
                             {{ form.make }}
+                            {% if form.make.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.make.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="model" class="newform-label">{{ form.model.label }}</label>
                             {{ form.model }}
+                            {% if form.model.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.model.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="trim" class="newform-label">{{ form.trim.label }}</label>
                             {{ form.trim }}
+                            {% if form.trim.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.trim.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="year" class="newform-label">{{ form.year.label }}</label>
                             {{ form.year }}
+                            {% if form.year.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.year.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="color" class="newform-label">{{ form.color.label }}</label>
                             {{ form.color }}
+                            {% if form.color.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.color.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         {% endif %}
 
@@ -202,65 +252,139 @@
                         <div class="client-form-group">
                             <label for="tradeInVin" class="newform-label">{{ form.tradeInVin.label }}</label>
                             {{ form.tradeInVin }}
+                            {% if form.tradeInVin.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInVin.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInPrice" class="newform-label">{{ form.tradeInPrice.label }}</label>
                             {{ form.tradeInPrice }}
+                            {% if form.tradeInPrice.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInPrice.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInMileage" class="newform-label">{{ form.tradeInMileage.label }}</label>
                             {{ form.tradeInMileage }}
+                            {% if form.tradeInMileage.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInMileage.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInMake" class="newform-label">{{ form.tradeInMake.label }}</label>
                             {{ form.tradeInMake }}
+                            {% if form.tradeInMake.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInMake.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInModel" class="newform-label">{{ form.tradeInModel.label }}</label>
                             {{ form.tradeInModel }}
+                            {% if form.tradeInModel.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInModel.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInTrim" class="newform-label">{{ form.tradeInTrim.label }}</label>
                             {{ form.tradeInTrim }}
+                            {% if form.tradeInTrim.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInTrim.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInYear" class="newform-label">{{ form.tradeInYear.label }}</label>
                             {{ form.tradeInYear }}
+                            {% if form.tradeInYear.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInYear.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInColor" class="newform-label">{{ form.tradeInColor.label }}</label>
                             {{ form.tradeInColor }}
+                            {% if form.tradeInColor.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInColor.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         {% endif %}
-
                         {% if wizard.steps.current == '2' %}
                         <div class="client-form-group">
                             <label for="vehicle_front" class="newform-label">{{ form.vehicleFront.label }}</label>
                             {{ form.vehicleFront }}
+                            {% if form.vehicleFront.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleFront.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicle_side" class="newform-label">{{ form.vehicleSide.label }}</label>
                             {{ form.vehicleSide }}
+                            {% if form.vehicleSide.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleSide.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicle_back" class="newform-label">{{ form.vehicleBack.label }}</label>
                             {{ form.vehicleBack }}
+                            {% if form.vehicleBack.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleBack.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicle_odometer" class="newform-label">{{ form.vehicleOdometer.label }}</label>
                             {{ form.vehicleOdometer }}
+                            {% if form.vehicleOdometer.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleOdometer.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicle_interior" class="newform-label">{{ form.vehicleInterior.label }}</label>
                             {{ form.vehicleInterior }}
+                            {% if form.vehicleInterior.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleInterior.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="example_document1" class="newform-label">{{ form.exampleDocument1.label }}</label>
                             {{ form.exampleDocument1 }}
+                            {% if form.exampleDocument1.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.exampleDocument1.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="example_document2" class="newform-label">{{ form.exampleDocument2.label }}</label>
                             {{ form.exampleDocument2 }}
+                            {% if form.exampleDocument2.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.exampleDocument2.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         {% endif %}
 

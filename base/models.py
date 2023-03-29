@@ -10,6 +10,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -39,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(null=True, blank=True, max_length=155)
     last_name = models.CharField(null=True, blank=True, max_length=155)
     date_of_birth = models.CharField(null=True, blank=True, max_length=255)
-    phone_number = models.CharField(null=True, blank=True, max_length=255)
+    phone_number = models.CharField(null=True, blank=True, max_length=100)
     address = models.CharField(null=True, blank=True, max_length=255)
     address_line_2 = models.CharField(null=True, blank=True, max_length=255)
     province = models.CharField(null=True, blank=True, max_length=255)
@@ -50,9 +51,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     company_name = models.CharField(null=True, blank=True, max_length=255)
     job_title = models.CharField(null=True, blank=True, max_length=255)
     employment_length = models.CharField(null=True, blank=True, max_length=255)
-    salary = models.CharField(null=True, blank=True, max_length=255)
-    monthly_income = models.CharField(null=True, blank=True, max_length=255)
-    other_income = models.CharField(null=True, blank=True, max_length=255)
+    salary = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    monthly_income = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    other_income = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     created = models.DateTimeField(auto_now_add=True)
     is_customer = models.BooleanField(default=False)
     is_dealer = models.BooleanField(default=False)
@@ -67,16 +68,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-"""
-    def save(self, *args, **kwargs):
-        # hash password before saving user
-        if self.password:
-            self.password = make_password(self.password)
-        super().save(*args, **kwargs)
-
     def __str__(self):
-        return self.email
-"""
+        if self.dealer_name:
+            return self.dealer_name
+        else:
+            return self.email
         
 class CustomerVehicle(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,18 +80,19 @@ class CustomerVehicle(models.Model):
     make = models.CharField(null=True, blank=True, max_length = 100)
     model = models.CharField(null=True, blank=True, max_length = 100)
     year = models.CharField(null=True, blank=True, max_length = 100)
-    down_payment = models.CharField(null=True, blank=True, max_length = 100)
+    down_payment = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     vinNumber = models.CharField(null=True, blank=True, max_length = 100)
     stockNumber = models.CharField(null=True, blank=True, max_length = 100)
-    vehiclePrice = models.CharField(null=True, blank=True, max_length = 100)
-    vehicleMileage = models.CharField(null=True, blank=True, max_length = 100)
+    vehiclePrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    vehicleMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     trim = models.CharField(null=True, blank=True, max_length = 100)
     color = models.CharField(null=True, blank=True, max_length = 100)
+    dealer_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='dealer_vehicles')
     status = models.CharField(null=True, blank=True, max_length=100, default='pending')
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
-    tradeInPrice = models.CharField(null=True, blank=True, max_length = 100)
-    tradeInMileage = models.CharField(null=True, blank=True, max_length = 100)
+    tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    tradeInMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     tradeInMake = models.CharField(max_length=100, null=True, blank=True)
     tradeInModel = models.CharField(max_length=100, null=True, blank=True)
     tradeInTrim = models.CharField(max_length=100, null=True, blank=True)
@@ -379,7 +376,7 @@ class VehicleInformation(models.Model):
     first_name = models.CharField(null=True, blank=True, max_length=255)
     last_name = models.CharField(null=True, blank=True, max_length=255)
     date_of_birth = models.DateField(null=True, blank=True,)
-    phone_number = PhoneNumberField(null=True, blank=True,)
+    phone_number = models.CharField(null=True, blank=True, max_length=100)
     email = models.EmailField(null=True, blank=True,)
     address = models.CharField(null=True, blank=True, max_length=255)
     address_line_2 = models.CharField(null=True, blank=True, max_length=255)
@@ -393,9 +390,9 @@ class VehicleInformation(models.Model):
     company_name = models.CharField(null=True, blank=True, max_length=255)
     job_title = models.CharField(null=True, blank=True, max_length=255)
     employment_length = models.CharField(null=True, blank=True, max_length=255)
-    salary = models.CharField(null=True, blank=True, max_length=255)
-    monthly_income = models.CharField(null=True, blank=True, max_length=255)
-    other_income = models.CharField(null=True, blank=True, max_length=255)
+    salary = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    monthly_income = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    other_income = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     paystub_file = models.FileField(null=True, blank=True, upload_to='paystubs')
     tax_return = models.FileField(null=True, blank=True, upload_to='tax_returns')
     updated = models.DateTimeField(auto_now=True)
@@ -404,9 +401,9 @@ class VehicleInformation(models.Model):
     Dealership = models.ForeignKey(Dealership, on_delete=models.CASCADE, blank=True, null=True)
     vinNumber = models.CharField(null=True, blank=True, max_length = 100)
     stockNumber = models.CharField(null=True, blank=True, max_length = 100)
-    vehiclePrice = models.CharField(null=True, blank=True, max_length = 100)
-    downPayment = models.CharField(null=True, blank=True, max_length = 100)
-    vehicleMileage = models.CharField(null=True, blank=True, max_length = 100)
+    vehiclePrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    downPayment = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    vehicleMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     make = models.CharField(null=True, blank=True, max_length = 100)
     model = models.CharField(null=True, blank=True, max_length = 100)
     trim = models.CharField(null=True, blank=True, max_length = 100)
@@ -415,8 +412,8 @@ class VehicleInformation(models.Model):
     status = models.CharField(null=True, blank=True, max_length=100, default='pending')
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
-    tradeInPrice = models.CharField(null=True, blank=True, max_length = 100)
-    tradeInMileage = models.CharField(null=True, blank=True, max_length = 100)
+    tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
+    tradeInMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     tradeInMake = models.CharField(max_length=100, null=True, blank=True)
     tradeInModel = models.CharField(max_length=100, null=True, blank=True)
     tradeInTrim = models.CharField(max_length=100, null=True, blank=True)

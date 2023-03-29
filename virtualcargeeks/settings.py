@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'storages',
     'file_resubmit',
+    'django.contrib.humanize',
 ]
 
 AUTH_USER_MODEL = 'base.User' #This changes from the built-in Django User creation model to our custom model.
@@ -77,7 +78,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+#    "base.middleware.AutoLogoutMiddleware",
 ]
+
+#AUTO_LOGOUT_TIME = 3600  # 1 hour
 
 ROOT_URLCONF = "virtualcargeeks.urls"
 

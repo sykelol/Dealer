@@ -19,7 +19,7 @@
     <div class="dashboard-sidebar active">
         <div class="logo-content">
             <div class="logo">
-                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+                <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
             </div>
                 <i class='bx bx-menu' id="sidebar-menu-icon"></i>
         </div>
@@ -64,8 +64,7 @@
                 <div class="profile">
                     <div class="profile-details">
                         <div class="profile-name">
-                            Welcome, {{ request.user.first_name }}
-                            
+                            Welcome, {{ user.dealer_name }} 
                         </div>
                         <div class="dashboard-logout-button">
                             <a class="dashboard-logout" href="{% url 'logout' %}"><i class='bx bx-log-out' id="dashboard-logout"></i>

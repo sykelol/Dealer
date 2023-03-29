@@ -46,7 +46,7 @@
                     <span class="dashboard-tooltip">My Deals</span>
                 </li>
                 <li>
-                    <a href="#" class="dashboard-link">
+                    <a href="{% url 'brokercommunication' %}" class="dashboard-link">
                         <i class='bx bx-message-dots' ></i>
                         <span class="sidebar-list-names">Communication</span>
                     </a>
@@ -64,7 +64,7 @@
                 <div class="profile">
                     <div class="profile-details">
                         <div class="profile-name">
-                            Welcome, 
+                            Welcome, {{ user.dealer_name }}
                             
                         </div>
                         <div class="dashboard-logout-button">

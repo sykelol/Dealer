@@ -738,7 +738,7 @@ input {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     width: 90%;
-    margin: 0 auto;
+    margin: 1em auto;
 }
 
 .register-container .register-form h2 {
@@ -1125,7 +1125,7 @@ input {
 .dashboard-sidebar .profile-content {
     position: absolute;
     color: #fff;
-    bottom: 30px;
+    bottom: 60px;
     left: 0;
     width: 100%;
     margin-left: 2.3em;
@@ -1143,12 +1143,12 @@ input {
     gap: 0.5rem;
     font-size: 1rem;
     width: 100%;
-    white-space: nowrap;
     transition: all 0.5s ease;
 }
 
 .dashboard-sidebar .profile .profile-details .profile-name {
     display: none;
+    font-size: 1.1rem;
 }
 
 .dashboard-sidebar.active .profile .profile-details .profile-name {
@@ -1193,7 +1193,6 @@ input {
 }
 
 .dashboard-sidebar.active #dashboard-logout {
-    margin: 0;
     font-size: 2rem;
 }
 
@@ -1210,7 +1209,7 @@ input {
 
 .dashboard-sidebar .profile .profile-details .dashboard-logout-button {
     position: absolute;
-    top: 30px;
+    top: 50px;
     left: -5px;
     margin-top: 0.5em;
     display: flex;
@@ -1743,7 +1742,7 @@ input {
     position: relative;
     min-height: 100vh;
     width: 100%;
-    background: #F6F6F6;
+    background: #fff;
 }
 
 .myfinancing-home {
@@ -1753,33 +1752,152 @@ input {
 }
 
 .myfinancing-home h2 {
-    margin-top: 2em;
-    color: #F76C6C;
+    margin: 2em 1em;
+    color: black;
+    font-size: 1.5rem;
+}
+
+.myfinancing-home h3 {
+    color: black;
 }
 
 .myfinancing-home .my-applications {
-    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.myfinancing-home .my-applications .card-text {
+    margin: 0.3em 0 0 0;
+    padding: 0;
+    text-align: left;
+    font-weight: 500;
+    color: black;
+    font-size: 1.2rem;
+}
+
+.myfinancing-home .my-applications .card-title {
     text-align: left;
 }
 
 .pending {
-    background: #FAFA33 !important;
+    background: #ffc107 !important;
     font-weight: 600;
     text-align: center;
 }
 
 .approved {
-    background: #90C648 !important;
+    background: #28a745 !important;
     font-weight: 600;
     text-align: center;
 }
 
 .declined {
-    background: #EE4B2B !important;
+    background: #dc3545 !important;
     font-weight: 600;
     text-align: center;
 }
 
 .application-created {
     font-weight: 600;
+}
+
+.success-sign-in-container {
+    display: block;
+    text-align: center;
+    margin: 3em auto;
+}
+
+.success-sign-in {
+    background: #F76C6C;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 15px 30px;
+}
+
+#cust-status {
+    border-radius: 999px;
+    box-shadow: 0 10px 20px -10px;
+    color: black;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 15px 30px;
+    margin-top: 2em;
+}
+
+.application-details-home {
+    max-width: 1400px;
+    margin: 3em auto;
+    text-align: center;
+}
+
+.application-details-home .vehicle-information-container {
+    margin: 3em 2em;
+    text-align: left;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    column-gap: 3em;
+}
+
+.application-details-home h2 span {
+    border-bottom: 4px solid #F76C6C;
+}
+
+.application-details-home .vehicle-information-container p {
+    font-size: 1.5rem;
+}
+
+@media (min-width: 600px) {
+    .application-details-home {
+        max-width: 1400px;
+        margin: 3em auto;
+        text-align: center;
+    }
+    .application-details-home .vehicle-information-container {
+        margin: 3em auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        column-gap: 3em;
+    }
+}
+
+.table-header {
+    background-color: #1d1b31;
+}
+
+.myfinancing-header {
+    color: #F76C6C;
+    font-weight: 600;
+    font-size: 2.2rem;
 }

@@ -30,6 +30,18 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth.hashers import make_password
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
+import json
+
+def teams_auth(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        token = data.get('token')
+        # Authenticate token with your authentication service
+        # ...
+        # If the token is valid, return a JSON response with a success message
+        return HttpResponse(json.dumps({'success': True}))
+    else:
+        return HttpResponse(status=405)
 
 def broker_required(view_func):
     def check_user_is_broker(user):
@@ -76,6 +88,7 @@ def signin(request):
     context = {}
     return render(request, "dealersignin.html", context)
 
+@never_cache
 @login_required
 @user_passes_test(lambda User: User.is_broker)
 def brokerupdatecustomerstatus(request, id):
@@ -96,6 +109,7 @@ def brokerupdatecustomerstatus(request, id):
     context = {'form': form}
     return render(request, 'brokerupdatestatus.html', context)
 
+@never_cache
 @login_required
 @user_passes_test(lambda User: User.is_broker)
 def brokerupdatestatus(request, id):
@@ -116,6 +130,7 @@ def brokerupdatestatus(request, id):
     context = {'form': form}
     return render(request, 'brokerupdatecustomerstatus.html', context)
 
+@method_decorator(never_cache, name='dispatch')
 class CustomerFinancingWizard(SessionWizardView):
     template_name = "customerfinancingform.html"
     form_list = [CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, CustomerVehicleInfo]
@@ -170,30 +185,55 @@ class CustomerFinancingWizard(SessionWizardView):
     def render(self, form=None, **kwargs):
         return super().render(form, **kwargs)
 
+@never_cache
 @login_required
 @user_passes_test(lambda User: User.is_customer)
 def customer_home(request):
-    if request.user.is_authenticated:
-        email = request.user.email
-    return render(request, 'myfinancing.html')
+    current_user = request.user
+    current_deals = CustomerVehicle.objects.filter(user=current_user)
+    return render(request, 'myfinancing.html', {'deals': current_deals})
+
+@login_required
+@user_passes_test(lambda User:User.is_customer)
+def myfinancingnewform(request):
+    if request.method == 'POST':
+        form = CustomerVehicleInfo(request.POST)
+        if form.is_valid():
+            customer_vehicle = form.save(commit=False)
+            customer_vehicle.user = request.user # set user field to request user
+            customer_vehicle.save()
+            return redirect('myfinancing') # Replace `myfinancing` with the appropriate URL name for the page where you want to redirect the user after form submission.
+    else:
+        form = CustomerVehicleInfo()
+    return render(request, 'myfinancingnewform.html', {'form': form})
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_customer)
+def applicationdetials(request, id):
+    deal = CustomerVehicle.objects.get(id=id, user=request.user)
+    context = {'deal': deal}
+    return render(request, 'applicationdetails.html', context)
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_broker)
+def brokercommunication(request):
+    return render(request, 'brokercommunication.html')
+
 
 @never_cache
 @login_required
 @user_passes_test(lambda User: User.is_dealer)
 def pendingdeals(request):
+    dealer_user = request.user
+    customer_vehicles = CustomerVehicle.objects.filter(dealer_user=dealer_user)
     user_submitted_application = CustomerVehicle.objects.filter(status='pending')
     dealer_submitted_application = VehicleInformation.objects.filter(status='pending')
-    financing_applications = sorted (
-        list(user_submitted_application) + list(dealer_submitted_application),
+    financing_applications = sorted(
+        list(user_submitted_application) + list(dealer_submitted_application) + list(customer_vehicles),
         key=lambda app: app.created
     )
-    #if hasattr(request.user, 'dealership'):
-        # User is a dealership
-        #dealership = request.user.dealership
-        #deals = VehicleInformation.objects.filter(
-            #Dealership=dealership, status='pending')
-    #else:
-    # User is a broker
     return render(request, 'pendingdeals.html', {'financing_applications': financing_applications})
 
 @never_cache
@@ -253,7 +293,6 @@ def brokermydeals(request):
     #else:
     # User is a broker
     return render(request, 'brokermydeals.html', {'financing_applications': financing_applications})
-
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User: User.is_broker), name='dispatch')
@@ -401,6 +440,7 @@ class NewFormWizard(SessionWizardView):
     def render(self, form=None, **kwargs):
         return super().render(form, **kwargs)
 
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User:User.is_dealer), name='dispatch')
 class DealerUpdateCustomerForm(SessionWizardView):
@@ -492,6 +532,7 @@ class DealerUpdateCustomerForm(SessionWizardView):
         # Redirect to the success page
         return redirect('pendingdeals')
 
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User:User.is_broker), name='dispatch')
 class BrokerUpdateCustomerForm(SessionWizardView):
@@ -583,6 +624,7 @@ class BrokerUpdateCustomerForm(SessionWizardView):
         # Redirect to the success page
         return redirect('brokerpendingdeals')
 
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User:User.is_broker), name='dispatch')
 class BrokerUpdateFormWizard(SessionWizardView):
@@ -718,6 +760,7 @@ class BrokerUpdateFormWizard(SessionWizardView):
         # Redirect to the success page
         return redirect('brokerpendingdeals')
 
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User: User.is_dealer), name='dispatch')
 class UpdateFormWizard(SessionWizardView):
