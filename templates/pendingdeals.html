@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="extensions/reorder-rows/bootstrap-table-reorder-rows.css">
     <link href="https://unpkg.com/jquery-resizable-columns@0.2.3/dist/jquery.resizableColumns.css" rel="stylesheet">
     <link href="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </head>
 <body class="pendingdeals-body">
     <i class='bx bx-menu fixed-icon' id="sidebar-menu-icon-first"></i>
@@ -88,22 +90,24 @@
     <div class="home-content">
         <div class="table-content">
             <table id="mydeals_table"
-                data-show-columns="true"
-                data-toggle="table"
-                data-resizeable="true"
-                data-search="true"
-                data-pagination="true"
-                data-show-toggle="true">
+            data-show-columns="true"
+            data-toggle="table"
+            data-resizable="true"
+            data-search="true"
+            data-pagination="true"
+            data-show-toggle="true"
+            data-sort-name="date"
+            data-sort-order="desc">
                 <thead>
                     <tr class="table-header">
-                        <th data-field="date" data-sortable="true">Date</th>
-                        <th>Status</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Make</th>
-                        <th>Model</th>
-                        <th>Down Payment</th>
-                        <th>Edit</th>
+                        <th data-field="date" data-sortable="true" data-sort-order="desc">Date</th>
+                        <th data-field="status">Status</th>
+                        <th data-field="name">Name</th>
+                        <th data-field="email">Email</th>
+                        <th data-field="make">Make</th>
+                        <th data-field="model">Model</th>
+                        <th data-field="down-payment">Down Payment</th>
+                        <th data-field="edit">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,6 +144,7 @@
         </div>
     </div>
 </body>
+
 <script src=".../jquery.tablednd.js"></script>
 <script src="extensions/reorder-rows/bootstrap-table-reorder-rows.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>

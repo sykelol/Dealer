@@ -31,23 +31,60 @@ from django.contrib.auth.hashers import make_password
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 import json
+from django.http import JsonResponse
+import qrcode
+from PIL import Image
 
-def teams_auth(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        token = data.get('token')
-        # Authenticate token with your authentication service
-        # ...
-        # If the token is valid, return a JSON response with a success message
-        return HttpResponse(json.dumps({'success': True}))
-    else:
-        return HttpResponse(status=405)
+
+def generate_qr_code_with_logo(user, logo_path):
+    if not user.is_dealer:
+        raise ValueError("The user is not a dealer. QR codes can only be generated for dealers.")
+
+    qr_url = user.get_financing_form_url()
+    dealer_id = user.id
+    dealer_name = user.dealer_name
+
+
+    qr = qrcode.QRCode(
+        version=None,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=4
+    )
+
+    qr.add_data(qr_url)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white").convert('RGBA')
+    img_w, img_h = img.size
+
+    # Open the logo file and resize it
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'images', 'logo12.png')
+    logo = Image.open(logo_path)
+    logo_w, logo_h = logo.size
+    logo_size = int(min(img_w, img_h) * 0.4)  # Increase to 40% of the minimum dimension
+    logo = logo.resize((logo_size, logo_size))
+
+    # Calculate the position for the logo
+    logo_pos_x = (img_w - logo_size) // 2
+    logo_pos_y = (img_h - logo_size) // 2
+    logo_pos = (logo_pos_x, logo_pos_y)
+
+    # Combine the QR code and the logo
+    img.paste(logo, logo_pos, logo)
+
+    # Print positions and dimensions for debugging
+    print(f"Logo size: {logo_size} x {logo_size}")
+
+    # Save the final image
+    img.save(f'images/qr_codes/{dealer_name}_{dealer_id}_logo.png')
 
 def broker_required(view_func):
     def check_user_is_broker(user):
         return user.is_authenticated and user.is_staff
     return user_passes_test(check_user_is_broker)(view_func)
 
+@never_cache
 def register(request):
     form = DealerRegistrationForm()
     if request.method == 'POST':
@@ -58,6 +95,9 @@ def register(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
+@never_cache
+def aboutus(request):
+    return render(request, 'aboutus.html')
 
 def home(request):
     return render(request, 'index.html')
@@ -87,6 +127,14 @@ def signin(request):
 
     context = {}
     return render(request, "dealersignin.html", context)
+
+from django.shortcuts import render
+
+def DealerLandingPage(request, id):
+    dealer = get_object_or_404(User, id=id, is_dealer=True)
+    context = {'id': dealer.id}
+    return render(request, 'dealerlandingpage.html', context)
+
 
 @never_cache
 @login_required
@@ -131,12 +179,12 @@ def brokerupdatestatus(request, id):
     return render(request, 'brokerupdatecustomerstatus.html', context)
 
 @method_decorator(never_cache, name='dispatch')
-class CustomerFinancingWizard(SessionWizardView):
-    template_name = "customerfinancingform.html"
+class DealerFinancingForm(SessionWizardView):
+    template_name = "dealerfinancingform.html"
     form_list = [CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, CustomerVehicleInfo]
     file_storage = DefaultStorage()
 
-    def done(self, form_list, form_dict, **kwargs):
+    def done(self, form_list, form_dict):
         form_data = [form.cleaned_data for form in form_list]
         user_data = form_data[0]
         personal_data = form_data[1]
@@ -185,6 +233,62 @@ class CustomerFinancingWizard(SessionWizardView):
     def render(self, form=None, **kwargs):
         return super().render(form, **kwargs)
 
+@method_decorator(never_cache, name='dispatch')
+class CustomerFinancingWizard(SessionWizardView):
+    template_name = "customerfinancingform.html"
+    form_list = [CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, CustomerVehicleInfo]
+    file_storage = DefaultStorage()
+
+    def done(self, form_list, form_dict, **kwargs):
+        form_data = [form.cleaned_data for form in form_list]
+        user_data = form_data[0]
+        personal_data = form_data[1]
+        employment_data = form_data[2]
+        vehicle_data = form_data[3]
+
+        password = form_dict['0'].cleaned_data.get('password1')  # get the password field value from the UserCreationForm
+        customer_info_data = {
+            'email': user_data['email'],
+            'is_customer': user_data['is_customer'],
+            'first_name': personal_data['first_name'],
+            'last_name': personal_data['last_name'],
+            'date_of_birth': personal_data['date_of_birth'],
+            'phone_number': personal_data['phone_number'],
+            'address': personal_data['address'],
+            'address_line_2': personal_data['address_line_2'],
+            'province': personal_data['province'],
+            'city': personal_data['city'],
+            'postal_code': personal_data['postal_code'],
+            'drivers_license': personal_data['drivers_license'],
+            'employment_status': employment_data['employment_status'],
+            'company_name': employment_data['company_name'],
+            'job_title': employment_data['job_title'],
+            'employment_length': employment_data['employment_length'],
+            'salary': employment_data['salary'],
+            'monthly_income': employment_data['monthly_income'],
+            'other_income': employment_data['other_income'],
+        }
+
+        # Save customer information
+        customer_info = User.objects.create_user(password=password, **customer_info_data)
+        customer_info.save()
+
+        customer_vehicle_data = {
+            'user': customer_info,
+            'make': vehicle_data['make'],
+            'model': vehicle_data['model'],
+            'year': vehicle_data['year'],
+            'down_payment': vehicle_data['down_payment'],
+            'dealer_id': self.kwargs['dealer_id'],  # Add dealer_id to the data
+        }
+        customer_vehicle = CustomerVehicle(**customer_vehicle_data)
+        customer_vehicle.save()
+
+        return redirect('successmessage')
+    
+    def render(self, form=None, **kwargs):
+        return super().render(form, **kwargs)
+
 @never_cache
 @login_required
 @user_passes_test(lambda User: User.is_customer)
@@ -192,6 +296,12 @@ def customer_home(request):
     current_user = request.user
     current_deals = CustomerVehicle.objects.filter(user=current_user)
     return render(request, 'myfinancing.html', {'deals': current_deals})
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_customer)
+def additionaldocuments(request):
+    return render(request, 'additionaldocuments.html')
 
 @login_required
 @user_passes_test(lambda User:User.is_customer)
@@ -221,18 +331,19 @@ def applicationdetials(request, id):
 def brokercommunication(request):
     return render(request, 'brokercommunication.html')
 
-
 @never_cache
 @login_required
 @user_passes_test(lambda User: User.is_dealer)
 def pendingdeals(request):
     dealer_user = request.user
-    customer_vehicles = CustomerVehicle.objects.filter(dealer_user=dealer_user)
-    user_submitted_application = CustomerVehicle.objects.filter(status='pending')
-    dealer_submitted_application = VehicleInformation.objects.filter(status='pending')
+    dealership_name = dealer_user.dealer_name
+
+    customer_vehicles = CustomerVehicle.objects.filter(dealer_user__dealer_name=dealership_name, status='pending')
+    dealer_vehicle_information = VehicleInformation.objects.filter(dealer_user=dealer_user, status='pending')
     financing_applications = sorted(
-        list(user_submitted_application) + list(dealer_submitted_application) + list(customer_vehicles),
-        key=lambda app: app.created
+        list(customer_vehicles) + list(dealer_vehicle_information),
+        key=lambda app: app.created,
+        reverse=True
     )
     return render(request, 'pendingdeals.html', {'financing_applications': financing_applications})
 

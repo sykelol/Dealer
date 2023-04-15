@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+    <header>
+        <div class="nav-container">
+            <div class="main-logo">
+                <a href="{% url 'home' %}"><img src="{% static 'images/logo2.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+            </div>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="true" onclick="openClose()">
+                <span class="sr-only">Menu</span>
+                <i class="fa-solid fa-bars fa-xl"></i>
+            </button>
+            <nav>
+                <ul id="primary-navigation" data-visible="true" class="primary-navigation flex">
+                    <li id="first-primary-list" class="active">
+                        <a href="{% url 'home' %}">
+                            Home   
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="{% url 'financingform' %}">
+                            Financing    
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="{% url 'aboutus' %}">
+                            About us
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#">
+                            Contact
+                        </a>
+                    </li>
+                    <li id="list-button" class="active">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'logout' %}"><button class="logout-button">
+                            Logout
+                        </button></a>
+                        {% else %}
+                        <a href="{% url 'sign-in' %}">
+                            <button class="sign-in-button">
+                               sign in
+                            </button>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+            <div id="non-list-button" class="but">
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}"><button class="logout-button">
+                    Logout
+                </button></a>
+                {% else %}
+                <a href="{% url 'sign-in' %}">
+                    <button class="sign-in-button">
+                        sign in
+                    </button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+</header>
+<section class="about-us-section">
+    <div class="about-us-container">
+        <div class="about-us-picture">
+            <img src="{% static 'images/aboutuspicture.jpg' %}" alt="Our company logo - Virtual Car Geeks">
+        </div>
+        <div class="about-us-text">
+            <h3>About us</h3>
+            <p>Welcome to Car Geeks, your trusted partner in auto financing. We are dedicated to making auto financing accessible and seamless for our customers, providing you with the best rates and personalized plans to help you achieve your dream of owning a car.<br><br>
+
+                Our team of experts works hard to ensure that our customers receive the highest quality service and financing solutions. We understand that financing can be a stressful and confusing process, which is why we offer personalized advice and support every step of the way.<br><br>
+                
+                At Car Geeks, we believe that everyone should have the opportunity to own a car, regardless of their financial situation. We work with a variety of lenders to provide you with the best financing options available, no matter your credit history.<br><br>
+                
+                Our commitment to our customers extends beyond the financing process. We offer tools to help you check the status and progress of your financing, and our team is always available to answer any questions you may have.<br><br>
+                
+                We take pride in our reputation for honesty and integrity, and we strive to build long-term relationships with our customers. Our goal is to make the auto financing process as comfortable and stress-free as possible, so you can focus on finding the right car for you.<br><br>
+                
+                Thank you for choosing Car Geeks as your auto financing partner. We look forward to working with you and helping you get on the road.</p>
+        </div>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="{% static 'script/javascript.js' %}"></script>
+</html>

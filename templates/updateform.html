@@ -507,68 +507,84 @@
                         </div>
                         {% endif %}
                         {% if wizard.steps.current == '4' %}
-                        <div class="client-form-group">
-                            <label for="vehicle_front" class="newform-label">{{ form.vehicleFront.label }}</label>
-                            {{ form.vehicleFront }}
-                            {% if form.vehicleFront.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.vehicleFront.errors|join:" " }}
+                        <div class="file-input-container">
+                            <div class="file-upload-style">
+                                <label for="vehicle_front" class="fileform-label">{{ form.vehicleFront.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleFront }}
+                                    {% if form.vehicleFront.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleFront.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_side" class="newform-label">{{ form.vehicleSide.label }}</label>
-                            {{ form.vehicleSide }}
-                            {% if form.vehicleSide.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.vehicleSide.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_side" class="fileform-label">{{ form.vehicleSide.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleSide }}
+                                    {% if form.vehicleSide.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleSide.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_back" class="newform-label">{{ form.vehicleBack.label }}</label>
-                            {{ form.vehicleBack }}
-                            {% if form.vehicleBack.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.vehicleBack.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_back" class="fileform-label">{{ form.vehicleBack.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleBack }}
+                                    {% if form.vehicleBack.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleBack.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_odometer" class="newform-label">{{ form.vehicleOdometer.label }}</label>
-                            {{ form.vehicleOdometer }}
-                            {% if form.vehicleOdometer.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.vehicleOdometer.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_odometer" class="fileform-label">{{ form.vehicleOdometer.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleOdometer }}
+                                    {% if form.vehicleOdometer.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleOdometer.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_interior" class="newform-label">{{ form.vehicleInterior.label }}</label>
-                            {{ form.vehicleInterior }}
-                            {% if form.vehicleInterior.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.vehicleInterior.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_interior" class="fileform-label">{{ form.vehicleInterior.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleInterior }}
+                                    {% if form.vehicleInterior.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleInterior.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="example_document1" class="newform-label">{{ form.exampleDocument1.label }}</label>
-                            {{ form.exampleDocument1 }}
-                            {% if form.exampleDocument1.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.exampleDocument1.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="example_document1" class="fileform-label">{{ form.exampleDocument1.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.exampleDocument1 }}
+                                    {% if form.exampleDocument1.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.exampleDocument1.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="example_document2" class="newform-label">{{ form.exampleDocument2.label }}</label>
-                            {{ form.exampleDocument2 }}
-                            {% if form.exampleDocument2.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ form.exampleDocument2.errors|join:" " }}
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="example_document2" class="fileform-label">{{ form.exampleDocument2.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.exampleDocument2 }}
+                                    {% if form.exampleDocument2.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.exampleDocument2.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
+                            </div>
                         </div>
                         {% endif %}
 

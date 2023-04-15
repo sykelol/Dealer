@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20 MB
+FILE_UPLOAD_MAX_DISK_SIZE = 31457280  # 30 MB
 
 # Application definition
 
@@ -169,6 +171,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+#SMTP Configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'cargeekswebsitetest@gmail.com'
+EMAIL_HOST_PASSWORD = 'owwgzbzcwoafojod'
+
+
 #AMAZON S3 BUCKETS CONFIG
 
 #AWS_ACCESS_KEY_ID = 'AKIAZWPAFF7RD2ZNXO3O'
@@ -180,3 +192,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #AWS_DEFAULT_ACL = None
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+

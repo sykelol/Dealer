@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Car Geeks</title>
+    {% load static %}
+    <link rel = "icon" href="{% static 'images/titleicon.png'%}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="{% static 'styles/virtualcargeeksstyle.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<body class="client-form-body">
+    <div class="client-container">
+            {% load i18n %}
+
+            {% block head %}
+            {{ wizard.form.media }}
+            {% endblock %}
+            
+            {% block content %}
+            <div class="steps">
+                {% if wizard.steps.current == '0' %}
+                    <h4>Create Account</h4>
+                    <h5>Step 1 of 5</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 1%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+                {% if wizard.steps.current == '1' %}
+                    <h4>Personal Information</h4>
+                    <h5>Step 2 of 5</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 25%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+                {% if wizard.steps.current == '2' %}
+                    <h4>Employment Information</h4>
+                    <h5>Step 3 of 5</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 50%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+                {% if wizard.steps.current == '3' %}
+                    <h4>Vehicle Information</h4>
+                    <h5>Step 4 of 5</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #F76C6C; color: #F76C6C;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                {% endif %}
+            </div>
+            <form class="client-form" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                    {{ wizard.management_form }}
+                    {{ wizard.form.management_form }}
+                    {% if wizard.steps.current == '0' %}
+                    <div class="client-form-group">
+                        <label for="email" class="newform-label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.email.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="password1" class="newform-label">{{ form.password1.label }}</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.password1.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="password2" class="newform-label">{{ form.password2.label }}</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.password2.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '1' %}
+                    <div class="client-form-group">
+                        <label for="first_name" class="newform-label">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.first_name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="last_name" class="newform-label">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.last_name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="date_of_birth" class="newform-label">{{ form.date_of_birth.label }}</label>
+                        {{ form.date_of_birth }}
+                        {% if form.date_of_birth.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.date_of_birth.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="phone_number" class="newform-label">{{ form.phone_number.label }}</label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.phone_number.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="address" class="newform-label">{{ form.address.label }}</label>
+                        {{ form.address }}
+                        {% if form.address.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.address.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="address_line_2" class="newform-label">{{ form.address_line_2.label }}</label>
+                        {{ form.address_line_2 }}
+                        {% if form.address_line_2.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.address_line_2.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="province" class="newform-label">{{ form.province.label }}</label>
+                        {{ form.province }}
+                        {% if form.province.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.province.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="city" class="newform-label">{{ form.city.label }}</label>
+                        {{ form.city }}
+                        {% if form.city.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.city.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="postal_code" class="newform-label">{{ form.postal_code.label }}</label>
+                        {{ form.postal_code }}
+                        {% if form.postal_code.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.postal_code.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="drivers_license" class="newform-label">{{ form.drivers_license.label }}</label>
+                        {{ form.drivers_license }}
+                        {% if form.drivers_license.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.drivers_license.errors|join:" " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '2' %}
+                    <div class="client-form-group">
+                        <label for="employment_status" class="newform-label">{{ form.employment_status.label }}</label>
+                        {{ form.employment_status }}
+                        {% if form.employment_status.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.employment_status.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="company_name" class="newform-label">{{ form.company_name.label }}</label>
+                        {{ form.company_name }}
+                        {% if form.company_name.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.company_name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="job_title" class="newform-label">{{ form.job_title.label }}</label>
+                        {{ form.job_title }}
+                        {% if form.job_title.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.job_title.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="employment_length" class="newform-label">{{ form.employment_length.label }}</label>
+                        {{ form.employment_length }}
+                        {% if form.employment_length.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.employment_length.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="salary" class="newform-label">{{ form.salary.label }}</label>
+                        {{ form.salary }}
+                        {% if form.salary.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.salary.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="monthly_income" class="newform-label">{{ form.monthly_income.label }}</label>
+                        {{ form.monthly_income }}
+                        {% if form.monthly_income.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.monthly_income.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="other_income" class="newform-label">{{ form.other_income.label }}</label>
+                        {{ form.other_income }}
+                        {% if form.other_income.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.other_income.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if wizard.steps.current == '3' %}
+                    <div class="client-form-group">
+                        <label for="make" class="newform-label">{{ form.make.label }}</label>
+                        {{ form.make }}
+                        {% if form.make.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.make.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="model" class="newform-label">{{ form.model.label }}</label>
+                        {{ form.model }}
+                        {% if form.model.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.model.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="year" class="newform-label">{{ form.year.label }}</label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.year.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="client-form-group">
+                        <label for="down_payment" class="newform-label">{{ form.down_payment.label }}</label>
+                        {{ form.down_payment }}
+                        {% if form.down_payment.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.down_payment.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <!--
+                    {% for field in wizard.form %}
+                        {% if field.name != 'is_customer' and field.name != 'vinNumber' and field.name != 'vehiclePrice' and field.name != 'stockNumber' and field.name != 'vehicleMileage' and field.name != 'trim' and field.name != 'color' and field.name != 'status' %}
+                            <div class="client-form-group">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                        -->
+            {% if wizard.steps.prev %}
+            {% if wizard.steps.current == '3' %}
+            <div class="wizard-buttons-container">
+                <div class="wizard-prev-button">
+                    <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                </div>
+                <div class="wizard-submit-button">
+                    <input style="padding: 15px 25px" class="submit-but" type="submit" value="{% trans "Submit" %}"/>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if wizard.steps.next %}
+            {% if wizard.steps.current == '0' %}
+            <div class="wizard-buttons-container">
+                <div class="hidden-form-button">
+                    <button>Hidden</button>
+                </div>
+                <div class="wizard-next-button">
+                    <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                </div>
+            </div>
+            {% endif %}
+            {% if wizard.steps.current == '1' %}
+            <div class="wizard-buttons-container">
+                <div class="wizard-prev-button">
+                    <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                </div>
+                <div class="wizard-next-button">
+                    <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                </div>
+            </div>
+            {% endif %}
+            {% if wizard.steps.current == '2' %}
+            <div class="wizard-buttons-container">
+                <div class="wizard-prev-button">
+                    <button style="padding: 15px 25px" class="prev-but" formnovalidate="formnovalidate" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "Previous" %}</button>
+                </div>
+                <div class="wizard-next-button">
+                    <input style="padding: 15px 25px" class="next-but" type="submit" value="{% trans "Next Step" %}"/>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            </form>
+            {% endblock %}
+    </div>
+
+</body>
+<script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>
+</html>

@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a href="#">
+                        <a href="{% url 'aboutus' %}">
                             About us
                         </a>
                     </li>
@@ -82,7 +82,7 @@
             <img src="{% static 'images/virtualcargeeksvector6.svg' %}" alt="Cartoon image of a man leaning on his car looking happy.">
         </div>
         <div class="register-form">
-            <h2>Sign up</h2>
+            <h2>Dealer Sign up</h2>
             <form class="register-form" method="POST" action="">
                 {% csrf_token %}
                 <div class="register-input-container">

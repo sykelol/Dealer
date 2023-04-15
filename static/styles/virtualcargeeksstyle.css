@@ -659,7 +659,7 @@ input {
 }
 
 .log-in-container form p {
-    margin-top: 0.7em;
+    margin-top: 0;
 }
 
 .log-in-container form a:hover {
@@ -1900,4 +1900,166 @@ input {
     color: #F76C6C;
     font-weight: 600;
     font-size: 2.2rem;
+}
+
+
+.file-upload-style {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 400;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+.fileform-label {
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.inner-file {
+    text-align: left;
+    width: 80%;
+    font-size: 1.2rem;
+}
+
+.file-input-container {
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.password-reset-container {
+    max-width: 900px;
+    text-align: center;
+    margin: 3em auto;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif;
+    padding: 1em;
+}
+
+.password-reset-container p {
+    text-align: left;
+    font-weight: 500;
+}
+
+.password-reset-container form {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    gap: 0.7em;   
+}
+
+@media (min-width: 600px) {
+    .password-reset-container form input {
+        max-width: 40%;
+    }
+}
+
+.password-reset-container label {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.password-reset-container input {
+    text-align: left;
+    padding: 0.3em;
+    font-size: 1.2rem;
+}
+
+.password-reset-container h3 {
+    color: #F76C6C;
+    font-size: 2.1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.password-reset-button {
+    background: #F76C6C;
+    box-sizing: border-box;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.password-reset-form {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;   
+}
+
+.password-reset-form label {
+    font-weight: 600;
+}
+
+.password-reset-form-p {
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.password-reset-container ul {
+    font-weight: 500;
+}
+
+@media (min-width: 600px) {
+    .password-reset-form input {
+        max-width: 40%;
+    }
+}
+
+/* About Us */
+
+.about-us-container {
+    width: 100%;
+    overflow: hidden; /* to contain floated elements */
+}
+
+.about-us-picture {
+    width: 50%;
+    float: left;
+}
+
+.about-us-text {
+    width: 50%;
+    float: left;
+}
+
+.about-us-section {
+    max-width: 1400px;
+    margin: 9em auto 0 auto;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.about-us-section .about-us-text h3 {
+    color: #F76C6C;
+    text-align: center;
+    font-weight: 600;
+    font-size: 2.3rem;
+}
+
+.about-us-section .about-us-text p {
+    font-weight: 500;
+    font-size: 1.1rem;
 }

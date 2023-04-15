@@ -20,24 +20,31 @@
     <div class="dashboard-sidebar active">
         <div class="logo-content">
             <div class="logo">
-                <img src="{%static 'images/vlogo3.png' %}" alt="Our company logo - Virtual Car Geeks">
+                <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
             </div>
                 <i class='bx bx-menu' id="sidebar-menu-icon"></i>
         </div>
             <ul class="dashboard-sidebar-list">
                 <li>
                     <a href="{% url 'myfinancing' %}" class="active-list-link" class="dashboard-link">
-                        <i class='bx bx-file' ></i>
-                        <span class="sidebar-list-names">My Deals</span>
+                        <i class='bx bxs-folder-open'></i>
+                        <span class="sidebar-list-names">My financing</span>
                     </a>
-                    <span class="dashboard-tooltip">My Deals</span>
+                    <span class="dashboard-tooltip">My Financing</span>
                 </li>
                 <li>
-                    <a href="#" class="dashboard-link">
+                    <a href="{% url 'myfinancingnewform' %}" class="dashboard-link">
                         <i class='bx bxs-file-plus'></i>
                         <span class="sidebar-list-names">New Form</span>
                     </a>
                     <span class="dashboard-tooltip">New Form</span>
+                </li>
+                <li>
+                    <a href="{% url 'additionaldocuments' %}" class="dashboard-link">
+                        <i class='bx bx-file' ></i>
+                        <span class="sidebar-list-names">Additional Documents</span>
+                    </a>
+                    <span class="dashboard-tooltip">Additional Documents</span>
                 </li>
             </ul>
             <div class="profile-content">

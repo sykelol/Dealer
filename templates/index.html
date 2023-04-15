@@ -16,7 +16,7 @@
     <header>
             <div class="nav-container">
                 <div class="main-logo">
-                    <a href=""><img src="{%static 'images/logo2.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
+                    <a href="{% url 'home' %}"><img src="{%static 'images/logo2.png' %}" alt="Our company logo - Virtual Car Geeks"></a>
                 </div>
                 <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="true" onclick="openClose()">
                     <span class="sr-only">Menu</span>
@@ -31,11 +31,11 @@
                         </li>
                         <li class="active">
                             <a href="{% url 'financingform' %}">
-                                Financing    
+                                Financing
                             </a>
                         </li>
                         <li class="active">
-                            <a href="#">
+                            <a href="{% url 'aboutus' %}">
                                 About us
                             </a>
                         </li>
@@ -80,9 +80,9 @@
                     <img src="{% static 'images/stockimage1.jpg' %}" alt="A guy and a woman in a car using the middle console.">
                 </picture>
                 <div class="text-over-picture-one">
-                    <h4>Get pre-approved in minutes</h4>
+                    <h4>Get approved in minutes</h4>
                         <button class="apply-now-button">
-                            <a href="#">Apply now</a>
+                            <a href="{% url 'financingform' %}">Apply now</a>
                         </button>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                     <div class="estimated-payment">
                         <h4>Your estimated monthly payment</h4>
                         <p id="finance-amount">$0.00</p>
-                        <a href="#">
+                        <a href="{% url 'financingform' %}">
                             <button>
                                 Get financing
                             </button>

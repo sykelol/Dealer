@@ -152,42 +152,92 @@
                         <div class="client-form-group">
                             <label for="vinNumber" class="newform-label">{{ form.vinNumber.label }}</label>
                             {{ form.vinNumber }}
+                            {% if form.vinNumber.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vinNumber.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="stockNumber" class="newform-label">{{ form.stockNumber.label }}</label>
                             {{ form.stockNumber }}
+                            {% if form.stockNumber.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.stockNumber.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehiclePrice" class="newform-label">{{ form.vehiclePrice.label }}</label>
                             {{ form.vehiclePrice }}
+                            {% if form.vehiclePrice.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehiclePrice.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="downPayment" class="newform-label">{{ form.down_payment.label }}</label>
                             {{ form.down_payment }}
+                            {% if form.down_payment.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.down_payment.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="vehicleMileage" class="newform-label">{{ form.vehicleMileage.label }}</label>
                             {{ form.vehicleMileage }}
+                            {% if form.vehicleMileage.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.vehicleMileage.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="make" class="newform-label">{{ form.make.label }}</label>
                             {{ form.make }}
+                            {% if form.make.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.make.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="model" class="newform-label">{{ form.model.label }}</label>
                             {{ form.model }}
+                            {% if form.model.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.model.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="trim" class="newform-label">{{ form.trim.label }}</label>
                             {{ form.trim }}
+                            {% if form.trim.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.trim.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="year" class="newform-label">{{ form.year.label }}</label>
                             {{ form.year }}
+                            {% if form.year.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.year.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="color" class="newform-label">{{ form.color.label }}</label>
                             {{ form.color }}
+                            {% if form.color.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.color.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         {% endif %}
 
@@ -201,68 +251,157 @@
                         <div class="client-form-group">
                             <label for="tradeInVin" class="newform-label">{{ form.tradeInVin.label }}</label>
                             {{ form.tradeInVin }}
+                            {% if form.tradeInVin.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInVin.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInPrice" class="newform-label">{{ form.tradeInPrice.label }}</label>
                             {{ form.tradeInPrice }}
+                            {% if form.tradeInPrice.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInPrice.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInMileage" class="newform-label">{{ form.tradeInMileage.label }}</label>
                             {{ form.tradeInMileage }}
+                            {% if form.tradeInMileage.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInMileage.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInMake" class="newform-label">{{ form.tradeInMake.label }}</label>
                             {{ form.tradeInMake }}
+                            {% if form.tradeInMake.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInMake.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInModel" class="newform-label">{{ form.tradeInModel.label }}</label>
                             {{ form.tradeInModel }}
+                            {% if form.tradeInModel.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInModel.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInTrim" class="newform-label">{{ form.tradeInTrim.label }}</label>
                             {{ form.tradeInTrim }}
+                            {% if form.tradeInTrim.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInTrim.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInYear" class="newform-label">{{ form.tradeInYear.label }}</label>
                             {{ form.tradeInYear }}
+                            {% if form.tradeInYear.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInYear.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="client-form-group">
                             <label for="tradeInColor" class="newform-label">{{ form.tradeInColor.label }}</label>
                             {{ form.tradeInColor }}
+                            {% if form.tradeInColor.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tradeInColor.errors|join:" " }}
+                                </div>
+                            {% endif %}
                         </div>
                         {% endif %}
-
                         {% if wizard.steps.current == '2' %}
-                        <div class="client-form-group">
-                            <label for="vehicle_front" class="newform-label">{{ form.vehicleFront.label }}</label>
-                            {{ form.vehicleFront }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_side" class="newform-label">{{ form.vehicleSide.label }}</label>
-                            {{ form.vehicleSide }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_back" class="newform-label">{{ form.vehicleBack.label }}</label>
-                            {{ form.vehicleBack }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_odometer" class="newform-label">{{ form.vehicleOdometer.label }}</label>
-                            {{ form.vehicleOdometer }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="vehicle_interior" class="newform-label">{{ form.vehicleInterior.label }}</label>
-                            {{ form.vehicleInterior }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="example_document1" class="newform-label">{{ form.exampleDocument1.label }}</label>
-                            {{ form.exampleDocument1 }}
-                        </div>
-                        <div class="client-form-group">
-                            <label for="example_document2" class="newform-label">{{ form.exampleDocument2.label }}</label>
-                            {{ form.exampleDocument2 }}
+                        <div class="file-input-container">
+                            <div class="file-upload-style">
+                                <label for="vehicle_front" class="fileform-label">{{ form.vehicleFront.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleFront }}
+                                    {% if form.vehicleFront.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleFront.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_side" class="fileform-label">{{ form.vehicleSide.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleSide }}
+                                    {% if form.vehicleSide.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleSide.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_back" class="fileform-label">{{ form.vehicleBack.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleBack }}
+                                    {% if form.vehicleBack.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleBack.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_odometer" class="fileform-label">{{ form.vehicleOdometer.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleOdometer }}
+                                    {% if form.vehicleOdometer.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleOdometer.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="vehicle_interior" class="fileform-label">{{ form.vehicleInterior.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.vehicleInterior }}
+                                    {% if form.vehicleInterior.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.vehicleInterior.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="example_document1" class="fileform-label">{{ form.exampleDocument1.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.exampleDocument1 }}
+                                    {% if form.exampleDocument1.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.exampleDocument1.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="file-upload-style">
+                                <label for="example_document2" class="fileform-label">{{ form.exampleDocument2.label }}</label>
+                                <div class="inner-file">
+                                    {{ form.exampleDocument2 }}
+                                    {% if form.exampleDocument2.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ form.exampleDocument2.errors|join:" " }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                         {% endif %}
-
                         <!--
                         {% for field in wizard.form %}
                             <div class="client-form-group">
@@ -334,6 +473,36 @@
 <script>function reloadOnSubmit() {
     location.reload();
     }
+</script>
+<script>
+    // Initialize Dropzone.js uploader
+    Dropzone.autoDiscover = false;
+    var myDropzone = new Dropzone(".dropzone", {
+        url: "/upload/",
+        maxFilesize: 5, // Set the maximum file size to 5 MB
+        maxFiles: 1, // Set the maximum number of files to 1
+        acceptedFiles: ".jpg,.jpeg,.png,.gif", // Set the accepted file types
+        dictDefaultMessage: "Drag and drop files here, or click to select files",
+        dictFileTooBig: "File is too big ({{filesize}} MB). Maximum file size is {{maxFilesize}} MB.",
+        dictInvalidFileType: "Invalid file type. Only images are allowed.",
+        dictMaxFilesExceeded: "You can only upload one file at a time.",
+        init: function() {
+            this.on("success", function(file, response) {
+                // Handle successful file upload
+                var alert = document.createElement('div');
+                alert.className = 'alert alert-success mt-3';
+                alert.textContent = 'File "' + file.name + '" uploaded successfully.';
+                document.getElementById('upload-form').appendChild(alert);
+            });
+            this.on("error", function(file, errorMessage) {
+                // Handle file upload error
+                var alert = document.createElement('div');
+                alert.className = 'alert alert-danger mt-3';
+                alert.textContent = 'Error uploading file "' + file.name + '": ' + errorMessage;
+                document.getElementById('upload-form').appendChild(alert);
+            });
+        }
+    });
 </script>
 <script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>
 </html>
