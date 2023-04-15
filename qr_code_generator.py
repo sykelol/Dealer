@@ -8,7 +8,7 @@ from base.views import generate_qr_code_with_logo
 from base.models import User
 
 if __name__ == '__main__':
-    dealer_id = 19
+    dealer_id = 2
     dealer = User.objects.get(id=dealer_id)
 
     if dealer and dealer.is_dealer:

@@ -34,7 +34,7 @@ import json
 from django.http import JsonResponse
 import qrcode
 from PIL import Image
-
+from django.http import Http404
 
 def generate_qr_code_with_logo(user, logo_path):
     if not user.is_dealer:
@@ -184,7 +184,18 @@ class DealerFinancingForm(SessionWizardView):
     form_list = [CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, CustomerVehicleInfo]
     file_storage = DefaultStorage()
 
-    def done(self, form_list, form_dict):
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if step == '3':  # Assuming CustomerVehicleInfo is the first step
+            dealer_id = self.kwargs.get('dealer_id')
+            try:
+                self.dealer = User.objects.get(id=dealer_id, is_dealer=True)
+                initial['dealer'] = self.dealer
+            except User.DoesNotExist:
+                raise Http404("Dealer not found.")
+        return initial
+
+    def done(self, form_list, form_dict, **kwargs):
         form_data = [form.cleaned_data for form in form_list]
         user_data = form_data[0]
         personal_data = form_data[1]
@@ -224,6 +235,7 @@ class DealerFinancingForm(SessionWizardView):
             'model': vehicle_data['model'],
             'year': vehicle_data['year'],
             'down_payment': vehicle_data['down_payment'],
+            'dealer': self.dealer if self.dealer else None,
         }
         customer_vehicle = CustomerVehicle(**customer_vehicle_data)
         customer_vehicle.save()

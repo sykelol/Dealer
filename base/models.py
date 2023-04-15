@@ -91,7 +91,7 @@ class Dealer(models.Model):
         return self.dealer_name
 
 class CustomerVehicle(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer_vehicle')
     created = models.DateTimeField(auto_now_add=True)
     make = models.CharField(null=True, blank=True, max_length = 100)
     model = models.CharField(null=True, blank=True, max_length = 100)
@@ -103,7 +103,7 @@ class CustomerVehicle(models.Model):
     vehicleMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     trim = models.CharField(null=True, blank=True, max_length = 100)
     color = models.CharField(null=True, blank=True, max_length = 100)
-    dealer = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='customers')
+    dealer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dealer_customers', null=True, blank=True)
     status = models.CharField(null=True, blank=True, max_length=100, default='pending')
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
