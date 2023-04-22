@@ -51,9 +51,9 @@
                 <li>
                     <a href="{% url 'mydeals' %}" class="dashboard-link">
                         <i class='bx bx-folder'></i>
-                        <span class="sidebar-list-names">My Deals</span>
+                        <span class="sidebar-list-names">Archived Deals</span>
                     </a>
-                    <span class="dashboard-tooltip">My Deals</span>
+                    <span class="dashboard-tooltip">Archived Deals</span>
                 </li>
                 <li>
                     <a href="#" class="dashboard-link">
@@ -102,6 +102,7 @@
                     <tr class="table-header">
                         <th data-field="date" data-sortable="true" data-sort-order="desc">Date</th>
                         <th data-field="status">Status</th>
+                        <th data-field="progress">Progress</th>
                         <th data-field="name">Name</th>
                         <th data-field="email">Email</th>
                         <th data-field="make">Make</th>
@@ -115,9 +116,10 @@
                     <tr>
                         {% if financing_application.user %}
                             <td class="application-created">{{ financing_application.created }}</td>
-                            <td class="{% if financing_application.status == 'pending' %}pending{% elif financing_application.status == 'approved' %}approved{% elif financing_application.status == 'declined' %}declined{% endif %}">
-                                {{ financing_application.status }}
+                            <td class="{% if financing_application.status == 'PENDING' %}pending{% elif financing_application.status == 'APPROVED' %}approved{% elif financing_application.status == 'DECLINED' %}declined{% endif %}">
+                                {{ financing_application.status }}<br>
                             </td>
+                            <td>{{ financing_application.progress }}</td>
                             <td>{{ financing_application.user.first_name }} {{ financing_application.user.last_name }}</td>
                             <td>{{ financing_application.user.email }}</td>
                             <td>{{ financing_application.make }}</td>
@@ -127,9 +129,10 @@
 
                         {% else %}
                             <td class="application-created"> {{ financing_application.created }} </td>
-                            <td class="{% if financing_application.status == 'pending' %}pending{% elif financing_application.status == 'approved' %}approved{% elif financing_application.status == 'declined' %}declined{% endif %}">
-                                {{ financing_application.status }}
+                            <td class="{% if financing_application.status == 'PENDING' %}pending{% elif financing_application.status == 'APPROVED' %}approved{% elif financing_application.status == 'DECLINED' %}declined{% endif %}">
+                                {{ financing_application.status }}<br>
                             </td>
+                            <td>{{ financing_application.progress }}</td>
                             <td>{{ financing_application.first_name }} {{ financing_application.last_name }}</td>
                             <td>{{ financing_application.email }}</td>
                             <td>{{ financing_application.make }}</td>

@@ -534,6 +534,86 @@ input {
     border-bottom: 2px solid black;
 }
 
+.footer {
+    background-color: #F7F7F7;
+    margin-top: 4em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.footer .footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 4em;
+}
+
+.footer-links-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-links-container .footer-logo-container-one {
+    display: none;
+}
+.footer-links-container .footer-logo-container-two {
+    display: block;
+    text-align: center;
+    margin-top: 3em;
+}
+
+@media(min-width: 1000px) {
+    .footer {
+        background-color: #F7F7F7;
+        margin-top: 4em;
+        padding-bottom: 4em;
+        font-family: 'Open Sans', sans-serif;
+    }    
+    .footer-links-container {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+        justify-content: space-evenly;
+    }
+    .footer-links-container .footer-logo-container-one {
+        display: block;
+    }
+    .footer-links-container .footer-logo-container-two {
+        display: none;
+    }
+}
+
+.footer-links-container ul {
+    list-style: none;
+}
+
+.footer-links-container li {
+    margin-top: 0.8em;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.footer-links-container a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+.footer-links-container a:hover {
+    color: #F76C6C;
+}
+
+.footer-links-container h3 span {
+    border-bottom: 4px solid #F76C6C;
+}
+
+.footer-links-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.footer-logo-container {
+    margin-top: 1em;
+}
+
 /* Sign-in page 
 */
 
@@ -1752,9 +1832,9 @@ input {
 }
 
 .myfinancing-home h2 {
-    margin: 2em 1em;
-    color: black;
-    font-size: 1.5rem;
+    margin: 1em 1em;
+    color: #F76C6C;
+    font-size: 2rem;
 }
 
 .myfinancing-home h3 {
@@ -1911,7 +1991,8 @@ input {
     justify-content: flex-start;
     align-items: flex-start;
     margin: 0;
-    padding: 0;
+    padding: 1.5em;
+    border: 1px dashed black;
 }
 
 .fileform-label {
@@ -1924,6 +2005,7 @@ input {
     text-align: left;
     width: 80%;
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .file-input-container {
@@ -2030,26 +2112,43 @@ input {
 }
 
 /* About Us */
+.body {
+    position: relative;
+    min-height: 100vh}
 
 .about-us-container {
     width: 100%;
     overflow: hidden; /* to contain floated elements */
 }
 
-.about-us-picture {
-    width: 50%;
-    float: left;
+.about-us-footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.about-us-text {
-    width: 50%;
-    float: left;
+.about-us-footer {
+    width: 100%;
+    background-color: #F7F7F7;
+    padding: 3em 0 3em 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+@media(min-width: 1000px) {
+    .about-us-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: #F7F7F7;
+        padding: 5em 0 3em 0;
+        font-family: 'Open Sans', sans-serif;
+    }   
 }
 
 .about-us-section {
-    max-width: 1400px;
-    margin: 9em auto 0 auto;
+    max-width: 900px;
+    margin: 3em auto 0 auto;
     font-family: 'Open Sans', sans-serif;
+    padding: 2em;
 }
 
 .about-us-section .about-us-text h3 {
@@ -2062,4 +2161,66 @@ input {
 .about-us-section .about-us-text p {
     font-weight: 500;
     font-size: 1.1rem;
+}
+
+.additional-documents-home {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.additional-documents-home h4 {
+    margin: 2em 1em;
+    color: black;
+    font-size: 1.5rem;
+    color: #F76C6C;
+}
+
+.additional-documents-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 0 2em;
+}
+
+@media (min-width: 1000px) {
+    .additional-documents-input-container {
+        flex-direction: row;    
+    }
+    .additional-documents-button-container {
+        text-align: right;
+    }
+    .additional-documents-home h4 {
+        font-size: 2em;
+        margin: 1em;
+    }
+}
+
+.additional-documents-button {
+    margin: 2.5em;
+    background: #F76C6C;
+    box-sizing: border-box;
+    border-radius: 999px;
+    box-shadow: #F76C6C 0 10px 20px -10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+    padding: 20px 35px;
+    text-align: center;
+}
+
+td {
+    font-size: 1.4rem;
+    font-weight: 500;
 }

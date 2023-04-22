@@ -52,7 +52,6 @@
                     <div class="profile-details">
                         <div class="profile-name">
                             Welcome, {{ request.user.first_name }}
-                            
                         </div>
                         <div class="dashboard-logout-button">
                             <span id="sidebar-logout">
@@ -65,7 +64,51 @@
             </div>
         </div>
     </div>
-    <div class="myfinancing-home">
+    <div class="additional-documents-home">
+        <h4>If required please upload additional documents.</h4>
+        <div class="additional-documents-container">
+            <form class="additional-documents-form" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="additional-documents-input-container">
+                    <div class="file-upload-style">
+                        <label for="tax_return" class="fileform-label">{{ form.tax_return.label }}</label>
+                        <div class="inner-file">
+                            {{ form.tax_return }}
+                            {% if form.tax_return.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.tax_return.errors|join:" " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="file-upload-style">
+                        <label for="paystub" class="fileform-label">{{ form.paystub.label }}</label>
+                        <div class="inner-file">
+                            {{ form.paystub }}
+                            {% if form.paystub.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.paystub.errors|join:" " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="file-upload-style">
+                        <label for="additional_documents" class="fileform-label">{{ form.additional_documents.label }}</label>
+                        <div class="inner-file">
+                            {{ form.additional_documents }}
+                            {% if form.additional_documents.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.additional_documents.errors|join:" " }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="additional-documents-button-container">
+                    <button class="additional-documents-button" type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
     </div>
     </body>
     <script type="text/javascript" src="{% static 'script/dashboardjavascript.js' %}"></script>

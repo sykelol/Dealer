@@ -61,6 +61,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_broker = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+
+    tax_return = models.FileField(null=True, blank=True, upload_to='tax_return')
+    paystub = models.FileField(null=True, blank=True, upload_to='paystub')
+    additional_documents = models.FileField(null=True, blank=True, upload_to='additional_documents')
     
     dealer_name = models.CharField(null=True, blank=True, max_length=255)
     dealer = models.ForeignKey('Dealer', null=True, blank=True, on_delete=models.SET_NULL, related_name='customers')
@@ -73,7 +77,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_financing_form_url(self):
         base_url = 'http://127.0.0.1:8000'  # Your website's base URL
         return f'{base_url}/dealerlandingpage/{self.id}/'
-
 
     def __str__(self):
         if self.dealer_name:
@@ -91,7 +94,7 @@ class Dealer(models.Model):
         return self.dealer_name
 
 class CustomerVehicle(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer_vehicle')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer_vehicle')
     created = models.DateTimeField(auto_now_add=True)
     make = models.CharField(null=True, blank=True, max_length = 100)
     model = models.CharField(null=True, blank=True, max_length = 100)
@@ -103,8 +106,10 @@ class CustomerVehicle(models.Model):
     vehicleMileage = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
     trim = models.CharField(null=True, blank=True, max_length = 100)
     color = models.CharField(null=True, blank=True, max_length = 100)
-    dealer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dealer_customers', null=True, blank=True)
-    status = models.CharField(null=True, blank=True, max_length=100, default='pending')
+    dealer = models.CharField(null=True, blank=True, max_length=225)
+    dealer_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nondealer_customers', null=True, blank=True)
+    status = models.CharField(null=True, blank=True, max_length=100, default='PENDING')
+    progress = models.CharField(null=True, blank=True, max_length=225, default='Application received by dealership')
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
     tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
@@ -122,6 +127,7 @@ class CustomerVehicle(models.Model):
     vehicleInterior = models.FileField(null=True, blank=True, upload_to='vehicle_interior')
     exampleDocument1 = models.FileField(null=True, blank=True, upload_to='example_document1')
     exampleDocument2 = models.FileField(null=True, blank=True, upload_to='example_document2')
+    
 
     def __str__(self):
         return self.make
@@ -198,6 +204,7 @@ class VehicleInformation(models.Model):
 
     Dealership = models.ForeignKey(Dealership, on_delete=models.CASCADE, blank=True, null=True)
     dealer_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='dealer_submitted_vehicle')
+    dealer = models.CharField(null=True, blank=True, max_length=225)
     vinNumber = models.CharField(null=True, blank=True, max_length = 100)
     stockNumber = models.CharField(null=True, blank=True, max_length = 100)
     vehiclePrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
@@ -208,7 +215,8 @@ class VehicleInformation(models.Model):
     trim = models.CharField(null=True, blank=True, max_length = 100)
     year = models.CharField(null=True, blank=True, max_length = 100)
     color = models.CharField(null=True, blank=True, max_length = 100)
-    status = models.CharField(null=True, blank=True, max_length=100, default='pending')
+    status = models.CharField(null=True, blank=True, max_length=100, default='PENDING')
+    progress = models.CharField(null=True, blank=True, max_length=225, default='Application received by dealership')
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
     tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
@@ -232,22 +240,6 @@ class VehicleInformation(models.Model):
 
     class Meta:
         ordering = ['-updated', '-created']
-
-    
-    def mandatory_fields_progress(self):
-        mandatory_fields = [
-            'first_name', 'last_name', 'date_of_birth', 'phone_number', 'email', 'address', 'province', 'city', 'postal_code', 'drivers_license',
-            'employment_status', 'salary', 'monthly_income', 'other_income', 'vinNumber', 'stockNumber', 'vehiclePrice', 'downPayment', 'vehicleMileage',
-            'make', 'model', 'trim', 'year', 'color', 'vehicleFront', 'vehicleSide', 'vehicleBack', 'vehicleOdometer', 'vehicleInterior'
-        ]
-        filled_fields = 0
-
-        for field_name in mandatory_fields:
-            if getattr(self, field_name):
-                filled_fields += 1
-
-        return int((filled_fields / len(mandatory_fields)) * 100)
         
-    
 #class VehiclePictures(models.Model):
     #front_view = models.ImageField(upload_to='get_upload_to', max_length=200, )

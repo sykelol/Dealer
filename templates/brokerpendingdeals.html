@@ -47,9 +47,9 @@
                 <li>
                     <a href="{% url 'brokermydeals' %}" class="dashboard-link">
                         <i class='bx bx-folder'></i>
-                        <span class="sidebar-list-names">My Deals</span>
+                        <span class="sidebar-list-names">Archived Deals</span>
                     </a>
-                    <span class="dashboard-tooltip">My Deals</span>
+                    <span class="dashboard-tooltip">Archived Deals</span>
                 </li>
                 <li>
                     <a href="{% url 'brokercommunication' %}" class="dashboard-link">
@@ -94,8 +94,10 @@
                 data-show-toggle="true">
                 <thead>
                     <tr class="table-header">
-                        <th data-field="date" data-sortable="true">Date</th>
+                        <th data-field="date" data-sortable="true" data-sort-order="desc">Date</th>
                         <th>Status</th>
+                        <th>Progress</th>
+                        <th>Dealership</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Make</th>
@@ -109,10 +111,12 @@
                     <tr>
                         {% if financing_application.user %}
                             <td>{{ financing_application.created }}</td>
-                            <td class="{% if financing_application.status == 'pending' %}pending{% elif financing_application.status == 'approved' %}approved{% elif financing_application.status == 'declined' %}declined{% endif %}">
+                            <td class="{% if financing_application.status == 'PENDING' %}pending{% elif financing_application.status == 'APPROVED' %}approved{% elif financing_application.status == 'DECLINED' %}declined{% endif %}">
                                 {{ financing_application.status }}<br>
                                 <a href="{% url 'brokerupdatecustomerstatus' financing_application.id %}">Change Status</a>
                             </td>
+                            <td>{{ financing_application.progress }}</td>
+                            <td>{{ financing_application.dealer }}</td>
                             <td>{{ financing_application.user.first_name }} {{ financing_application.user.last_name }}</td>
                             <td>{{ financing_application.user.email }}</td>
                             <td>{{ financing_application.make }}</td>
@@ -122,10 +126,12 @@
 
                         {% else %}
                             <td> {{ financing_application.created }} </td>
-                            <td class="{% if financing_application.status == 'pending' %}pending{% elif financing_application.status == 'approved' %}approved{% elif financing_application.status == 'declined' %}declined{% endif %}">
+                            <td class="{% if financing_application.status == 'PENDING' %}pending{% elif financing_application.status == 'APPROVED' %}approved{% elif financing_application.status == 'DECLINED' %}declined{% endif %}">
                                 {{ financing_application.status }}<br>
                                 <a href="{% url 'brokerupdatestatus' financing_application.id %}">Change Status</a>
                             </td>
+                            <td>{{ financing_application.progress }}</td>
+                            <td>{{ financing_application.dealer }}</td>
                             <td>{{ financing_application.first_name }} {{ financing_application.last_name }}</td>
                             <td>{{ financing_application.email }}</td>
                             <td>{{ financing_application.make }}</td>

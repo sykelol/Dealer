@@ -18,7 +18,7 @@ class CustomAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'date_of_birth', 'phone_number', 'dealer_name')}),
         ('Address info', {'fields': ('address', 'address_line_2', 'province', 'city', 'postal_code')}),
-        ('Employment info', {'fields': ('employment_status', 'company_name', 'job_title', 'employment_length', 'salary', 'monthly_income', 'other_income')}),
+        ('Employment info', {'fields': ('employment_status', 'company_name', 'job_title', 'employment_length', 'salary', 'monthly_income', 'other_income', 'drivers_license', 'tax_return', 'paystub', 'additional_documents')}),
         ('Permissions', {'fields': ('is_active', 'is_customer', 'is_dealer', 'is_broker', 'is_staff')}),
     )
     ordering = ('id',)

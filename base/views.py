@@ -6,7 +6,7 @@ from django.forms import ModelForm
 #from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import default_storage
-from .forms import VehicleInformationForm, EmploymentInformationForm, PersonalInformationForm, TradeInInformationForm, DocumentationForm, CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, DealerRegistrationForm, CustomerVehicleInfo, CustomerVehicleInfoTwo, CustomerVehicleInfoThree, UpdateStatusForm
+from .forms import VehicleInformationForm, EmploymentInformationForm, PersonalInformationForm, TradeInInformationForm, DocumentationForm, CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, DealerRegistrationForm, CustomerVehicleInfo, CustomerVehicleInfoTwo, CustomerVehicleInfoThree, UpdateStatusForm, AdditionalDocumentsForm
 from .models import VehicleInformation, User, CustomerVehicle, UserManager
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -99,6 +99,7 @@ def register(request):
 def aboutus(request):
     return render(request, 'aboutus.html')
 
+@never_cache
 def home(request):
     return render(request, 'index.html')
 
@@ -127,8 +128,6 @@ def signin(request):
 
     context = {}
     return render(request, "dealersignin.html", context)
-
-from django.shortcuts import render
 
 def DealerLandingPage(request, id):
     dealer = get_object_or_404(User, id=id, is_dealer=True)
@@ -291,7 +290,7 @@ class CustomerFinancingWizard(SessionWizardView):
             'model': vehicle_data['model'],
             'year': vehicle_data['year'],
             'down_payment': vehicle_data['down_payment'],
-            'dealer_id': self.kwargs['dealer_id'],  # Add dealer_id to the data
+            'dealer': vehicle_data['dealer_user']
         }
         customer_vehicle = CustomerVehicle(**customer_vehicle_data)
         customer_vehicle.save()
@@ -313,7 +312,16 @@ def customer_home(request):
 @login_required
 @user_passes_test(lambda User: User.is_customer)
 def additionaldocuments(request):
-    return render(request, 'additionaldocuments.html')
+    user = request.user
+    form = AdditionalDocumentsForm(instance=user)
+    
+    if request.method == 'POST':
+        form = AdditionalDocumentsForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('myfinancing')
+
+    return render(request, 'additionaldocuments.html', {'form': form})
 
 @login_required
 @user_passes_test(lambda User:User.is_customer)
@@ -350,8 +358,11 @@ def pendingdeals(request):
     dealer_user = request.user
     dealership_name = dealer_user.dealer_name
 
-    customer_vehicles = CustomerVehicle.objects.filter(dealer_user__dealer_name=dealership_name, status='pending')
-    dealer_vehicle_information = VehicleInformation.objects.filter(dealer_user=dealer_user, status='pending')
+    customer_vehicles = CustomerVehicle.objects.filter(
+        Q(dealer=dealership_name) | Q(dealer=dealer_user.email),
+        status='PENDING'
+    )
+    dealer_vehicle_information = VehicleInformation.objects.filter(dealer=dealer_user, status='PENDING')
     financing_applications = sorted(
         list(customer_vehicles) + list(dealer_vehicle_information),
         key=lambda app: app.created,
@@ -359,23 +370,28 @@ def pendingdeals(request):
     )
     return render(request, 'pendingdeals.html', {'financing_applications': financing_applications})
 
+
 @never_cache
 @login_required
 @user_passes_test(lambda User: User.is_dealer)
 def mydeals(request):
-    user_submitted_application = CustomerVehicle.objects.filter(Q(status='approved') | Q(status='declined'))
-    dealer_submitted_application = VehicleInformation.objects.filter(Q(status='approved') | Q(status='declined'))
-    financing_applications = sorted (
+    dealer_user = request.user
+    dealership_name = dealer_user.dealer_name
+
+    user_submitted_application = CustomerVehicle.objects.filter(
+        Q(dealer=dealership_name) | Q(dealer=dealer_user.email),
+        Q(status='APPROVED') | Q(status='DECLINED')
+    )
+    dealer_submitted_application = VehicleInformation.objects.filter(
+        dealer=dealer_user
+    ).filter(
+        Q(status='APPROVED') | Q(status='DECLINED')
+    )
+    financing_applications = sorted(
         list(user_submitted_application) + list(dealer_submitted_application),
         key=lambda app: app.created
     )
-    #if hasattr(request.user, 'dealership'):
-        # User is a dealership
-        #dealership = request.user.dealership
-        #deals = VehicleInformation.objects.filter(
-            #Dealership=dealership, status='pending')
-    #else:
-    # User is a broker
+
     return render(request, 'mydeals.html', {'financing_applications': financing_applications})
 
 
@@ -383,8 +399,8 @@ def mydeals(request):
 @login_required
 @user_passes_test(lambda User: User.is_broker)
 def brokerpendingdeals(request):
-    user_submitted_application = CustomerVehicle.objects.filter(status='pending')
-    dealer_submitted_application = VehicleInformation.objects.filter(status='pending')
+    user_submitted_application = CustomerVehicle.objects.filter(status='PENDING')
+    dealer_submitted_application = VehicleInformation.objects.filter(status='PENDING')
     financing_applications = sorted (
         list(user_submitted_application) + list(dealer_submitted_application),
         key=lambda app: app.created
@@ -402,8 +418,8 @@ def brokerpendingdeals(request):
 @login_required
 @user_passes_test(lambda User: User.is_broker)
 def brokermydeals(request):
-    user_submitted_application = CustomerVehicle.objects.filter(Q(status='approved') | Q(status='declined'))
-    dealer_submitted_application = VehicleInformation.objects.filter(Q(status='approved') | Q(status='declined'))
+    user_submitted_application = CustomerVehicle.objects.filter(Q(status='APPROVED') | Q(status='DECLINED'))
+    dealer_submitted_application = VehicleInformation.objects.filter(Q(status='APPROVED') | Q(status='DECLINED'))
     financing_applications = sorted (
         list(user_submitted_application) + list(dealer_submitted_application),
         key=lambda app: app.created
@@ -556,6 +572,7 @@ class NewFormWizard(SessionWizardView):
 
         # Save vehicle information
         vehicle_info = VehicleInformation(**vehicle_info_data)
+        vehicle_info.dealer = self.request.user
         vehicle_info.save()
 
         return redirect('pendingdeals')

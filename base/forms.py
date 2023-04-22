@@ -125,6 +125,27 @@ EMPLOYMENT = (
     ('unemployed', 'Unemployed'),
 )
 
+class AdditionalDocumentsForm(ModelForm):
+    tax_return = forms.FileField(
+        required=False,
+        label= 'Tax return',
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'tax_return'})
+    )
+    paystub = forms.FileField(
+        required=False,
+        label= 'Paystub',
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'paystub'})
+    )
+    additional_documents = forms.FileField(
+        required=False,
+        label= 'Additional Documents',
+        widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'additional_documents'})
+    )
+    class Meta:
+        model = User
+        fields = ['tax_return', 'paystub', 'additional_documents']
+
+
 class CustomerCreationFormThree(ModelForm):
     employment_status = forms.ChoiceField(
         label= 'Employment status',
@@ -171,10 +192,23 @@ class CustomerCreationFormThree(ModelForm):
         }
 
 STATUSCHOICES = [
-    ('pending', 'Pending'),
-    ('approved', 'Approved'),
-    ('declined', 'Declined'),
+    ('PENDING', 'PENDING'),
+    ('APPROVED', 'APPROVED'),
+    ('DECLINED', 'DECLINED'),
 ]
+
+PROGRESSCHOICES = [
+    ('Application received', 'application received'),
+    ('Dealership is processing your form', 'dealership processing form'),
+    ('More information needed from dealership', 'more information needed from dealership'),
+    ('More information needed', 'more information needed'),
+    ('Financing in progress', 'financing in progress'),
+    ('Financing complete', 'financing complete'),
+]
+
+class DealerModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.dealer_name
 
 class CustomerVehicleInfo(ModelForm):
         vinNumber = forms.CharField(
@@ -223,16 +257,16 @@ class CustomerVehicleInfo(ModelForm):
             label='Status',
             widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
         )
-        dealer_name = forms.CharField(
-            max_length=255,
+        progress = forms.ChoiceField(
+            choices=PROGRESSCHOICES,
             required=False,
-            widget=forms.HiddenInput()
+            label='Progress',
+            widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
         )
         dealer = forms.ModelChoiceField(queryset=User.objects.filter(is_dealer=True), widget=forms.HiddenInput(), required=False)
         dealer_users = User.objects.filter(is_dealer=True)
-        dealer_user = forms.ModelChoiceField(
+        dealer_user = DealerModelChoiceField(
             queryset=User.objects.filter(is_dealer=True),
-            to_field_name='dealer_name',
             empty_label='Select a dealership',
             label='Dealership Name',
             widget=forms.Select(attrs={'class': 'customer-form-field-widget'}),
@@ -241,7 +275,7 @@ class CustomerVehicleInfo(ModelForm):
     
         class Meta:
             model = CustomerVehicle
-            fields = ['vinNumber', 'stockNumber', 'vehiclePrice', 'down_payment', 'vehicleMileage', 'make', 'model', 'trim', 'year', 'color', 'status', 'dealer_user']
+            fields = ['vinNumber', 'stockNumber', 'vehiclePrice', 'down_payment', 'vehicleMileage', 'make', 'model', 'trim', 'year', 'color', 'status', 'dealer_user', 'progress']
 
 class UpdateStatusForm(forms.ModelForm):
     status = forms.ChoiceField(
@@ -296,7 +330,7 @@ class DealerRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2', 'phone_number', 'address', 'address_line_2', 'province', 'city', 'postal_code', 'is_dealer']
+        fields = ['email', 'dealer_name', 'password1', 'password2', 'phone_number', 'address', 'address_line_2', 'province', 'city', 'postal_code', 'is_dealer']
         
         def save(self, commit=True):
             user = super().save(commit=False)
@@ -433,12 +467,19 @@ class VehicleInformationForm(ModelForm):
     trim = forms.CharField(required=False, label='Trim')
     year = forms.CharField(required=False, label='Year')
     color = forms.CharField(required=False, label='Color')
+    dealer = forms.CharField(required=False, label='Dealer', widget=forms.HiddenInput())
     status = forms.ChoiceField(
         choices=STATUSCHOICES,
         required=False,
         label='Status',
         widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
-        )
+    )
+    progress = forms.ChoiceField(
+            choices=PROGRESSCHOICES,
+            required=False,
+            label='Progress',
+            widget=forms.Select(attrs={'class': 'customer-form-field-widget'})
+    )
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -486,7 +527,7 @@ class VehicleInformationForm(ModelForm):
             'year': forms.TextInput(attrs={'class': 'newform-input'}),
             'color': forms.TextInput(attrs={'class': 'newform-input'}),
         }
-        fields = ['vinNumber', 'stockNumber', 'vehiclePrice', 'downPayment', 'vehicleMileage', 'make', 'model', 'trim', 'year', 'color']
+        fields = ['vinNumber', 'stockNumber', 'vehiclePrice', 'downPayment', 'vehicleMileage', 'make', 'model', 'trim', 'year', 'color', 'dealer']
         labels = {
             'vinNumber' : ('VIN Number'),
             'stockNumber' : ('Stock Number'),
