@@ -22,7 +22,7 @@
 </head>
 <body class="mydeals-body">
     <i class='bx bx-menu fixed-icon' id="sidebar-menu-icon-first"></i>
-    <div class="dashboard-sidebar active">
+    <div class="dashboard-sidebar">
       <div class="logo-content">
         <div class="logo">
           <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
@@ -101,6 +101,7 @@
                   <th>Make</th>
                   <th>Model</th>
                   <th>Down Payment</th>
+                  <th>View</th>
               </tr>
           </thead>
           <tbody>
@@ -117,7 +118,7 @@
                       <td>{{ financing_application.make }}</td>
                       <td>{{ financing_application.model }}</td>
                       <td>{{ financing_application.down_payment }}</td>
-
+                      <td class="table-view-button"><a href="{% url 'dealerviewcustomerdeal' financing_application.id %}"><i class="fa-sharp fa-solid fa-eye fa-lg" style="color: #000000;"></i></a></td>
                   {% else %}
                   
                       <td> {{ financing_application.created }} </td>
@@ -130,6 +131,7 @@
                       <td>{{ financing_application.make }}</td>
                       <td>{{ financing_application.model }}</td>
                       <td>{{ financing_application.down_payment }}</td>
+                      <td class="table-view-button"><a href="{% url 'dealerviewdealerdeal' financing_application.id %}"><i class="fa-sharp fa-solid fa-eye fa-lg" style="color: #000000;"></i></a></td>
                   {% endif %}
               </tr>
               {% endfor %}

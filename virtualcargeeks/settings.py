@@ -12,16 +12,19 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from . import storage_backends
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-=h9db&y8rg+vao((kg@e-812+kdg-9f_b!7*hseb0bhwciaks*"
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'base.apps.BaseConfig',
+    'channels',
+    'ws4redis',
     'babel',
     'formtools',
     'bootstrap4',
@@ -51,6 +56,8 @@ INSTALLED_APPS = [
     'file_resubmit',
     'django.contrib.humanize',
 ]
+
+ASGI_APPLICATION = 'virtualcargeeks.asgi.application'
 
 AUTH_USER_MODEL = 'base.User' #This changes from the built-in Django User creation model to our custom model.
 
@@ -110,10 +117,25 @@ WSGI_APPLICATION = "virtualcargeeks.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': os.environ.get('POSTGRES_NAME'),
+#        'USER': os.environ.get('POSTGRES_USER'),
+#        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('AWS_DATABASE_NAME'),
+        'USER': os.environ.get('AWS_DATABASE_USERNAME'),
+        'PASSWORD': os.environ.get('AWS_DATABASE_PASSWORD'),
+        'HOST': os.environ.get('AWS_DATABASE_ENDPOINT'),
+        'PORT': '5432'
     }
 }
 
@@ -143,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
@@ -174,22 +196,36 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #SMTP Configuration
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtpout.secureserver.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'cargeekswebsitetest@gmail.com'
-EMAIL_HOST_PASSWORD = 'owwgzbzcwoafojod'
+EMAIL_HOST_USER = 'info@cargeeks.ca'
+DEFAULT_FROM_EMAIL = 'Car Geeks <info@cargeeks.ca>'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
-#AMAZON S3 BUCKETS CONFIG
+# AWS general settings
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = 'us-east-1'  # example: 'us-east-1'
 
-#AWS_ACCESS_KEY_ID = 'AKIAZWPAFF7RD2ZNXO3O'
-#AWS_SECRET_ACCESS_KEY = 'U6jP+dSd3WcwnQHnt2SkWRF5bhNDXiuKQ0uYZsAK'
-#AWS_STORAGE_BUCKET_NAME = 'virtualcargeeks-bucket'
-#AWS_QUERYSTRING_AUTH = False
+# Public bucket settings
+AWS_PUBLIC_BUCKET_NAME = os.environ.get('AWS_PUBLIC_BUCKET_NAME')
+AWS_PUBLIC_CUSTOM_DOMAIN = f'{AWS_PUBLIC_BUCKET_NAME}.s3.amazonaws.com'
+AWS_PUBLIC_S3_URL = f'https://{AWS_PUBLIC_CUSTOM_DOMAIN}/'
 
-#AWS_S3_FILE_OVERWRITE = False
-#AWS_DEFAULT_ACL = None
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+# Private bucket settings
+AWS_PRIVATE_BUCKET_NAME = os.environ.get('AWS_PRIVATE_BUCKET_NAME')
+AWS_PRIVATE_CUSTOM_DOMAIN = f'{AWS_PRIVATE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_PRIVATE_S3_URL = f'https://{AWS_PRIVATE_CUSTOM_DOMAIN}/'
 
+# Default storage settings
+DEFAULT_FILE_STORAGE = 'virtualcargeeks.storage_backends.PrivateS3Boto3Storage'
+STATICFILES_STORAGE = 'virtualcargeeks.storage_backends.PublicS3Boto3Storage'
+
+# Private media settings
+PRIVATE_MEDIA_LOCATION = 'private'
+PRIVATE_FILE_STORAGE = 'virtualcargeeks.storage_backends.PrivateS3Boto3Storage'
+
+# Link expiration time in seconds
+AWS_QUERYSTRING_EXPIRE = 3600

@@ -20,6 +20,10 @@ urlpatterns = [
     path('updateform/<int:id>/', UpdateFormWizard.as_view(), name="updateform"),
     path('updatecustomerform/<int:id>/', DealerUpdateCustomerForm.as_view(), name="customerupdateform"),
     path('brokerupdatestatus/<int:id>/', views.brokerupdatestatus, name="brokerupdatestatus"),
+    path('brokerviewcustomerdeal/<int:id>/', views.brokerviewcustomerdeal, name='brokerviewcustomerdeal'),
+    path('brokerviewdealerdeal/<int:id>/', views.brokerviewdealerdeal, name='brokerviewdealerdeal'),
+    path('dealerviewcustomerdeal/<int:id>/', views.dealerviewcustomerdeal, name='dealerviewcustomerdeal'),
+    path('dealerviewdealerdeal/<int:id>/', views.dealerviewdealerdeal, name='dealerviewdealerdeal'),
     path('brokerupdatecustomerstatus/<int:id>/', views.brokerupdatecustomerstatus, name="brokerupdatecustomerstatus"),
     path('brokerpendingdeals/', views.brokerpendingdeals, name="brokerpendingdeals"),
     path('brokernewform/', BrokerNewFormWizard.as_view(), name="brokernewform"),
@@ -36,7 +40,7 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_done.html"), name="password_reset_complete"),
     path('aboutus/', views.aboutus, name="aboutus"),
     path('dealerfinancingform/<int:dealer_id>/', DealerFinancingForm.as_view(), name='dealerfinancingform'),
-    path('dealerlandingpage/<int:dealer_id>/', views.DealerLandingPage, name="dealerlandingpage")
+    path('dealerlandingpage/<int:dealer_id>/', views.DealerLandingPage, name="dealerlandingpage"),
 ]
 
 if settings.DEBUG:

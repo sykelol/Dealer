@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from django.core.validators import MaxValueValidator, MinValueValidator
 import uuid
+from virtualcargeeks.storage_backends import PrivateS3Boto3Storage
 
 # Create your models here.
 
@@ -47,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     province = models.CharField(null=True, blank=True, max_length=255)
     city = models.CharField(null=True, blank=True, max_length=255)
     postal_code = models.CharField(null=True, blank=True, max_length=255)
-    drivers_license = models.FileField(null=True, blank=True, upload_to='drivers_licenses')
+    drivers_license = models.FileField(null=True, blank=True, upload_to='vehicles', storage=PrivateS3Boto3Storage())
     employment_status = models.CharField(null=True, blank=True, max_length=255)
     company_name = models.CharField(null=True, blank=True, max_length=255)
     job_title = models.CharField(null=True, blank=True, max_length=255)
@@ -109,7 +110,7 @@ class CustomerVehicle(models.Model):
     dealer = models.CharField(null=True, blank=True, max_length=225)
     dealer_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nondealer_customers', null=True, blank=True)
     status = models.CharField(null=True, blank=True, max_length=100, default='PENDING')
-    progress = models.CharField(null=True, blank=True, max_length=225, default='Application received by dealership')
+    progress = models.CharField(null=True, blank=True, max_length=225)
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
     tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])
@@ -130,7 +131,7 @@ class CustomerVehicle(models.Model):
     
 
     def __str__(self):
-        return self.make
+        return self.user.email
 
 class Dealership(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -216,7 +217,7 @@ class VehicleInformation(models.Model):
     year = models.CharField(null=True, blank=True, max_length = 100)
     color = models.CharField(null=True, blank=True, max_length = 100)
     status = models.CharField(null=True, blank=True, max_length=100, default='PENDING')
-    progress = models.CharField(null=True, blank=True, max_length=225, default='Application received by dealership')
+    progress = models.CharField(null=True, blank=True, max_length=225)
     
     tradeInVin = models.CharField(max_length=100, null=True, blank=True)
     tradeInPrice = models.IntegerField(null=True, blank=True, default=0, validators=[MaxValueValidator(10000000), MinValueValidator(0)])

@@ -9,7 +9,6 @@ from django.core.files.storage import default_storage
 from .forms import VehicleInformationForm, EmploymentInformationForm, PersonalInformationForm, TradeInInformationForm, DocumentationForm, CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, DealerRegistrationForm, CustomerVehicleInfo, CustomerVehicleInfoTwo, CustomerVehicleInfoThree, UpdateStatusForm, AdditionalDocumentsForm
 from .models import VehicleInformation, User, CustomerVehicle, UserManager
 from django.db.models import Q
-from django.urls import reverse_lazy
 from django.views.generic.edit import FormMixin
 from formtools.wizard.views import SessionWizardView
 from django.core.files.storage import DefaultStorage
@@ -35,6 +34,19 @@ from django.http import JsonResponse
 import qrcode
 from PIL import Image
 from django.http import Http404
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+import boto3
+
+s3 = boto3.client('s3',
+                  aws_access_key_id='YOUR_ACCESS_KEY_ID',
+                  aws_secret_access_key='YOUR_SECRET_ACCESS_KEY')
+
+url = s3.generate_presigned_url(ClientMethod='get_object',
+                                Params={'Bucket': 'YOUR_BUCKET_NAME',
+                                        'Key': 'path/to/your/file'},
+                                ExpiresIn=3600)
 
 def generate_qr_code_with_logo(user, logo_path):
     if not user.is_dealer:
@@ -129,8 +141,8 @@ def signin(request):
     context = {}
     return render(request, "dealersignin.html", context)
 
-def DealerLandingPage(request, id):
-    dealer = get_object_or_404(User, id=id, is_dealer=True)
+def DealerLandingPage(request, dealer_id):
+    dealer = get_object_or_404(User, dealer_id=id, is_dealer=True)
     context = {'id': dealer.id}
     return render(request, 'dealerlandingpage.html', context)
 
@@ -176,6 +188,50 @@ def brokerupdatestatus(request, id):
     # Render the form with only the status field
     context = {'form': form}
     return render(request, 'brokerupdatecustomerstatus.html', context)
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_broker)
+def brokerviewcustomerdeal(request, id):
+    vehicle = get_object_or_404(CustomerVehicle, pk=id)
+    deal = vehicle.user
+    context = {
+        'vehicle': vehicle,
+        'deal': deal,
+    }
+    return render(request, 'brokerviewcustomerdeal.html', context)
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_broker)
+def brokerviewdealerdeal(request, id):
+    vehicle = get_object_or_404(VehicleInformation, pk=id)
+    context = {
+        'vehicle': vehicle,
+    }
+    return render(request, 'brokerviewdealerdeal.html', context)
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_dealer)
+def dealerviewcustomerdeal(request, id):
+    vehicle = get_object_or_404(CustomerVehicle, pk=id)
+    deal = vehicle.user
+    context = {
+        'vehicle': vehicle,
+        'deal': deal,
+    }
+    return render(request, 'dealerviewcustomerdeal.html', context)
+
+@never_cache
+@login_required
+@user_passes_test(lambda User: User.is_dealer)
+def dealerviewdealerdeal(request, id):
+    vehicle = get_object_or_404(VehicleInformation, pk=id)
+    context = {
+        'vehicle': vehicle,
+    }
+    return render(request, 'dealerviewdealerdeal.html', context)
 
 @method_decorator(never_cache, name='dispatch')
 class DealerFinancingForm(SessionWizardView):
@@ -228,11 +284,19 @@ class DealerFinancingForm(SessionWizardView):
         customer_info = User.objects.create_user(password=password, **customer_info_data)
         customer_info.save()
 
+        # Send the email after saving the data
+        subject = "Your financing request has been received"
+        from_email = "info@cargeeks.ca"
+        to_email = customer_info.email
+
+        # Render the email template
+        html_message = render_to_string("financingemail.html", {"User": customer_info})
+        plain_message = strip_tags(html_message)
+
+        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+
         customer_vehicle_data = {
             'user': customer_info,
-            'make': vehicle_data['make'],
-            'model': vehicle_data['model'],
-            'year': vehicle_data['year'],
             'down_payment': vehicle_data['down_payment'],
             'dealer': self.dealer if self.dealer else None,
         }
@@ -249,7 +313,7 @@ class CustomerFinancingWizard(SessionWizardView):
     template_name = "customerfinancingform.html"
     form_list = [CustomerCreationFormOne, CustomerCreationFormTwo, CustomerCreationFormThree, CustomerVehicleInfo]
     file_storage = DefaultStorage()
-
+    
     def done(self, form_list, form_dict, **kwargs):
         form_data = [form.cleaned_data for form in form_list]
         user_data = form_data[0]
@@ -284,11 +348,19 @@ class CustomerFinancingWizard(SessionWizardView):
         customer_info = User.objects.create_user(password=password, **customer_info_data)
         customer_info.save()
 
+        # Send the email after saving the data
+        subject = "Your financing request has been received"
+        from_email = "info@cargeeks.ca"
+        to_email = customer_info.email
+
+        # Render the email template
+        html_message = render_to_string("financingemail.html", {"User": customer_info})
+        plain_message = strip_tags(html_message)
+
+        send_mail(subject, plain_message, from_email, [to_email], html_message=html_message)
+
         customer_vehicle_data = {
             'user': customer_info,
-            'make': vehicle_data['make'],
-            'model': vehicle_data['model'],
-            'year': vehicle_data['year'],
             'down_payment': vehicle_data['down_payment'],
             'dealer': vehicle_data['dealer_user']
         }
@@ -433,6 +505,7 @@ def brokermydeals(request):
     # User is a broker
     return render(request, 'brokermydeals.html', {'financing_applications': financing_applications})
 
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User: User.is_broker), name='dispatch')
 class BrokerNewFormWizard(SessionWizardView):
@@ -505,7 +578,8 @@ class BrokerNewFormWizard(SessionWizardView):
     
     def render(self, form=None, **kwargs):
         return super().render(form, **kwargs)
-
+    
+@method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 @method_decorator(user_passes_test(lambda User: User.is_dealer), name='dispatch')
 class NewFormWizard(SessionWizardView):
@@ -906,36 +980,13 @@ class BrokerUpdateFormWizard(SessionWizardView):
 class UpdateFormWizard(SessionWizardView):
     template_name = "updateform.html"
     file_storage = DefaultStorage()
-    form_list = [PersonalInformationForm, EmploymentInformationForm, VehicleInformationForm, TradeInInformationForm, DocumentationForm]
+    form_list = [VehicleInformationForm, TradeInInformationForm, DocumentationForm]
 
     def get_form_initial(self, step):
         vehicle_info = get_object_or_404(VehicleInformation, pk=self.kwargs['id'])
         initial = {}
+
         if step == '0':
-            initial.update({
-                'first_name': vehicle_info.first_name,
-                'last_name': vehicle_info.last_name,
-                'date_of_birth': vehicle_info.date_of_birth,
-                'phone_number': vehicle_info.phone_number,
-                'email': vehicle_info.email,
-                'address': vehicle_info.address,
-                'address_line_2': vehicle_info.address_line_2,
-                'province': vehicle_info.province,
-                'city': vehicle_info.city,
-                'postal_code': vehicle_info.postal_code,
-                'drivers_license': vehicle_info.drivers_license,
-            })
-        elif step == '1':
-            initial.update({
-                'employment_status': vehicle_info.employment_status,
-                'company_name': vehicle_info.company_name,
-                'job_title': vehicle_info.job_title,
-                'employment_length': vehicle_info.employment_length,
-                'salary': vehicle_info.salary,
-                'monthly_income': vehicle_info.monthly_income,
-                'other_income': vehicle_info.other_income,
-            })
-        elif step == '2':
             initial.update({
                 'vinNumber': vehicle_info.vinNumber,
                 'stockNumber': vehicle_info.stockNumber,
@@ -948,7 +999,7 @@ class UpdateFormWizard(SessionWizardView):
                 'year': vehicle_info.year,
                 'color': vehicle_info.color,
             })
-        elif step == '3':
+        elif step == '1':
             initial.update({
                 'tradeInVin': vehicle_info.tradeInVin,
                 'tradeInPrice': vehicle_info.tradeInPrice,
@@ -959,7 +1010,7 @@ class UpdateFormWizard(SessionWizardView):
                 'tradeInYear': vehicle_info.tradeInYear,
                 'tradeInColor': vehicle_info.tradeInColor,
             })
-        elif step == '4':
+        elif step == '2':
             initial.update({
                 'vehicleFront': vehicle_info.vehicleFront,
                 'vehicleSide': vehicle_info.vehicleSide,
@@ -973,31 +1024,11 @@ class UpdateFormWizard(SessionWizardView):
 
     def done(self, form_list, **kwargs):
         form_data = [form.cleaned_data for form in form_list]
-        personal_data = form_data[0]
-        employment_data = form_data[1]
-        vehicle_data = form_data[2]
-        tradein_data = form_data[3]
-        documentation_data = form_data[4]
+        vehicle_data = form_data[0]
+        tradein_data = form_data[1]
+        documentation_data = form_data[2]
 
         vehicle_info_data = {
-            'first_name': personal_data['first_name'],
-            'last_name': personal_data['last_name'],
-            'date_of_birth': personal_data['date_of_birth'],
-            'phone_number': personal_data['phone_number'],
-            'email': personal_data['email'],
-            'address': personal_data['address'],
-            'address_line_2': personal_data['address_line_2'],
-            'province': personal_data['province'],
-            'city': personal_data['city'],
-            'postal_code': personal_data['postal_code'],
-            'drivers_license': personal_data['drivers_license'],
-            'employment_status': employment_data['employment_status'],
-            'company_name': employment_data['company_name'],
-            'job_title': employment_data['job_title'],
-            'employment_length': employment_data['employment_length'],
-            'salary': employment_data['salary'],
-            'monthly_income': employment_data['monthly_income'],
-            'other_income': employment_data['other_income'],
             'vinNumber': vehicle_data['vinNumber'],
             'stockNumber': vehicle_data['stockNumber'],
             'vehiclePrice': vehicle_data['vehiclePrice'],

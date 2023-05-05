@@ -17,7 +17,6 @@ from file_resubmit.admin import ResubmitFileWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import EmailValidator
 
-
 PROVINCES = (
     ('ON', 'Ontario'),
     ('AB', 'Alberta'),
@@ -88,6 +87,7 @@ class CustomerCreationFormTwo(ModelForm):
         widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Postal Code'})
         )
     drivers_license = forms.FileField(
+        label = 'Drivers license (front)',
         widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'drivers_license'})
         )
     
@@ -199,7 +199,6 @@ STATUSCHOICES = [
 
 PROGRESSCHOICES = [
     ('Application received', 'application received'),
-    ('Dealership is processing your form', 'dealership processing form'),
     ('More information needed from dealership', 'more information needed from dealership'),
     ('More information needed', 'more information needed'),
     ('Financing in progress', 'financing in progress'),
@@ -232,10 +231,12 @@ class CustomerVehicleInfo(ModelForm):
             widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Vehicle Mileage (KM)'})
         )
         make = forms.CharField(
+            required=False,
             label='Make',
             widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Make'})
         )
         model = forms.CharField(
+            required=False,
             label='Model',
             widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Model'})
         )
@@ -244,6 +245,7 @@ class CustomerVehicleInfo(ModelForm):
             widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Trim'})
         )
         year = forms.CharField(
+            required=False,
             label='Year',
             widget=forms.TextInput(attrs={'class': 'customer-form-field', 'placeholder': 'Year'})
         )
@@ -739,6 +741,7 @@ class PersonalInformationForm(ModelForm):
         )
     drivers_license = forms.FileField(
         required=False,
+        label = 'Drivers license (front)',
         widget=AdminResubmitFileWidget(attrs={'class': 'employment-form-file', 'id': 'drivers_license'})
     )
     def __init__(self, *args, **kwargs):

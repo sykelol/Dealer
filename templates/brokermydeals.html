@@ -22,7 +22,7 @@
 </head>
 <body class="mydeals-body">
     <i class='bx bx-menu fixed-icon' id="sidebar-menu-icon-first"></i>
-    <div class="dashboard-sidebar active" id="broker-my-deals">
+    <div class="dashboard-sidebar" id="broker-my-deals">
       <div class="logo-content">
         <div class="logo">
           <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
@@ -103,6 +103,7 @@
                       <th>Model</th>
                       <th>Down Payment</th>
                       <th>Edit</th>
+                      <th>View</th>
                   </tr>
               </thead>
               <tbody>
@@ -122,7 +123,7 @@
                           <td>{{ financing_application.model }}</td>
                           <td>{{ financing_application.down_payment }}</td>
                           <td class="table-edit-button"><a href="{% url 'brokerupdatecustomerform' financing_application.id %}"><i class='bx bx-edit'></i></a></td>
-
+                          <td class="table-view-button"><a href="{% url 'brokerviewcustomerdeal' financing_application.id %}"><i class="fa-sharp fa-solid fa-eye fa-lg" style="color: #000000;"></i></a></td>
                       {% else %}
                           <td> {{ financing_application.created }} </td>
                           <td class="{% if financing_application.status == 'PENDING' %}pending{% elif financing_application.status == 'APPROVED' %}approved{% elif financing_application.status == 'DECLINED' %}declined{% endif %}">
@@ -137,6 +138,7 @@
                           <td>{{ financing_application.model }}</td>
                           <td>{{ financing_application.downPayment }}</td>
                           <td class="table-edit-button"><a href="{% url 'brokerupdateform' financing_application.id %}"><i class='bx bx-edit'></i></a></td>
+                          <td class="table-view-button"><a href="{% url 'brokerviewdealerdeal' financing_application.id %}"><i class="fa-sharp fa-solid fa-eye fa-lg" style="color: #000000;"></i></a></td>
                       {% endif %}
                   </tr>
                     {% endfor %}

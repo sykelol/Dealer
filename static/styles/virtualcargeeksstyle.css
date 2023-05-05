@@ -1360,7 +1360,7 @@ input {
 
 .home-content .newform-body {
     width: 100%;
-    margin: 5em auto 0 auto;
+    margin: 0em auto 0 auto;
     font-size: 1rem;
     font-family: 'Open Sans', sans-serif;
     background: white;
@@ -1463,13 +1463,14 @@ input {
 
 .landing-page-body .landing-page-content h1 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 3rem;
     color: #F76C6C;
 }
 
 .landing-page-body .landing-page-content p {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    letter-spacing: 0.05rem;
 }
 
 .landing-page-body .landing-page-content ul {
@@ -1477,7 +1478,7 @@ input {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 2em 0;
 }
 
@@ -1493,12 +1494,11 @@ input {
     color: #FFFFFF;
     cursor: pointer;
     font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
-    font-size: 16px;
+    font-size: 1.7rem;
     font-weight: 700;
     line-height: 24px;
     opacity: 1;
     outline: 0 solid transparent;
-    padding: 8px 18px;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -1506,6 +1506,7 @@ input {
     word-break: break-word;
     border: 0;
     text-align: center;
+    padding: 0.8em;
 }
 
 /* Client Form Page */
@@ -1849,6 +1850,10 @@ input {
     gap: 1em;
 }
 
+.card-container {
+    padding: 1em;
+}
+
 .myfinancing-home .my-applications .card-text {
     margin: 0.3em 0 0 0;
     padding: 0;
@@ -1982,6 +1987,12 @@ input {
     font-size: 2.2rem;
 }
 
+.file-input-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1.5em;
+}
 
 .file-upload-style {
     display: flex;
@@ -1991,28 +2002,40 @@ input {
     justify-content: flex-start;
     align-items: flex-start;
     margin: 0;
-    padding: 1.5em;
     border: 1px dashed black;
+    padding: 1em;
 }
 
 .fileform-label {
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     text-align: center;
 }
 
 .inner-file {
     text-align: left;
-    width: 80%;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
-.file-input-container {
-    display: grid;
-    margin: 0 auto;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
+@media (min-width: 1000px) {
+    .file-input-container {
+        display: grid;
+        margin: 0 auto;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+    }
+    .fileform-label {
+        font-weight: 600;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .inner-file {
+        text-align: left;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
 }
 
 .password-reset-container {
@@ -2223,4 +2246,58 @@ input {
 td {
     font-size: 1.4rem;
     font-weight: 500;
+}
+
+.table-view-button {
+    text-align: center;
+}
+
+/* Deal View Style */
+
+.deal-view {
+    max-width: 1400px;
+    margin: 4em auto 2em auto;
+}
+
+.deal-view-input {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 0.3em;
+    padding: 1em 0 1em 0;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    max-width: 1400px;
+    border-bottom: 2px solid #8C9196;
+}
+
+@media (min-width: 1000px) {
+    .deal-view-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 0em;
+        letter-spacing: 0.07rem;
+    }
+}
+
+.deal-view-container span {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.deal-view-container h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 2rem;
+    padding: 0.4rem;
+    color: #F76C6C;
+    text-align: center;
+}
+
+.view-header {
+    margin-top: 2em;
 }

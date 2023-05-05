@@ -17,7 +17,7 @@
 {% load humanize %}
 <body class="myfinancing-body">
     <i class='bx bx-menu fixed-icon' id="sidebar-menu-icon-first"></i>
-    <div class="dashboard-sidebar active">
+    <div class="dashboard-sidebar">
         <div class="logo-content">
             <div class="logo">
                 <img src="{%static 'images/logo11.png' %}" alt="Our company logo - Virtual Car Geeks">
@@ -67,24 +67,32 @@
     </div>
     <div class="myfinancing-home">
         <h2 class="myfinancing-header">Your application is being reviewed and will be processed shortly.</h2>
-        <div class="my-applications">
-            {% for deal in deals %}
-                {% if deal.user == request.user %}
-                <div class="card bg-light mb-3" style="max-width: 29rem;">
-                <div class="card-header"><h3>{{ deal.year }} {{ deal.make }} {{ deal.model }}</h3></div>
-                <div class="card-body">
-                    <p class="card-text">Vehicle Price: {{ deal.vehiclePrice|floatformat:2|intcomma|default:"Pending" }}</p>
-                    <p class="card-text">Down Payment: {{ deal.down_payment|floatformat:2|intcomma|default:"Pending" }}</p>
-                    <p class="card-text">Vehicle Mileage: {{ deal.vehicleMileage|intcomma|default:"Pending" }}</p>
-                    <a href="{% url 'applicationdetails' deal.id %}">
-                        <button class="btn {% if deal.status == 'pending' %}btn-warning{% elif deal.status == 'approved' %}btn-success{% else %}btn-danger{% endif %}" id="cust-status">
-                            {{ deal.status|title }}
-                        </button>
-                    </a>
+        <div class="card-container">
+            <div class="my-applications">
+                {% for deal in deals %}
+                    {% if deal.user == request.user %}
+                    <div class="card bg-light mb-3" style="max-width: 29rem;">
+                    <div class="card-header"><h3>
+                        {% if deal.year == None and deal.make == None and deal.model == None %}
+                        Vehicle Information Pending
+                        {% else %}
+                        {{ deal.year }} {{ deal.make }} {{ deal.model }}
+                        {% endif %}
+                        </h3></div>
+                    <div class="card-body">
+                        <p class="card-text">Vehicle Price: {{ deal.vehiclePrice|floatformat:2|intcomma|default:"PENDING" }}</p>
+                        <p class="card-text">Down Payment: {{ deal.down_payment|floatformat:2|intcomma|default:"PENDING" }}</p>
+                        <p class="card-text">Vehicle Mileage: {{ deal.vehicleMileage|intcomma|default:"PENDING" }}</p>
+                        <a href="{% url 'applicationdetails' deal.id %}">
+                            <button class="btn {% if deal.status == 'PENDING' %}btn-warning{% elif deal.status == 'APPROVED' %}btn-success{% else %}btn-danger{% endif %}" id="cust-status">
+                                {{ deal.status|title }}
+                            </button>
+                        </a>
+                    </div>
                 </div>
-              </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>

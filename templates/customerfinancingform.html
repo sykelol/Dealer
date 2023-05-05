@@ -245,33 +245,6 @@
                     {% endif %}
                     {% if wizard.steps.current == '3' %}
                     <div class="client-form-group">
-                        <label for="make" class="newform-label">{{ form.make.label }}</label>
-                        {{ form.make }}
-                        {% if form.make.errors %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ form.make.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="client-form-group">
-                        <label for="model" class="newform-label">{{ form.model.label }}</label>
-                        {{ form.model }}
-                        {% if form.model.errors %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ form.model.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="client-form-group">
-                        <label for="year" class="newform-label">{{ form.year.label }}</label>
-                        {{ form.year }}
-                        {% if form.year.errors %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ form.year.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="client-form-group">
                         <label for="down_payment" class="newform-label">{{ form.down_payment.label }}</label>
                         {{ form.down_payment }}
                         {% if form.down_payment.errors %}
